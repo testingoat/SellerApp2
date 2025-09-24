@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Bank Account</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#3be340",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112112",
+            "foreground-light": "#111712",
+            "foreground-dark": "#e3e4e3",
+            "subtle-light": "#f0f4f0",
+            "subtle-dark": "#232A24",
+            "placeholder-light": "#648765",
+            "placeholder-dark": "#7C8E7D",
+          },
+          fontFamily: {
+            "display": ["Work Sans", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    .custom-select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-down'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.5em 1.5em;
+    }
+    .dark .custom-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23e3e4e3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-down'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="flex flex-col h-screen justify-between">
+<div>
+<header class="p-4 flex items-center justify-between">
+<button class="text-foreground-light dark:text-foreground-dark p-2">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold text-foreground-light dark:text-foreground-dark absolute left-1/2 -translate-x-1/2">Add Bank Account</h1>
+</header>
+<main class="p-4 space-y-6">
+<div class="space-y-2">
+<label class="text-sm font-medium text-foreground-light dark:text-foreground-dark" for="bank-name">Bank Name</label>
+<input class="w-full bg-subtle-light dark:bg-subtle-dark border-none rounded-lg p-4 h-14 text-foreground-light dark:text-foreground-dark placeholder-placeholder-light dark:placeholder-placeholder-dark focus:ring-2 focus:ring-primary" id="bank-name" placeholder="Enter bank name" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-foreground-light dark:text-foreground-dark" for="account-number">Account Number</label>
+<input class="w-full bg-subtle-light dark:bg-subtle-dark border-none rounded-lg p-4 h-14 text-foreground-light dark:text-foreground-dark placeholder-placeholder-light dark:placeholder-placeholder-dark focus:ring-2 focus:ring-primary" id="account-number" placeholder="Enter account number" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-foreground-light dark:text-foreground-dark" for="ifsc-code">IFSC Code</label>
+<input class="w-full bg-subtle-light dark:bg-subtle-dark border-none rounded-lg p-4 h-14 text-foreground-light dark:text-foreground-dark placeholder-placeholder-light dark:placeholder-placeholder-dark focus:ring-2 focus:ring-primary" id="ifsc-code" placeholder="Enter IFSC code" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-foreground-light dark:text-foreground-dark" for="account-holder-name">Account Holder Name</label>
+<input class="w-full bg-subtle-light dark:bg-subtle-dark border-none rounded-lg p-4 h-14 text-foreground-light dark:text-foreground-dark placeholder-placeholder-light dark:placeholder-placeholder-dark focus:ring-2 focus:ring-primary" id="account-holder-name" placeholder="Enter account holder name" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-foreground-light dark:text-foreground-dark" for="bank-proof">Bank Proof Document</label>
+<div class="relative">
+<select class="w-full bg-subtle-light dark:bg-subtle-dark border-none rounded-lg p-4 h-14 text-foreground-light dark:text-foreground-dark placeholder-placeholder-light dark:placeholder-placeholder-dark focus:ring-2 focus:ring-primary custom-select" id="bank-proof">
+<option disabled="" selected="" value="">Select document type</option>
+<option value="passbook">Bank Passbook First Page</option>
+<option value="statement">Bank Statement</option>
+<option value="cheque">Cancelled Cheque</option>
+</select>
+</div>
+</div>
+<button class="w-full bg-subtle-light dark:bg-subtle-dark text-primary font-bold py-4 rounded-lg h-14 border border-dashed border-primary flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">upload_file</span>
+        Upload Document
+      </button>
+</main>
+</div>
+<footer class="p-4 pb-8">
+<button class="w-full bg-primary text-background-dark font-bold py-4 rounded-lg h-14 hover:bg-primary/90 transition-colors">
+        Add Account
+      </button>
+</footer>
+</div>
+
+</body></html>

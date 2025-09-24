@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3be340",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112112",
+          },
+          fontFamily: {
+            display: ["Work Sans"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100 dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex h-full min-h-screen w-full flex-col justify-between">
+<div>
+<header class="flex items-center justify-between p-4">
+<button class="text-background-dark dark:text-background-light">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+</svg>
+</button>
+<h1 class="flex-1 text-center text-lg font-bold text-background-dark dark:text-background-light">Store Registration</h1>
+<div class="w-6"></div>
+</header>
+<div class="px-4 py-2">
+<p class="mb-2 text-sm font-medium text-background-dark dark:text-background-light">Step 1 of 4</p>
+<div class="h-2 w-full rounded-full bg-primary/20">
+<div class="h-full w-1/4 rounded-full bg-primary"></div>
+</div>
+</div>
+<main class="space-y-6 p-4">
+<div class="space-y-4">
+<div>
+<label class="mb-2 block text-sm font-medium text-background-dark dark:text-background-light" for="store-name">Store Name</label>
+<input class="form-input w-full rounded-lg border-none bg-background-dark/10 p-4 text-background-dark placeholder-background-dark/50 focus:ring-2 focus:ring-primary dark:bg-background-light/10 dark:text-background-light dark:placeholder-background-light/50" id="store-name" placeholder="Enter your store name" type="text"/>
+</div>
+<div>
+<label class="mb-2 block text-sm font-medium text-background-dark dark:text-background-light" for="store-address">Store Address</label>
+<input class="form-input w-full rounded-lg border-none bg-background-dark/10 p-4 text-background-dark placeholder-background-dark/50 focus:ring-2 focus:ring-primary dark:bg-background-light/10 dark:text-background-light dark:placeholder-background-light/50" id="store-address" placeholder="Enter your store address" type="text"/>
+</div>
+<div>
+<label class="mb-2 block text-sm font-medium text-background-dark dark:text-background-light" for="gst-number">GST Number (optional)</label>
+<input class="form-input w-full rounded-lg border-none bg-background-dark/10 p-4 text-background-dark placeholder-background-dark/50 focus:ring-2 focus:ring-primary dark:bg-background-light/10 dark:text-background-light dark:placeholder-background-light/50" id="gst-number" placeholder="Enter your GST number" type="text"/>
+</div>
+<div>
+<label class="mb-2 block text-sm font-medium text-background-dark dark:text-background-light" for="email">Email (optional)</label>
+<input class="form-input w-full rounded-lg border-none bg-background-dark/10 p-4 text-background-dark placeholder-background-dark/50 focus:ring-2 focus:ring-primary dark:bg-background-light/10 dark:text-background-light dark:placeholder-background-light/50" id="email" placeholder="Enter your email address" type="email"/>
+</div>
+</div>
+<div>
+<h2 class="mb-3 text-base font-bold text-background-dark dark:text-background-light">Product Categories</h2>
+<div class="flex flex-wrap gap-2">
+<span class="rounded-full bg-primary/20 px-4 py-2 text-sm font-medium text-background-dark dark:text-background-light">Produce</span>
+<span class="rounded-full bg-primary/20 px-4 py-2 text-sm font-medium text-background-dark dark:text-background-light">Dairy</span>
+<span class="rounded-full bg-primary/20 px-4 py-2 text-sm font-medium text-background-dark dark:text-background-light">Bakery</span>
+<span class="rounded-full bg-primary/20 px-4 py-2 text-sm font-medium text-background-dark dark:text-background-light">Meat</span>
+<span class="rounded-full bg-primary/20 px-4 py-2 text-sm font-medium text-background-dark dark:text-background-light">Pantry</span>
+</div>
+</div>
+</main>
+</div>
+<footer class="p-4">
+<button class="w-full rounded-xl bg-primary py-4 text-center text-base font-bold text-background-dark">Next</button>
+</footer>
+</div>
+
+</body></html>

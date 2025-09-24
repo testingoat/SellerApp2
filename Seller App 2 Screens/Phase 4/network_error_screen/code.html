@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Network Error</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#ec1313",
+              "background-light": "#f8f6f6",
+              "background-dark": "#221010",
+            },
+            fontFamily: {
+              display: ["Work Sans"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex h-screen flex-col">
+<header class="flex items-center p-4">
+<button class="text-gray-800 dark:text-gray-200">
+<span class="material-symbols-outlined"> arrow_back </span>
+</button>
+<h1 class="flex-1 text-center text-lg font-bold">Network Error</h1>
+<div class="w-8"></div>
+</header>
+<main class="flex flex-1 flex-col items-center justify-center p-6 text-center">
+<div class="mb-8 flex h-40 w-40 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20">
+<span class="material-symbols-outlined text-7xl text-primary"> wifi_off </span>
+</div>
+<h2 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white">Oops! Something went wrong</h2>
+<p class="max-w-xs text-base text-gray-600 dark:text-gray-400">Please check your internet connection or try again later.</p>
+</main>
+<footer class="p-4 pb-8">
+<button class="w-full rounded-lg bg-primary py-3 text-base font-bold text-white shadow-md transition-transform hover:scale-105 active:scale-95">Retry</button>
+</footer>
+</div>
+
+</body></html>

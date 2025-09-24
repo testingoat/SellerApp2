@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Business Hours Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#3be340",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112112",
+            "surface-light": "#ffffff",
+            "surface-dark": "#1C2C1D",
+            "text-light": "#112112",
+            "text-dark": "#E3EFE3",
+            "text-muted-light": "#607961",
+            "text-muted-dark": "#9CB99D",
+          },
+          fontFamily: {
+            "display": ["Work Sans", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .switch-toggle:checked {
+      background-color: #3be340;
+    }
+    .switch-toggle:checked+.switch-slider {
+      transform: translateX(100%);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex flex-col min-h-screen">
+<header class="sticky top-0 z-10 bg-surface-light dark:bg-surface-dark">
+<div class="flex items-center justify-between p-4">
+<button class="text-text-light dark:text-text-dark">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+</svg>
+</button>
+<h1 class="text-lg font-bold text-text-light dark:text-text-dark flex-1 text-center">Business Hours</h1>
+<div class="w-6"></div>
+</div>
+</header>
+<main class="flex-grow p-4">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl">
+<div class="p-4 space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-semibold text-text-light dark:text-text-dark">Monday</span>
+<div class="flex items-center space-x-3">
+<span class="text-sm text-text-muted-light dark:text-text-muted-dark">Closed</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer switch-toggle" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full peer peer-focus:outline-none transition-colors peer-checked:bg-primary">
+<div class="absolute top-[2px] left-[2px] bg-white border-gray-300 dark:border-gray-600 border rounded-full h-5 w-5 transition-transform peer-checked:translate-x-full"></div>
+</div>
+</label>
+</div>
+</div>
+<hr class="border-gray-200 dark:border-gray-700"/>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-semibold text-text-light dark:text-text-dark">Tuesday</span>
+<div class="flex items-center space-x-3">
+<span class="text-sm font-medium text-primary">9:00 AM - 6:00 PM</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer switch-toggle" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full peer peer-focus:outline-none transition-colors peer-checked:bg-primary">
+<div class="absolute top-[2px] left-[2px] bg-white border-gray-300 dark:border-gray-600 border rounded-full h-5 w-5 transition-transform peer-checked:translate-x-full"></div>
+</div>
+</label>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="relative">
+<input class="w-full bg-background-light dark:bg-background-dark border-none rounded-lg p-3 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary" id="tuesday-open" type="time" value="09:00"/>
+</div>
+<div class="relative">
+<input class="w-full bg-background-light dark:bg-background-dark border-none rounded-lg p-3 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary" id="tuesday-close" type="time" value="18:00"/>
+</div>
+</div>
+</div>
+<hr class="border-gray-200 dark:border-gray-700"/>
+<div class="flex items-center justify-between">
+<span class="font-semibold text-text-light dark:text-text-dark">Wednesday</span>
+<div class="flex items-center space-x-3">
+<span class="text-sm font-medium text-primary">9:00 AM - 6:00 PM</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer switch-toggle" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full peer peer-focus:outline-none transition-colors peer-checked:bg-primary">
+<div class="absolute top-[2px] left-[2px] bg-white border-gray-300 dark:border-gray-600 border rounded-full h-5 w-5 transition-transform peer-checked:translate-x-full"></div>
+</div>
+</label>
+</div>
+</div>
+<hr class="border-gray-200 dark:border-gray-700"/>
+<div class="flex items-center justify-between">
+<span class="font-semibold text-text-light dark:text-text-dark">Thursday</span>
+<div class="flex items-center space-x-3">
+<span class="text-sm font-medium text-primary">9:00 AM - 6:00 PM</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer switch-toggle" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full peer peer-focus:outline-none transition-colors peer-checked:bg-primary">
+<div class="absolute top-[2px] left-[2px] bg-white border-gray-300 dark:border-gray-600 border rounded-full h-5 w-5 transition-transform peer-checked:translate-x-full"></div>
+</div>
+</label>
+</div>
+</div>
+<hr class="border-gray-200 dark:border-gray-700"/>
+<div class="flex items-center justify-between">
+<span class="font-semibold text-text-light dark:text-text-dark">Friday</span>
+<div class="flex items-center space-x-3">
+<span class="text-sm font-medium text-primary">9:00 AM - 6:00 PM</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer switch-toggle" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full peer peer-focus:outline-none transition-colors peer-checked:bg-primary">
+<div class="absolute top-[2px] left-[2px] bg-white border-gray-300 dark:border-gray-600 border rounded-full h-5 w-5 transition-transform peer-checked:translate-x-full"></div>
+</div>
+</label>
+</div>
+</div>
+<hr class="border-gray-200 dark:border-gray-700"/>
+<div class="flex items-center justify-between">
+<span class="font-semibold text-text-light dark:text-text-dark">Saturday</span>
+<div class="flex items-center space-x-3">
+<span class="text-sm font-medium text-primary">9:00 AM - 6:00 PM</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer switch-toggle" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full peer peer-focus:outline-none transition-colors peer-checked:bg-primary">
+<div class="absolute top-[2px] left-[2px] bg-white border-gray-300 dark:border-gray-600 border rounded-full h-5 w-5 transition-transform peer-checked:translate-x-full"></div>
+</div>
+</label>
+</div>
+</div>
+<hr class="border-gray-200 dark:border-gray-700"/>
+<div class="flex items-center justify-between">
+<span class="font-semibold text-text-light dark:text-text-dark">Sunday</span>
+<div class="flex items-center space-x-3">
+<span class="text-sm text-text-muted-light dark:text-text-muted-dark">Closed</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer switch-toggle" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full peer peer-focus:outline-none transition-colors peer-checked:bg-primary">
+<div class="absolute top-[2px] left-[2px] bg-white border-gray-300 dark:border-gray-600 border rounded-full h-5 w-5 transition-transform peer-checked:translate-x-full"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-surface-light dark:bg-surface-dark p-4 mt-auto">
+<button class="w-full bg-primary text-background-dark font-bold py-3 px-5 rounded-xl hover:opacity-90 transition-opacity">
+      Save Changes
+    </button>
+</footer>
+</div>
+
+</body></html>

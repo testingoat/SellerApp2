@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Language Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3be340",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                        "foreground-light": "#111827",
+                        "foreground-dark": "#f9fafb",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#374151"
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+         .radio-custom:checked {
+            background-image: url('data:image/svg+xml,<svg viewBox="0 0 16 16" fill="%23ffffff" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="4"/></svg>');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-foreground-light dark:text-foreground-dark">
+<div class="max-w-md mx-auto flex flex-col h-screen">
+<header class="flex items-center p-4 border-b border-border-light dark:border-border-dark">
+<button class="p-2">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold text-center flex-grow pr-10">Language</h1>
+</header>
+<main class="flex-grow p-4">
+<h2 class="text-lg font-bold mb-4">Select Language</h2>
+<div class="space-y-3">
+<label class="flex items-center justify-between p-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark/50 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+<span class="font-medium">English</span>
+<input checked="" class="form-radio h-5 w-5 appearance-none rounded-full border-2 border-border-light dark:border-border-dark checked:bg-primary checked:border-primary radio-custom focus:ring-0 focus:ring-offset-0" name="language" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark/50 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+<span class="font-medium">Spanish</span>
+<input class="form-radio h-5 w-5 appearance-none rounded-full border-2 border-border-light dark:border-border-dark checked:bg-primary checked:border-primary radio-custom focus:ring-0 focus:ring-offset-0" name="language" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark/50 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+<span class="font-medium">French</span>
+<input class="form-radio h-5 w-5 appearance-none rounded-full border-2 border-border-light dark:border-border-dark checked:bg-primary checked:border-primary radio-custom focus:ring-0 focus:ring-offset-0" name="language" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark/50 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+<span class="font-medium">German</span>
+<input class="form-radio h-5 w-5 appearance-none rounded-full border-2 border-border-light dark:border-border-dark checked:bg-primary checked:border-primary radio-custom focus:ring-0 focus:ring-offset-0" name="language" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-background-dark/50 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+<span class="font-medium">Italian</span>
+<input class="form-radio h-5 w-5 appearance-none rounded-full border-2 border-border-light dark:border-border-dark checked:bg-primary checked:border-primary radio-custom focus:ring-0 focus:ring-offset-0" name="language" type="radio"/>
+</label>
+</div>
+</main>
+<footer class="p-4 pb-8">
+<button class="w-full bg-primary text-background-dark dark:text-background-dark font-bold py-3 px-5 rounded-lg text-base">
+                Save
+            </button>
+</footer>
+</div>
+
+</body></html>

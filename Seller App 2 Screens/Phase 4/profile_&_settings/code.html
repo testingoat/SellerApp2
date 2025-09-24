@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#3be340",
+              "background-light": "#f6f8f6",
+              "background-dark": "#112112",
+            },
+            fontFamily: {
+              "display": ["Work Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-zinc-900 dark:text-zinc-100">
+<div class="flex h-full min-h-screen flex-col">
+<header class="sticky top-0 z-10 flex items-center justify-between bg-background-light/80 px-4 py-3 backdrop-blur-sm dark:bg-background-dark/80">
+<button class="flex h-10 w-10 items-center justify-center rounded-full text-zinc-900 dark:text-zinc-100">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold">Profile</h1>
+<div class="w-10"></div>
+</header>
+<main class="flex-1 overflow-y-auto p-4">
+<div class="flex flex-col items-center space-y-4">
+<div class="relative">
+<img alt="Store Manager Sophia Chen" class="h-28 w-28 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApmt5hC80-1SjdaNTs5vATPiWGFToy0DL4OIoshJWbvSIOT19OKE0ySnY-OIVdmL_UCs1BZ_XpdtYwDXbWalK9rxv-qalVfAq0vC6AkcmOHKTkc4g2LRwcYRjzf48tPv0Hfb0Bj_YBbwJU_0vEfJTObf5kaIKwO1D-DN9qlexaQBkEPiWEatmqA9h3W3Ue9XjcM_iwIgeUDfARuWi4WJShbqyOGaXiD3-l310TEl_OMNSeCWMH0jr4CuudsKWXu5wvaCtjdAEsF00"/>
+<button class="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+</div>
+<div class="text-center">
+<p class="text-xl font-bold text-zinc-900 dark:text-zinc-50">Sophia Chen</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Store Manager</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Store ID: 12345</p>
+</div>
+</div>
+<div class="mt-8 space-y-6">
+<section>
+<h2 class="mb-2 text-lg font-semibold text-zinc-900 dark:text-zinc-50">Store Settings</h2>
+<div class="space-y-2 rounded-xl bg-white p-2 shadow-sm dark:bg-zinc-800/50">
+<a class="flex items-center gap-4 rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">storefront</span></div>
+<div class="flex-1">
+<p class="font-medium text-zinc-900 dark:text-zinc-100">Store Information</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Edit store name, address, and contact</p>
+</div>
+<span class="material-symbols-outlined text-zinc-400 dark:text-zinc-500">chevron_right</span>
+</a>
+<a class="flex items-center gap-4 rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">schedule</span></div>
+<div class="flex-1">
+<p class="font-medium text-zinc-900 dark:text-zinc-100">Business Hours</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Set your store's operating hours</p>
+</div>
+<span class="material-symbols-outlined text-zinc-400 dark:text-zinc-500">chevron_right</span>
+</a>
+<a class="flex items-center gap-4 rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">map</span></div>
+<div class="flex-1">
+<p class="font-medium text-zinc-900 dark:text-zinc-100">Delivery Area</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Manage the areas where you deliver</p>
+</div>
+<span class="material-symbols-outlined text-zinc-400 dark:text-zinc-500">chevron_right</span>
+</a>
+</div>
+</section>
+<section>
+<h2 class="mb-2 text-lg font-semibold text-zinc-900 dark:text-zinc-50">Payment and Payout Settings</h2>
+<div class="space-y-2 rounded-xl bg-white p-2 shadow-sm dark:bg-zinc-800/50">
+<a class="flex items-center gap-4 rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">payment</span></div>
+<div class="flex-1">
+<p class="font-medium text-zinc-900 dark:text-zinc-100">Payment Methods</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Add or update your payment details</p>
+</div>
+<span class="material-symbols-outlined text-zinc-400 dark:text-zinc-500">chevron_right</span>
+</a>
+<a class="flex items-center gap-4 rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">account_balance_wallet</span></div>
+<div class="flex-1">
+<p class="font-medium text-zinc-900 dark:text-zinc-100">Payout Preferences</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Configure your payout schedule and method</p>
+</div>
+<span class="material-symbols-outlined text-zinc-400 dark:text-zinc-500">chevron_right</span>
+</a>
+</div>
+</section>
+<section>
+<h2 class="mb-2 text-lg font-semibold text-zinc-900 dark:text-zinc-50">App Settings</h2>
+<div class="space-y-2 rounded-xl bg-white p-2 shadow-sm dark:bg-zinc-800/50">
+<a class="flex items-center gap-4 rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">language</span></div>
+<div class="flex-1">
+<p class="font-medium text-zinc-900 dark:text-zinc-100">Language Preferences</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Choose your preferred language</p>
+</div>
+<span class="material-symbols-outlined text-zinc-400 dark:text-zinc-500">chevron_right</span>
+</a>
+<div class="flex items-center gap-4 rounded-lg p-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">dark_mode</span></div>
+<div class="flex-1">
+<p class="font-medium text-zinc-900 dark:text-zinc-100">Dark Mode</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Enable or disable dark theme</p>
+</div>
+<label class="relative inline-flex cursor-pointer items-center">
+<input class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-zinc-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-zinc-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none dark:border-zinc-600 dark:bg-zinc-700"></div>
+</label>
+</div>
+<a class="flex items-center gap-4 rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">notifications</span></div>
+<div class="flex-1">
+<p class="font-medium text-zinc-900 dark:text-zinc-100">Notifications</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-400">Customize your notification preferences</p>
+</div>
+<span class="material-symbols-outlined text-zinc-400 dark:text-zinc-500">chevron_right</span>
+</a>
+</div>
+</section>
+<section>
+<h2 class="mb-2 text-lg font-semibold text-zinc-900 dark:text-zinc-50">Support</h2>
+<div class="space-y-2 rounded-xl bg-white p-2 shadow-sm dark:bg-zinc-800/50">
+<a class="flex items-center gap-4 rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">help_center</span></div>
+<p class="flex-1 font-medium text-zinc-900 dark:text-zinc-100">Help Center</p>
+<span class="material-symbols-outlined text-zinc-400 dark:text-zinc-500">chevron_right</span>
+</a>
+<a class="flex items-center gap-4 rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20 text-primary dark:bg-primary/30"><span class="material-symbols-outlined">support_agent</span></div>
+<p class="flex-1 font-medium text-zinc-900 dark:text-zinc-100">Contact Support</p>
+<span class="material-symbols-outlined text-zinc-400 dark:text-zinc-500">chevron_right</span>
+</a>
+</div>
+</section>
+</div>
+<div class="mt-8">
+<button class="w-full rounded-lg bg-red-100 py-3 text-center font-bold text-red-600 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900/70">
+            Logout
+          </button>
+</div>
+</main>
+<nav class="sticky bottom-0 border-t border-zinc-200 bg-background-light/95 pb-3 pt-2 backdrop-blur-sm dark:border-zinc-800 dark:bg-background-dark/95">
+<div class="flex justify-around">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-zinc-500 dark:text-zinc-400" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-xs font-medium">Dashboard</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-zinc-500 dark:text-zinc-400" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<p class="text-xs font-medium">Products</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-zinc-500 dark:text-zinc-400" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<p class="text-xs font-medium">Orders</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-zinc-500 dark:text-zinc-400" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<p class="text-xs font-medium">Analytics</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary dark:text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<p class="text-xs font-bold">Profile</p>
+</a>
+</div>
+</nav>
+</div>
+</body></html>

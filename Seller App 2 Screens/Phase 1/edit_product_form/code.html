@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3be340",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112112",
+          },
+          fontFamily: {
+            display: ["Work Sans"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    .form-select {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%233be340' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+      -webkit-print-color-adjust: exact;
+      color-adjust: exact;
+      appearance: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="max-w-md mx-auto">
+<header class="flex items-center justify-between p-4 sticky top-0 bg-background-light dark:bg-background-dark shadow-sm">
+<button class="p-2 rounded-full hover:bg-primary/20 dark:hover:bg-primary/30">
+<span class="material-symbols-outlined text-gray-800 dark:text-gray-200"> arrow_back </span>
+</button>
+<h1 class="text-xl font-bold text-gray-800 dark:text-gray-200">Edit Product</h1>
+<div class="w-10"></div>
+</header>
+<main class="p-4 space-y-6 pb-24">
+<div class="grid grid-cols-3 gap-4">
+<div class="col-span-3 h-40 bg-gray-200 dark:bg-gray-800 rounded-xl flex items-center justify-center">
+<button class="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400">
+<span class="material-symbols-outlined text-5xl"> add_a_photo </span>
+<span class="text-sm font-semibold">Add Images</span>
+</button>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-400" for="product-name">Product Name</label>
+<input class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent transition" id="product-name" placeholder="e.g. Organic Bananas" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-400" for="description">Description</label>
+<textarea class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent transition" id="description" placeholder="e.g. Freshly sourced from local farms..." rows="4"></textarea>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-400" for="category">Category</label>
+<select class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent transition form-select" id="category">
+<option>Fruits &amp; Vegetables</option>
+<option>Dairy &amp; Eggs</option>
+<option>Bakery</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-400" for="price">Price</label>
+<input class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent transition" id="price" placeholder="e.g. 2.99" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-400" for="discount-price">Discount Price</label>
+<input class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent transition" id="discount-price" placeholder="e.g. 2.49" type="number"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-400" for="stock">Stock Quantity</label>
+<input class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent transition" id="stock" placeholder="e.g. 500" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-600 dark:text-gray-400" for="unit-type">Unit Type</label>
+<select class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent transition form-select" id="unit-type">
+<option>kg</option>
+<option>pieces</option>
+<option>liters</option>
+<option>grams</option>
+</select>
+</div>
+</div>
+<div class="flex items-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" id="low-stock-alert" type="checkbox"/>
+<label class="ml-3 text-sm text-gray-600 dark:text-gray-400" for="low-stock-alert">Enable low stock alert</label>
+</div>
+</main>
+<footer class="fixed bottom-0 left-0 right-0 max-w-md mx-auto p-4 bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-800">
+<button class="w-full bg-primary text-background-dark font-bold py-3 px-4 rounded-xl shadow-lg hover:bg-primary/90 transition">Save Product</button>
+</footer>
+</div>
+
+</body></html>

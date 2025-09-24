@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3be340",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112112",
+          },
+          fontFamily: {
+            display: ["Work Sans"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100 dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex h-screen flex-col justify-between">
+<div class="flex-grow overflow-y-auto">
+<header class="sticky top-0 z-10 flex items-center justify-between border-b border-primary/20 bg-background-light/80 p-4 backdrop-blur-sm dark:border-primary/30 dark:bg-background-dark/80">
+<button class="flex h-10 w-10 items-center justify-center rounded-full text-black dark:text-white">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold text-black dark:text-white">Notifications</h1>
+<div class="h-10 w-10"></div>
+</header>
+<main class="p-4">
+<div class="space-y-3">
+<div class="flex items-start gap-3 rounded-lg bg-white p-3 dark:bg-background-dark/50">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined"> inventory_2 </span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-black dark:text-white">New Order Received</p>
+<p class="text-sm text-black/60 dark:text-white/60">10:30 AM</p>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-2.5 w-2.5 shrink-0 rounded-full bg-primary"></div>
+<button class="text-black/40 dark:text-white/40">
+<span class="material-symbols-outlined text-xl"> delete </span>
+</button>
+</div>
+</div>
+<div class="flex items-start gap-3 rounded-lg bg-white p-3 dark:bg-background-dark/50">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined"> warning </span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-black dark:text-white">Low Stock Alert: Bananas</p>
+<p class="text-sm text-black/60 dark:text-white/60">Yesterday, 2:15 PM</p>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-2.5 w-2.5 shrink-0 rounded-full bg-primary"></div>
+<button class="text-black/40 dark:text-white/40">
+<span class="material-symbols-outlined text-xl"> delete </span>
+</button>
+</div>
+</div>
+<div class="flex items-start gap-3 rounded-lg bg-white p-3 dark:bg-background-dark/50">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined"> system_update </span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-black dark:text-white">App Update Available</p>
+<p class="text-sm text-black/60 dark:text-white/60">2 days ago, 9:45 AM</p>
+</div>
+<button class="text-black/40 dark:text-white/40">
+<span class="material-symbols-outlined text-xl"> delete </span>
+</button>
+</div>
+<div class="flex items-start gap-3 rounded-lg bg-white p-3 dark:bg-background-dark/50">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined"> attach_money </span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-black dark:text-white">Payment Received for Order #1234</p>
+<p class="text-sm text-black/60 dark:text-white/60">3 days ago, 11:20 AM</p>
+</div>
+<button class="text-black/40 dark:text-white/40">
+<span class="material-symbols-outlined text-xl"> delete </span>
+</button>
+</div>
+<div class="flex items-start gap-3 rounded-lg bg-white p-3 dark:bg-background-dark/50">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined"> star </span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-black dark:text-white">New Review for Your Store</p>
+<p class="text-sm text-black/60 dark:text-white/60">4 days ago, 3:00 PM</p>
+</div>
+<button class="text-black/40 dark:text-white/40">
+<span class="material-symbols-outlined text-xl"> delete </span>
+</button>
+</div>
+</div>
+</main>
+</div>
+<nav class="border-t border-primary/20 bg-background-light px-4 pb-4 pt-2 dark:border-primary/30 dark:bg-background-dark">
+<div class="flex items-center justify-around">
+<a class="flex flex-col items-center gap-1 text-black/60 dark:text-white/60" href="#">
+<span class="material-symbols-outlined"> dashboard </span>
+<span class="text-xs">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-black/60 dark:text-white/60" href="#">
+<span class="material-symbols-outlined"> grid_view </span>
+<span class="text-xs">Products</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-black/60 dark:text-white/60" href="#">
+<span class="material-symbols-outlined"> receipt_long </span>
+<span class="text-xs">Orders</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-black/60 dark:text-white/60" href="#">
+<span class="material-symbols-outlined"> bar_chart </span>
+<span class="text-xs">Analytics</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary dark:text-primary" href="#">
+<span class="material-symbols-outlined text-primary"> person </span>
+<span class="text-xs font-bold">Profile</span>
+</a>
+</div>
+</nav>
+</div>
+
+</body></html>

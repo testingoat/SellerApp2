@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "659680110740",
+    "project_id": "grocery-app-caff9",
+    "storage_bucket": "grocery-app-caff9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659680110740:android:6898868818773e4e42ac81",
+        "android_client_info": {
+          "package_name": "com.company.grocery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7mYXwP089-ly9elRzOjl4VZte1dAC0vQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659680110740:android:b8d421b30831db4742ac81",
+        "android_client_info": {
+          "package_name": "com.sellerapp2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7mYXwP089-ly9elRzOjl4VZte1dAC0vQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

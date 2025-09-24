@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Payout Preferences</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3be340",
+              "background-light": "#f6f8f6",
+              "background-dark": "#112112",
+              "surface-light": "#ffffff",
+              "surface-dark": "#1a2e1a",
+              "on-surface-light": "#112112",
+              "on-surface-dark": "#e3f3e3",
+              "on-surface-variant-light": "#647466",
+              "on-surface-variant-dark": "#a0b0a2",
+              "outline-light": "#dce5dc",
+              "outline-dark": "#405042",
+            },
+            fontFamily: {
+              display: ["Work Sans", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      input[type="radio"]:checked {
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%23112112' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='4'/%3e%3c/svg%3e");
+      }
+      .dark input[type="radio"]:checked {
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%23e3f3e3' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='4'/%3e%3c/svg%3e");
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex h-full min-h-screen w-full flex-col justify-between">
+<div class="flex flex-col">
+<header class="flex items-center bg-surface-light dark:bg-surface-dark p-4">
+<button class="flex items-center justify-center text-on-surface-light dark:text-on-surface-dark">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="flex-1 text-center text-lg font-bold text-on-surface-light dark:text-on-surface-dark pr-6">Payout Preferences</h1>
+</header>
+<main class="flex flex-col p-4">
+<section class="mb-6">
+<h2 class="px-2 pb-3 text-xl font-bold text-on-surface-light dark:text-on-surface-dark">Payout Frequency</h2>
+<div class="flex flex-col space-y-3">
+<label class="flex cursor-pointer items-center justify-between rounded-xl border border-outline-light dark:border-outline-dark bg-surface-light dark:bg-surface-dark p-4 has-[:checked]:border-primary has-[:checked]:dark:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary">
+<span class="text-base font-medium text-on-surface-light dark:text-on-surface-dark">Daily</span>
+<input checked="" class="h-5 w-5 appearance-none rounded-full border-2 border-outline-light dark:border-outline-dark bg-transparent checked:border-primary checked:dark:border-primary focus:outline-none" name="payout-frequency" type="radio"/>
+</label>
+<label class="flex cursor-pointer items-center justify-between rounded-xl border border-outline-light dark:border-outline-dark bg-surface-light dark:bg-surface-dark p-4 has-[:checked]:border-primary has-[:checked]:dark:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary">
+<span class="text-base font-medium text-on-surface-light dark:text-on-surface-dark">Weekly</span>
+<input class="h-5 w-5 appearance-none rounded-full border-2 border-outline-light dark:border-outline-dark bg-transparent checked:border-primary checked:dark:border-primary focus:outline-none" name="payout-frequency" type="radio"/>
+</label>
+<label class="flex cursor-pointer items-center justify-between rounded-xl border border-outline-light dark:border-outline-dark bg-surface-light dark:bg-surface-dark p-4 has-[:checked]:border-primary has-[:checked]:dark:border-primary has-[:checked]:ring-2 has-[:checked]:ring-primary">
+<span class="text-base font-medium text-on-surface-light dark:text-on-surface-dark">Monthly</span>
+<input class="h-5 w-5 appearance-none rounded-full border-2 border-outline-light dark:border-outline-dark bg-transparent checked:border-primary checked:dark:border-primary focus:outline-none" name="payout-frequency" type="radio"/>
+</label>
+</div>
+</section>
+<section>
+<h2 class="px-2 pb-3 text-xl font-bold text-on-surface-light dark:text-on-surface-dark">Linked Bank Accounts</h2>
+<div class="rounded-xl border border-outline-light dark:border-outline-dark bg-surface-light dark:bg-surface-dark overflow-hidden">
+<div class="flex items-center gap-4 p-4">
+<div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-2xl">account_balance</span>
+</div>
+<div class="flex flex-col">
+<p class="text-base font-semibold text-on-surface-light dark:text-on-surface-dark">Account ending in 1234</p>
+<p class="text-sm text-on-surface-variant-light dark:text-on-surface-variant-dark">Bank of America</p>
+</div>
+</div>
+<div class="border-t border-outline-light dark:border-outline-dark px-4 py-3 text-right">
+<button class="rounded-full bg-primary/10 dark:bg-primary/20 px-4 py-2 text-sm font-bold text-primary transition-colors hover:bg-primary/20 dark:hover:bg-primary/30">
+                    Add Bank Account
+                  </button>
+</div>
+</div>
+</section>
+</main>
+</div>
+<footer class="p-4">
+<button class="w-full rounded-full bg-primary py-4 text-center text-base font-bold text-black">
+          Save Preferences
+        </button>
+</footer>
+</div>
+
+</body></html>

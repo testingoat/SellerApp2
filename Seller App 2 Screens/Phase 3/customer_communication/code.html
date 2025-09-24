@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3be340",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112112",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex flex-col h-screen justify-between max-w-md mx-auto">
+<header class="p-4 bg-background-light dark:bg-background-dark">
+<div class="flex items-center justify-between">
+<button class="text-background-dark dark:text-background-light">
+<span class="material-symbols-outlined text-3xl">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold text-background-dark dark:text-background-light">Contact Customer</h1>
+<div class="w-8"></div>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center p-6 space-y-12">
+<div class="flex flex-col items-center text-center">
+<div class="w-32 h-32 rounded-full bg-cover bg-center mb-6" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDJBqFh46510iKZFPrdLzARQWIS4Rkzyzl0mHywgmmQDw-11DSk_sUqvvPd7GJfJ_hSArIQDMXDXJ5zLqlpPdy4EJpHZFxy6FtSGFVAWZ2yxRM69rwijXCYO00nEvaiWwZ0WI2GZSItefDbghccRPEhFVQbvMU_WfIEvvvcRT2mbiZ75a6xdlfNWxNN2jOKvO9JW4SM93_YhilH6gujkiB5uSaorK78chpihBg_XURZUIA5E8-b0PP8jNyQgcF45mLn6wkCqAnNp08");'></div>
+<h2 class="text-2xl font-bold text-background-dark dark:text-background-light">Sophia Carter</h2>
+<p class="text-base text-background-dark/70 dark:text-background-light/70 mt-1">Order #123456789</p>
+</div>
+<div class="w-full flex flex-col space-y-4">
+<button class="flex items-center justify-center w-full bg-primary text-background-dark font-bold py-4 rounded-xl text-lg transition-transform active:scale-95">
+<span class="material-symbols-outlined mr-2">call</span>
+                    Call
+                </button>
+<button class="flex items-center justify-center w-full bg-primary/20 dark:bg-primary/30 text-background-dark dark:text-background-light font-bold py-4 rounded-xl text-lg transition-transform active:scale-95">
+<span class="material-symbols-outlined mr-2">chat_bubble</span>
+                    Message
+                </button>
+</div>
+</main>
+<footer class="p-4">
+</footer>
+</div>
+
+</body></html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3be340",
+              "background-light": "#f6f8f6",
+              "background-dark": "#112112",
+            },
+            fontFamily: {
+              display: ["Work Sans"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-black dark:text-white">
+<div class="flex flex-col min-h-screen">
+<header class="sticky top-0 z-10 bg-background-light dark:bg-background-dark/80 backdrop-blur-sm">
+<div class="flex items-center p-4">
+<button class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10">
+<span class="material-symbols-outlined"> arrow_back </span>
+</button>
+<h1 class="flex-1 text-xl font-bold text-center">Analytics</h1>
+<button class="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10">
+<span class="material-symbols-outlined"> file_download </span>
+</button>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto">
+<div class="p-4">
+<div class="flex h-12 items-center justify-center rounded-lg bg-black/5 dark:bg-white/5 p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 has-[:checked]:bg-primary has-[:checked]:text-black text-black/60 dark:text-white/60 text-sm font-medium transition-all">
+<span class="truncate">Today</span>
+<input checked="" class="sr-only" name="date-range" type="radio" value="Today"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 has-[:checked]:bg-primary has-[:checked]:text-black text-black/60 dark:text-white/60 text-sm font-medium transition-all">
+<span class="truncate">Week</span>
+<input class="sr-only" name="date-range" type="radio" value="Week"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 has-[:checked]:bg-primary has-[:checked]:text-black text-black/60 dark:text-white/60 text-sm font-medium transition-all">
+<span class="truncate">Month</span>
+<input class="sr-only" name="date-range" type="radio" value="Month"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 has-[:checked]:bg-primary has-[:checked]:text-black text-black/60 dark:text-white/60 text-sm font-medium transition-all">
+<span class="truncate">Custom</span>
+<input class="sr-only" name="date-range" type="radio" value="Custom"/>
+</label>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 px-4">
+<div class="bg-primary/20 dark:bg-primary/30 p-4 rounded-lg flex flex-col">
+<p class="text-sm font-medium text-black/80 dark:text-white/80">Total Revenue</p>
+<p class="text-2xl font-bold mt-1">$2,345</p>
+</div>
+<div class="bg-black/5 dark:bg-white/5 p-4 rounded-lg flex flex-col">
+<p class="text-sm font-medium text-black/60 dark:text-white/60">Total Orders</p>
+<p class="text-2xl font-bold mt-1">120</p>
+</div>
+<div class="col-span-2 bg-black/5 dark:bg-white/5 p-4 rounded-lg flex flex-col">
+<p class="text-sm font-medium text-black/60 dark:text-white/60">Average Order Value</p>
+<p class="text-2xl font-bold mt-1">$19.54</p>
+</div>
+</div>
+<div class="p-4">
+<div class="bg-black/5 dark:bg-white/5 rounded-xl p-4">
+<h2 class="text-lg font-bold">Sales Trends</h2>
+<div class="mt-4">
+<svg fill="none" height="150" preserveAspectRatio="none" viewBox="0 0 472 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="#3be340" stroke-linecap="round" stroke-width="3"></path>
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H0V109Z" fill="url(#paint0_linear_chart)"></path>
+<defs>
+<linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_chart" x1="236" x2="236" y1="1" y2="149">
+<stop stop-color="#3be340" stop-opacity="0.3"></stop>
+<stop offset="1" stop-color="#3be340" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+</svg>
+<div class="flex justify-around mt-2">
+<p class="text-xs font-medium text-black/60 dark:text-white/60">Mon</p>
+<p class="text-xs font-medium text-black/60 dark:text-white/60">Tue</p>
+<p class="text-xs font-medium text-black/60 dark:text-white/60">Wed</p>
+<p class="text-xs font-medium text-black/60 dark:text-white/60">Thu</p>
+<p class="text-xs font-medium text-black/60 dark:text-white/60">Fri</p>
+<p class="text-xs font-medium text-black/60 dark:text-white/60">Sat</p>
+<p class="text-xs font-medium text-black/60 dark:text-white/60">Sun</p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 pb-4">
+<div class="bg-black/5 dark:bg-white/5 rounded-xl p-4">
+<h2 class="text-lg font-bold">Top Selling Products</h2>
+<div class="space-y-4 mt-4">
+<div class="flex items-center gap-4">
+<img alt="Organic Bananas" class="size-14 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOIJU4GsJmy182AvQgvyoWBxaNTD0e_biAiZq_fU6dzQm-ve-9r6lMsRUlLkWW7MEMerSzkGJSD11g438MTK7LHb4ugoAtwZ24y7eyBUy43zSNBEkzpE7rKvDVHiZopy5U99Pu1eia2NXeL-aed8nxmRm6zPF9OrfUV3K1c3uzR4c-GW7G0JjfU7miN-RJ677yFOVps6ohFWXn6boeWpzO-3C2HRP_8ERRLfLewDBZYqDfwxb9crokVFNL5D4yVyQkZWqPMrLoaU4"/>
+<div class="flex-1">
+<p class="font-semibold">Organic Bananas</p>
+<p class="text-sm text-black/60 dark:text-white/60">150 units sold</p>
+</div>
+<p class="font-bold">$120.50</p>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Fresh Strawberries" class="size-14 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7mYZ9lvAAPQ5gFEYdietNlR2JbJPg3T0WvPJYXFabTFrRpnIv3Hv60zoSR21baJiugQj8hnY_BL1Tdi2mbIulwwjkN4UARX6dLpzMVMnpqXoik8NXnMQBQ9ZoX7uAwlWiXwHMjeyKcWCume821xSqHJeTBQUET46OyNuHAC56f89gY7OTkuoTi-eSdCujXIGJ_FBDvhwuiHnoYPr3MwX4J9XQBLwjd7xXq02-ylz4FoShF6TamzZXEFM2vlN-oy6MDKWeNp_U_1U"/>
+<div class="flex-1">
+<p class="font-semibold">Fresh Strawberries</p>
+<p class="text-sm text-black/60 dark:text-white/60">120 units sold</p>
+</div>
+<p class="font-bold">$98.00</p>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Whole Milk" class="size-14 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADHT76Y0CHlM1U65LKkuQKQO6PLaZc319fiA7l3wGZZvZ_wb7csJR779-6oDIGYKHZCkT_ggnAv3sa7k0vIh9rzrzCT_u-vVb_fBTONW9kpbQTXH9d1shatV4j489Yu6C_DQrkEk8Xia4b4FE2flFuL_y6XjINzq1rwlzV7rsLmReG7sDE9IFqebsMnedY_jNwkMvUnD46bVYquKXePVm8DT0wu9_mLhr5AFzajoOb9_ZlEvtz4IBK7uwWD6hKiLGJ6riDj-hdOas"/>
+<div class="flex-1">
+<p class="font-semibold">Whole Milk</p>
+<p class="text-sm text-black/60 dark:text-white/60">100 units sold</p>
+</div>
+<p class="font-bold">$85.20</p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 pb-4">
+<div class="bg-black/5 dark:bg-white/5 rounded-xl p-4">
+<h2 class="text-lg font-bold">Category Sales</h2>
+<div class="space-y-3 mt-4">
+<div class="grid grid-cols-[auto,1fr,auto] items-center gap-3">
+<p class="text-sm font-medium">Produce</p>
+<div class="w-full bg-black/10 dark:bg-white/10 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+</div>
+<p class="text-sm font-semibold">80%</p>
+</div>
+<div class="grid grid-cols-[auto,1fr,auto] items-center gap-3">
+<p class="text-sm font-medium">Dairy</p>
+<div class="w-full bg-black/10 dark:bg-white/10 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 65%"></div>
+</div>
+<p class="text-sm font-semibold">65%</p>
+</div>
+<div class="grid grid-cols-[auto,1fr,auto] items-center gap-3">
+<p class="text-sm font-medium">Bakery</p>
+<div class="w-full bg-black/10 dark:bg-white/10 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 50%"></div>
+</div>
+<p class="text-sm font-semibold">50%</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="sticky bottom-0 z-10 border-t border-black/10 dark:border-white/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<nav class="flex justify-around p-2">
+<a class="flex flex-col items-center justify-center gap-1 w-1/5 text-black/60 dark:text-white/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined"> dashboard </span>
+<span class="text-xs font-medium">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-1/5 text-black/60 dark:text-white/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined"> inventory_2 </span>
+<span class="text-xs font-medium">Products</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-1/5 text-black/60 dark:text-white/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined"> receipt_long </span>
+<span class="text-xs font-medium">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-1/5 text-primary" href="#">
+<span class="material-symbols-outlined"> monitoring </span>
+<span class="text-xs font-medium">Analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-1/5 text-black/60 dark:text-white/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined"> person </span>
+<span class="text-xs font-medium">Profile</span>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>

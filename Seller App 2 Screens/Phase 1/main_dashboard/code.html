@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Seller Dashboard</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Work+Sans:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#3be340",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112112",
+          },
+          fontFamily: {
+            "display": ["Work Sans"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-neutral-800 dark:text-neutral-200">
+<div class="flex flex-col h-screen justify-between">
+<main class="flex-grow overflow-y-auto">
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm p-4">
+<div class="flex items-center justify-between">
+<div class="w-10"></div>
+<h1 class="text-xl font-bold text-center flex-1">Dashboard</h1>
+<div class="flex items-center space-x-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/20 dark:hover:bg-primary/30 relative">
+<span class="material-symbols-outlined">
+                  notifications
+                </span>
+<span class="absolute top-2 right-2 block h-2 w-2 rounded-full bg-red-500"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/20 dark:hover:bg-primary/30">
+<span class="material-symbols-outlined">
+                  settings
+                </span>
+</button>
+</div>
+</div>
+</header>
+<div class="p-4 space-y-6">
+<div class="bg-white dark:bg-neutral-800/50 rounded-lg p-4 flex justify-between items-center shadow-sm">
+<div>
+<p class="font-bold">Store Status</p>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Store is currently open</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-neutral-200 dark:bg-neutral-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white dark:peer-checked:after:border-neutral-800 after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white dark:after:bg-neutral-300 after:border after:border-neutral-300 dark:after:border-neutral-500 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div>
+<h2 class="text-lg font-bold mb-4">Summary</h2>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white dark:bg-neutral-800/50 rounded-lg p-4 shadow-sm">
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Total Orders</p>
+<p class="text-2xl font-bold">250</p>
+</div>
+<div class="bg-white dark:bg-neutral-800/50 rounded-lg p-4 shadow-sm">
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Revenue</p>
+<p class="text-2xl font-bold">$12,500</p>
+</div>
+<div class="bg-white dark:bg-neutral-800/50 rounded-lg p-4 shadow-sm">
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Pending Orders</p>
+<p class="text-2xl font-bold">15</p>
+</div>
+<div class="bg-white dark:bg-neutral-800/50 rounded-lg p-4 shadow-sm">
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Low Stock Items</p>
+<p class="text-2xl font-bold">8</p>
+</div>
+</div>
+</div>
+<div>
+<h2 class="text-lg font-bold mb-4">Quick Actions</h2>
+<div class="flex gap-4">
+<button class="flex-1 bg-primary text-black font-bold py-3 rounded-lg shadow-sm">Add Product</button>
+<button class="flex-1 bg-primary/20 dark:bg-primary/30 text-neutral-800 dark:text-neutral-200 font-bold py-3 rounded-lg">View Orders</button>
+</div>
+</div>
+<div>
+<h2 class="text-lg font-bold mb-4">Recent Orders</h2>
+<div class="space-y-2">
+<div class="bg-white dark:bg-neutral-800/50 rounded-lg p-4 flex justify-between items-center shadow-sm">
+<div>
+<p class="font-semibold">Customer: Sarah</p>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Order #12345</p>
+</div>
+<p class="font-bold text-lg">$55</p>
+</div>
+<div class="bg-white dark:bg-neutral-800/50 rounded-lg p-4 flex justify-between items-center shadow-sm">
+<div>
+<p class="font-semibold">Customer: David</p>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Order #12346</p>
+</div>
+<p class="font-bold text-lg">$78</p>
+</div>
+<div class="bg-white dark:bg-neutral-800/50 rounded-lg p-4 flex justify-between items-center shadow-sm">
+<div>
+<p class="font-semibold">Customer: Emily</p>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Order #12347</p>
+</div>
+<p class="font-bold text-lg">$42</p>
+</div>
+</div>
+</div>
+<div>
+<h2 class="text-lg font-bold mb-4">Weekly Sales Performance</h2>
+<div class="bg-white dark:bg-neutral-800/50 rounded-lg p-4 shadow-sm">
+<div>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">This Week</p>
+<p class="text-3xl font-bold">$3,500</p>
+</div>
+<div class="h-48 flex items-end gap-2 mt-4">
+<div class="flex-1 flex flex-col items-center gap-1">
+<div class="w-full bg-primary/20 dark:bg-primary/30 rounded-t" style="height: 70%;"></div>
+<p class="text-xs text-neutral-500 dark:text-neutral-400">Mon</p>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1">
+<div class="w-full bg-primary/20 dark:bg-primary/30 rounded-t" style="height: 100%;"></div>
+<p class="text-xs text-neutral-500 dark:text-neutral-400">Tue</p>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1">
+<div class="w-full bg-primary/20 dark:bg-primary/30 rounded-t" style="height: 20%;"></div>
+<p class="text-xs text-neutral-500 dark:text-neutral-400">Wed</p>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1">
+<div class="w-full bg-primary/20 dark:bg-primary/30 rounded-t" style="height: 10%;"></div>
+<p class="text-xs text-neutral-500 dark:text-neutral-400">Thu</p>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1">
+<div class="w-full bg-primary/20 dark:bg-primary/30 rounded-t" style="height: 20%;"></div>
+<p class="text-xs text-neutral-500 dark:text-neutral-400">Fri</p>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1">
+<div class="w-full bg-primary/20 dark:bg-primary/30 rounded-t" style="height: 50%;"></div>
+<p class="text-xs text-neutral-500 dark:text-neutral-400">Sat</p>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1">
+<div class="w-full bg-primary/20 dark:bg-primary/30 rounded-t" style="height: 80%;"></div>
+<p class="text-xs text-neutral-500 dark:text-neutral-400">Sun</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-background-light dark:bg-neutral-800/50 border-t border-neutral-200 dark:border-neutral-700 shadow-t-sm sticky bottom-0">
+<nav class="flex justify-around items-center p-2">
+<a class="flex flex-col items-center gap-1 p-2 rounded-lg text-primary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-xs font-medium">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 rounded-lg text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-xs font-medium">Products</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 rounded-lg text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-xs font-medium">Orders</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 rounded-lg text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-xs font-medium">Analytics</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 rounded-lg text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs font-medium">Profile</span>
+</a>
+</nav>
+</footer>
+</div>
+</body></html>
