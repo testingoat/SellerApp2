@@ -1,0 +1,544 @@
+{
+  "name": "Seller App 2 Test Suite",
+  "description": "Automated testing for SellerApp2 using TestSprite",
+  "platform": "android",
+  "appId": "com.sellerapp2",
+  "capabilities": {
+    "appium:automationName": "UiAutomator2",
+    "appium:deviceName": "emulator-5554",
+    "appium:platformName": "Android",
+    "appium:platformVersion": "13.0"
+  },
+  "suites": [
+    {
+      "name": "Authentication Tests",
+      "description": "Test user authentication flows",
+      "tests": [
+        {
+          "name": "Login Screen Elements",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "LoginScreen"
+                },
+                "timeout": 10000
+              }
+            },
+            {
+              "action": "elementVisible",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "LoginScreen"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "OTP Verification Flow",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "OTPVerificationScreen"
+                },
+                "timeout": 10000
+              }
+            },
+            {
+              "action": "tapElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "otpInput1"
+                }
+              }
+            },
+            {
+              "action": "sendKeys",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "otpInput1"
+                },
+                "text": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Store Registration Tests",
+      "description": "Test store registration and onboarding",
+      "tests": [
+        {
+          "name": "Store Registration Screen Elements",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "StoreRegistrationScreen"
+                },
+                "timeout": 15000
+              }
+            },
+            {
+              "action": "elementVisible",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "StoreRegistrationScreen"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Store Information Form",
+          "steps": [
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "storeNameInput"
+                },
+                "timeout": 10000
+              }
+            },
+            {
+              "action": "sendKeys",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "storeNameInput"
+                },
+                "text": "Test Store"
+              }
+            },
+            {
+              "action": "tapElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "nextButton"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dashboard Tests",
+      "description": "Test main dashboard functionality",
+      "tests": [
+        {
+          "name": "Dashboard Elements Display",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "MainDashboardScreen"
+                },
+                "timeout": 20000
+              }
+            },
+            {
+              "action": "elementVisible",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "dashboardSummary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Order Summary Display",
+          "steps": [
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "orderSummaryCard"
+                },
+                "timeout": 5000
+              }
+            },
+            {
+              "action": "elementVisible",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "totalOrdersText"
+                }
+              }
+            },
+            {
+              "action": "elementVisible",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "revenueText"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Order Management Tests",
+      "description": "Test order processing and management",
+      "tests": [
+        {
+          "name": "Order Processing List",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "MainDashboardScreen"
+                },
+                "timeout": 20000
+              }
+            },
+            {
+              "action": "tapElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "ordersTab"
+                }
+              }
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "OrderProcessingListScreen"
+                },
+                "timeout": 5000
+              }
+            },
+            {
+              "action": "elementVisible",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "ordersList"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Product Management Tests",
+      "description": "Test product CRUD operations",
+      "tests": [
+        {
+          "name": "Product List Display",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "MainDashboardScreen"
+                },
+                "timeout": 20000
+              }
+            },
+            {
+              "action": "tapElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "productsTab"
+                }
+              }
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "ProductListScreen"
+                },
+                "timeout": 5000
+              }
+            },
+            {
+              "action": "elementVisible",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "productsList"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Product Flow",
+          "steps": [
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "addProductButton"
+                },
+                "timeout": 5000
+              }
+            },
+            {
+              "action": "tapElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "addProductButton"
+                }
+              }
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "AddEditProductScreen"
+                },
+                "timeout": 5000
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Location Services Tests",
+      "description": "Test location-based features",
+      "tests": [
+        {
+          "name": "Location Permission Request",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "id",
+                  "value": "android:id/button1"
+                },
+                "timeout": 10000
+              }
+            },
+            {
+              "action": "tapElement",
+              "params": {
+                "selector": {
+                  "type": "id",
+                  "value": "android:id/button1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Store Location Management",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "MainDashboardScreen"
+                },
+                "timeout": 20000
+              }
+            },
+            {
+              "action": "tapElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "settingsButton"
+                }
+              }
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "ProfileSettingsScreen"
+                },
+                "timeout": 5000
+              }
+            },
+            {
+              "action": "tapElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "storeLocationButton"
+                }
+              }
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "StoreLocationManagementScreen"
+                },
+                "timeout": 5000
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Network Resilience Tests",
+      "description": "Test app behavior with network issues",
+      "tests": [
+        {
+          "name": "Network Error Handling",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "setNetworkConnection",
+              "params": {
+                "wifi": false,
+                "data": false
+              }
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "NetworkErrorScreen"
+                },
+                "timeout": 10000
+              }
+            },
+            {
+              "action": "elementVisible",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "retryButton"
+                }
+              }
+            },
+            {
+              "action": "setNetworkConnection",
+              "params": {
+                "wifi": true,
+                "data": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Push Notification Tests",
+      "description": "Test FCM and notification handling",
+      "tests": [
+        {
+          "name": "Notification Screen Navigation",
+          "steps": [
+            {
+              "action": "launchApp",
+              "params": {}
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "MainDashboardScreen"
+                },
+                "timeout": 20000
+              }
+            },
+            {
+              "action": "tapElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "notificationsButton"
+                }
+              }
+            },
+            {
+              "action": "waitForElement",
+              "params": {
+                "selector": {
+                  "type": "accessibilityId",
+                  "value": "NotificationsScreen"
+                },
+                "timeout": 5000
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

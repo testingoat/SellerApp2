@@ -18,15 +18,15 @@ const MainDashboardScreen: React.FC = () => {
 
   const summaryData = [
     { label: 'Total Orders', value: '250' },
-    { label: 'Revenue', value: '$12,500' },
+    { label: 'Revenue', value: '₹12,500' },
     { label: 'Pending Orders', value: '15' },
     { label: 'Low Stock Items', value: '8' },
   ];
 
   const recentOrders = [
-    { customer: 'Sarah', orderId: '12345', amount: '$55' },
-    { customer: 'David', orderId: '12346', amount: '$78' },
-    { customer: 'Emily', orderId: '12347', amount: '$42' },
+    { customer: 'Sarah', orderId: '12345', amount: '₹55' },
+    { customer: 'David', orderId: '12346', amount: '₹78' },
+    { customer: 'Emily', orderId: '12347', amount: '₹42' },
   ];
 
   const weeklyData = [
@@ -137,7 +137,7 @@ const MainDashboardScreen: React.FC = () => {
           <View style={styles.performanceCard}>
             <View style={styles.performanceHeader}>
               <Text style={styles.performanceLabel}>This Week</Text>
-              <Text style={styles.performanceValue}>$3,500</Text>
+              <Text style={styles.performanceValue}>₹3,500</Text>
             </View>
             <View style={styles.chartContainer}>
               {weeklyData.map((item, index) => (

@@ -1,0 +1,145 @@
+📋 COMPLETE MANUAL DEPLOYMENT GUIDE
+🚀 DEPLOYMENT SCRIPTS AVAILABLE:
+Location: /var/www/goatgoat-staging/server/scripts/
+
+Script	Function	Usage
+deploy-staging.sh	Staging Deployment - Creates backup, builds, restarts PM2, verifies health	Safe staging deployments
+deploy-production.sh	Production Deployment - Same as staging but for production environment	Production deployments
+deploy-from-git.sh	Git-based Deployment - Pulls from git, builds, deploys	Deploy latest code changes
+rollback-staging.sh	Emergency Rollback - Restores from backup if deployment fails	Emergency recovery
+build-staging.sh	Build Only - Compiles TypeScript, syncs files	Build without deployment
+build-production.sh	Production Build - Same as staging build but for production	Production builds
+sync-watcher.js	Real-time Sync - Watches src/ and syncs to dist/ automatically	Development file sync
+📝 STEP-BY-STEP MANUAL DEPLOYMENT INSTRUCTIONS:
+🔧 Method 1: Quick Staging Deployment
+# Step 1: Connect to server
+ssh root@147.93.108.121
+
+# Step 2: Navigate to staging directory
+cd /var/www/goatgoat-staging/server
+
+# Step 3: Run staging deployment (creates backup automatically)
+bash scripts/deploy-staging.sh
+
+# Step 4: Verify deployment
+pm2 list | grep staging
+curl -s http://localhost:4000/admin | grep AdminJS
+
+🔧 Method 2: Git-based Deployment (Deploy Latest Code)
+# Step 1: Connect to server
+ssh root@147.93.108.121
+
+# Step 2: Navigate to staging directory
+cd /var/www/goatgoat-staging/server
+
+# Step 3: Check current branch
+git branch --show-current
+
+# Step 4: Run git deployment (pulls latest, builds, deploys)
+bash scripts/deploy-from-git.sh
+
+# Step 5: Verify deployment
+pm2 list | grep staging
+curl -s http://localhost:4000/admin | grep AdminJS
+
+🔧 Method 3: Production Deployment
+# Step 1: Connect to server
+ssh root@147.93.108.121
+
+# Step 2: Navigate to staging directory (scripts are here)
+cd /var/www/goatgoat-staging/server
+
+# Step 3: Run production deployment
+bash scripts/deploy-production.sh
+
+# Step 4: Verify production deployment
+pm2 list | grep production
+curl -s http://localhost:3000/admin | grep AdminJS
+
+🚨 Method 4: Emergency Rollback
+# Step 1: Connect to server
+ssh root@147.93.108.121
+
+# Step 2: Navigate to staging directory
+cd /var/www/goatgoat-staging/server
+
+# Step 3: Run rollback (restores from last backup)
+bash scripts/rollback-staging.sh
+
+# Step 4: Verify rollback
+pm2 list | grep staging
+
+ BACKUP MANAGEMENT:
+📁 Backup Locations:
+Backup Directory: /var/www/backups/
+Staging Backups: staging-backup.tar.gz, pre-git-deploy.tar.gz
+Production Backups: production-backup.tar.gz
+📥 Download Backup to Local Machine:
+# Download staging backup
+scp root@147.93.108.121:/var/www/backups/staging-backup.tar.gz ./staging-backup.tar.gz
+
+# Download production backup
+scp root@147.93.108.121:/var/www/backups/production-backup.tar.gz ./production-backup.tar.gz
+
+# List all available backups
+ssh root@147.93.108.121 "ls -la /var/www/backups/"
+
+Restore Backup to Server:
+# Step 1: Upload backup to server
+scp ./your-backup.tar.gz root@147.93.108.121:/var/www/backups/
+
+# Step 2: Connect to server
+ssh root@147.93.108.121
+
+# Step 3: Stop the service
+pm2 stop goatgoat-staging
+
+# Step 4: Restore backup
+cd /var/www/
+tar -xzf /var/www/backups/your-backup.tar.gz
+
+# Step 5: Restart service
+pm2 start goatgoat-staging
+
+# Step 6: Verify restoration
+pm2 list | grep staging
+
+Manual Backup Creation:
+# Create manual backup
+ssh root@147.93.108.121
+cd /var/www/goatgoat-staging/server
+mkdir -p /var/www/backups
+tar -czf /var/www/backups/manual-backup-$(date +%Y%m%d-%H%M%S).tar.gz /var/www/goatgoat-staging/server
+
+# Create manual backup
+ssh root@147.93.108.121
+cd /var/www/goatgoat-staging/server
+mkdir -p /var/www/backups
+tar -czf /var/www/backups/manual-backup-$(date +%Y%m%d-%H%M%S).tar.gz /var/www/goatgoat-staging/server
+# Check PM2 processes
+pm2 list
+
+# Check specific process logs
+pm2 logs goatgoat-staging --lines 20
+
+# Check nginx status
+systemctl status nginx
+
+# Check port availability
+netstat -tlnp | grep :4000  # Staging
+netstat -tlnp | grep :3000  # Production
+
+Manual Process Management:
+# Restart staging
+pm2 restart goatgoat-staging
+
+# Restart production
+pm2 restart goatgoat-production
+
+# Stop/Start processes
+pm2 stop goatgoat-staging
+pm2 start goatgoat-staging
+
+# Reload nginx
+systemctl reload nginx
+

@@ -1,0 +1,59 @@
+]  ? exc_general_protection+0xda/0x1f0
+[10090.458551]  ? asm_exc_general_protection+0x2b/0x30
+[10090.458553]  ? search_extable+0x60/0x60
+[10090.458555]  ? __cfi_cmp_ex_search+0x10/0x10
+[10090.458558]  ? restore_fpregs_from_fpstate+0x5d/0xc0
+[10090.458561]  ? restore_fpregs_from_fpstate+0x4f/0xc0
+[10090.458563]  ? fpu_reset_from_exception_fixup+0x19/0x20
+[10090.458586]  ? fixup_exception+0x219/0x5c0
+[10090.458588]  ? vsnprintf+0x34d/0x730
+[10090.458590]  ? gp_try_fixup_and_notify+0x34/0x100
+[10090.458592]  ? exc_general_protection+0xda/0x1f0
+[10090.458594]  ? asm_exc_general_protection+0x2b/0x30
+[10090.458596]  ? search_extable+0x60/0x60
+[10090.458598]  ? __cfi_cmp_ex_search+0x10/0x10
+[10090.458601]  ? restore_fpregs_from_fpstate+0x5d/0xc0
+[10090.458603]  ? restore_fpregs_from_fpstate+0x4f/0xc0
+[10090.458605]  ? fpu_reset_from_exception_fixup+0x19/0x20
+[10090.458607]  ? fixup_exception+0x219/0x5c0
+[10090.458637]  ? irq_work_queue+0x2b/0x70
+[10090.458669]  ? ring_buffer_unlock_commit+0x44/0x170
+[10090.458713]  ? trace_buffer_unlock_commit_regs+0x38/0x210
+[10090.458716]  ? gp_try_fixup_and_notify+0x34/0x100
+[10090.458718]  ? exc_general_protection+0xda/0x1f0
+[10090.458720]  ? asm_exc_general_protection+0x2b/0x30
+[10090.458721]  ? io_serial_in+0x30/0x30
+[10090.458724]  ? restore_fpregs_from_fpstate+0x5d/0xc0
+[10090.458726]  ? restore_fpregs_from_fpstate+0x4f/0xc0
+[10090.458728]  ? fpu_reset_from_exception_fixup+0x19/0x20
+[10090.458730]  ? fixup_exception+0x219/0x5c0
+[10090.458732]  ? finish_task_switch+0xaf/0x310
+[10090.458734]  ? __schedule+0x5ae/0x910
+[10090.458737]  ? gp_try_fixup_and_notify+0x34/0x100
+[10090.458739]  ? exc_general_protection+0xda/0x1f0
+[10090.458741]  ? asm_exc_general_protection+0x2b/0x30
+[10090.458744]  ? restore_fpregs_from_fpstate+0x5d/0xc0
+[10090.458746]  ? restore_fpregs_from_fpstate+0x4f/0xc0
+[10090.458748]  ? fpregs_restore_userregs+0x50/0xc0
+[10090.458750]  ? switch_fpu_return+0xd/0x20
+[10090.458753]  ? exit_to_user_mode_prepare+0x7b/0xa0
+[10090.458756]  ? syscall_exit_to_user_mode+0x1e/0x30
+[10090.458758]  ? do_syscall_64+0x56/0xa0
+[10090.458760]  ? irqentry_exit+0x16/0x60
+[10090.458763]  ? entry_SYSCALL_64_after_hwframe+0x78/0xe2
+[10090.458766]  </TASK>
+[10090.458767] Modules linked in: virtio_snd virtio_pmem virtio_net virtio_input virtio_media(O) virtio_gpu virt_wifi vhci_hcd v4l2loopback(O) usbip_core test_meminit system_heap rtc_test pulse8_cec net_failover nd_virtio mt76x2u mt76x2_common mt76x0u mt76x02_usb mt76x0_common mt76x02_lib mt76_usb mt76 mac80211_hwsim mac80211 libarc4 hci_vhci gs_usb can_dev goldfish_sync(O) goldfish_pipe(O) goldfish_battery goldfish_address_space(O) failover dummy_hcd dummy_cpufreq cfg80211 btusb btbcm btrtl btintel bluetooth rfkill zram zsmalloc vmw_vsock_virtio_transport virtio_pci virtio_pci_legacy_dev virtio_pci_modern_dev virtio_console virtio_blk virtio_rng virtio_dma_buf
+[10090.458805] ---[ end trace 0000000000000000 ]---
+[10090.466540] RIP: 0010:exc_general_protection+0x30/0x1f0
+[10090.466548] Code: 89 e5 41 57 41 56 41 55 41 54 53 48 83 e4 f0 48 81 ec 80 00 00 00 49 89 f7 48 89 fb 65 48 8b 04 25 28 00 00 00 48 89 44 24 70 <e8> bb 1f 00 00 41 89 c6 48 8d 7c 24 10 b9 0b 00 00 00 48 c7 c6 d0
+[10090.466550] RSP: 0018:ffffadaf01797fa0 EFLAGS: 00010086
+[10090.466551] RAX: 66027b11fd0efb00 RBX: ffffadaf01798058 RCX: ffffffffb5e018d4
+[10090.466552] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffadaf01798058
+[10090.466553] RBP: ffffadaf01798048 R08: 0000000000000000 R09: 0000000000000000
+[10090.466554] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+[10090.466554] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[10090.466555] FS:  00007c22ca4e7e70(0000) GS:ffff97557db40000(0000) knlGS:0000000000000000
+[10090.466609] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[10090.466611] CR2: ffffadaf004cff98 CR3: 0000000003e5a000 CR4: 0000000000950ea0
+[10091.547177] Shutting down cpus with NMI
+[10091.565299] Kernel Offset: 0x33a00000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)

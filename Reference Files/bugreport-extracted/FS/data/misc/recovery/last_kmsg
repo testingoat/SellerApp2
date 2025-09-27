@@ -1,0 +1,51 @@
+x210
+[ 8442.791939]  ? gp_try_fixup_and_notify+0x34/0x100
+[ 8442.791940]  ? exc_general_protection+0xda/0x1f0
+[ 8442.791941]  ? asm_exc_general_protection+0x2b/0x30
+[ 8442.791942]  ? io_serial_in+0x30/0x30
+[ 8442.791944]  ? restore_fpregs_from_fpstate+0x5d/0xc0
+[ 8442.791945]  ? restore_fpregs_from_fpstate+0x4f/0xc0
+[ 8442.791946]  ? fpu_reset_from_exception_fixup+0x19/0x20
+[ 8442.791948]  ? fixup_exception+0x219/0x5c0
+[ 8442.791949]  ? __schedule+0x5ae/0x910
+[ 8442.791950]  ? gp_try_fixup_and_notify+0x34/0x100
+[ 8442.791951]  ? exc_general_protection+0xda/0x1f0
+[ 8442.791952]  ? asm_exc_general_protection+0x2b/0x30
+[ 8442.791954]  ? restore_fpregs_from_fpstate+0x5d/0xc0
+[ 8442.791955]  ? restore_fpregs_from_fpstate+0x4f/0xc0
+[ 8442.791956]  ? fpregs_restore_userregs+0x50/0xc0
+[ 8442.791958]  ? switch_fpu_return+0xd/0x20
+[ 8442.791967]  ? exit_to_user_mode_prepare+0x7b/0xa0
+[ 8442.791969]  ? syscall_exit_to_user_mode+0x1e/0x30
+[ 8442.791970]  ? do_syscall_64+0x56/0xa0
+[ 8442.791972]  ? irqentry_exit+0x16/0x60
+[ 8442.791973]  ? entry_SYSCALL_64_after_hwframe+0x78/0xe2
+[ 8442.791974]  </TASK>
+[ 8442.791975] Modules linked in: virtio_snd virtio_pmem virtio_net virtio_input virtio_media(O) virtio_gpu virt_wifi vhci_hcd v4l2loopback(O) usbip_core test_meminit system_heap rtc_test pulse8_cec net_failover nd_virtio mt76x2u mt76x2_common mt76x0u mt76x02_usb mt76x0_common mt76x02_lib mt76_usb mt76 mac80211_hwsim mac80211 libarc4 hci_vhci gs_usb can_dev goldfish_sync(O) goldfish_pipe(O) goldfish_battery goldfish_address_space(O) failover dummy_hcd dummy_cpufreq cfg80211 btusb btbcm btrtl btintel bluetooth rfkill zram zsmalloc vmw_vsock_virtio_transport virtio_pci virtio_pci_legacy_dev virtio_pci_modern_dev virtio_console virtio_blk virtio_rng virtio_dma_buf
+[ 8442.791998] ---[ end trace 0000000000000000 ]---
+[ 8442.791999] pstore: dump skipped in NMI path because of concurrent dump
+[ 8442.792000] RIP: 0010:exc_general_protection+0x30/0x1f0
+[ 8442.792001] Code: 89 e5 41 57 41 56 41 55 41 54 53 48 83 e4 f0 48 81 ec 80 00 00 00 49 89 f7 48 89 fb 65 48 8b 04 25 28 00 00 00 48 89 44 24 70 <e8> bb 1f 00 00 41 89 c6 48 8d 7c 24 10 b9 0b 00 00 00 48 c7 c6 d0
+[ 8442.792018] RSP: 0018:ffffb4b2413affa0 EFLAGS: 00010086
+[ 8442.792019] RAX: f909c79f3be57700 RBX: ffffb4b2413b0058 RCX: ffffffffa26018d4
+[ 8442.792020] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffb4b2413b0058
+[ 8442.792020] RBP: ffffb4b2413b0048 R08: 0000000000000000 R09: 0000000000000000
+[ 8442.792021] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+[ 8442.792021] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[ 8442.792022] FS:  000070af1865ef58(0000) GS:ffff90643da40000(0000) knlGS:0000000000000000
+[ 8442.792023] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 8442.792024] CR2: ffffb4b244edbf98 CR3: 0000000019030000 CR4: 0000000000950ea0
+[ 8442.794384] pstore: backend (ramoops) writing error (-28)
+[ 8442.794433] RIP: 0010:exc_general_protection+0x30/0x1f0
+[ 8442.794438] Code: 89 e5 41 57 41 56 41 55 41 54 53 48 83 e4 f0 48 81 ec 80 00 00 00 49 89 f7 48 89 fb 65 48 8b 04 25 28 00 00 00 48 89 44 24 70 <e8> bb 1f 00 00 41 89 c6 48 8d 7c 24 10 b9 0b 00 00 00 48 c7 c6 d0
+[ 8442.794439] RSP: 0018:ffffb4b2413affa0 EFLAGS: 00010086
+[ 8442.794440] RAX: f909c79f3be57700 RBX: ffffb4b2413b0058 RCX: ffffffffa26018d4
+[ 8442.794441] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffb4b2413b0058
+[ 8442.794441] RBP: ffffb4b2413b0048 R08: 0000000000000000 R09: 0000000000000000
+[ 8442.794442] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+[ 8442.794443] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[ 8442.794443] FS:  00007f92608c7f88(0000) GS:ffff90643dac0000(0000) knlGS:0000000000000000
+[ 8442.794444] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 8442.794445] CR2: ffffb4b2413aff98 CR3: 000000003ed88000 CR4: 0000000000950ea0
+[ 8443.866862] Shutting down cpus with NMI
+[ 8443.867943] Kernel Offset: 0x20200000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)

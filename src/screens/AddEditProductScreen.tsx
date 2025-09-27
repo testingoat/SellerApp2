@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   Image,
   PermissionsAndroid,
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -73,6 +74,7 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>(editingProduct?.category?._id || '');
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
 
   // Image-related state
   const [productImages, setProductImages] = useState<ProductImage[]>([]);
@@ -80,6 +82,12 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
 
   const updateFormData = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategoryId(categoryId);
+    updateFormData('category', categoryId);
+    setShowCategoryModal(false);
   };
 
   // Load categories on mount
@@ -476,12 +484,16 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
                 <Text style={[styles.pickerText, { marginLeft: 8 }]}>Loading categories...</Text>
               </View>
             ) : (
-              <View style={styles.pickerContainer}>
+              <TouchableOpacity
+                style={styles.pickerContainer}
+                onPress={() => setShowCategoryModal(true)}
+                activeOpacity={0.7}
+              >
                 <Text style={styles.pickerText}>
                   {categories.find(cat => cat._id === selectedCategoryId)?.name || 'Select Category'}
                 </Text>
                 <Icon name="keyboard-arrow-down" size={24} color="#3be340" />
-              </View>
+              </TouchableOpacity>
             )}
           </View>
 
@@ -559,6 +571,52 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
           )}
         </TouchableOpacity>
       </View>
+
+      {/* Category Selection Modal */}
+      <Modal
+        visible={showCategoryModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowCategoryModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Select Category</Text>
+              <TouchableOpacity
+                onPress={() => setShowCategoryModal(false)}
+                style={styles.modalCloseButton}
+              >
+                <Icon name="close" size={24} color="#6b7280" />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={styles.modalContent}>
+              {categories.map((category) => (
+                <TouchableOpacity
+                  key={category._id}
+                  style={[
+                    styles.categoryOption,
+                    selectedCategoryId === category._id && styles.categoryOptionSelected
+                  ]}
+                  onPress={() => handleCategorySelect(category._id)}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[
+                    styles.categoryOptionText,
+                    selectedCategoryId === category._id && styles.categoryOptionTextSelected
+                  ]}>
+                    {category.name}
+                  </Text>
+                  {selectedCategoryId === category._id && (
+                    <Icon name="check" size={20} color="#3be340" />
+                  )}
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -755,6 +813,56 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    maxHeight: '70%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#1f2937',
+  },
+  modalCloseButton: {
+    padding: 4,
+  },
+  modalContent: {
+    maxHeight: 400,
+  },
+  categoryOption: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  categoryOptionSelected: {
+    backgroundColor: '#f0fdf4',
+  },
+  categoryOptionText: {
+    fontSize: 16,
+    color: '#1f2937',
+  },
+  categoryOptionTextSelected: {
+    color: '#3be340',
+    fontWeight: '500',
   },
 });
 

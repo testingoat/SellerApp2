@@ -15,7 +15,10 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '../state/authStore';
 import { storeService } from '../services/storeService';
+import { locationService } from '../services/locationService';
 import { StoreRegistrationData } from '../types/store';
+import { LocationData } from '../types/location';
+import LocationInput from '../components/LocationInput';
 
 interface StoreRegistrationScreenProps {
   onComplete: () => void;
@@ -39,12 +42,17 @@ const StoreRegistrationScreen: React.FC<StoreRegistrationScreenProps> = ({
     gstNumber: '',
     bankAccount: '',
     ifscCode: '',
+    storeLocation: undefined,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
   const updateFormData = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleLocationChange = (location: LocationData) => {
+    setFormData(prev => ({ ...prev, storeLocation: location }));
   };
 
   const validateForm = (): boolean => {
@@ -76,10 +84,26 @@ const StoreRegistrationScreen: React.FC<StoreRegistrationScreenProps> = ({
     try {
       console.log('🏪 StoreRegistration: Submitting registration...');
       const result = await storeService.registerStore(formData, user.phone);
-      
+
       if (result.success) {
         console.log('🎆 StoreRegistration: Registration successful, updating profile status');
-        
+
+        // If location is provided, save it to the backend
+        if (formData.storeLocation && formData.storeLocation.latitude && formData.storeLocation.longitude) {
+          console.log('📍 StoreRegistration: Saving store location...');
+          try {
+            await locationService.setStoreLocation({
+              latitude: formData.storeLocation.latitude,
+              longitude: formData.storeLocation.longitude,
+              address: formData.storeLocation.address,
+            });
+            console.log('✅ StoreRegistration: Store location saved successfully');
+          } catch (locationError) {
+            console.error('❌ StoreRegistration: Failed to save location:', locationError);
+            // Don't fail the entire registration if location save fails
+          }
+        }
+
         // Update user profile status to indicate completion
         await updateUserProfile(true);
         
@@ -225,6 +249,20 @@ const StoreRegistrationScreen: React.FC<StoreRegistrationScreenProps> = ({
                 />
               </View>
             </View>
+
+            {/* Store Location */}
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>Store Location (Optional)</Text>
+              <Text style={styles.inputHint}>
+                Set your store location to help customers find you and enable accurate delivery
+              </Text>
+              <LocationInput
+                value={formData.storeLocation}
+                onLocationChange={handleLocationChange}
+                placeholder="Tap to set your store location on map"
+                showMapButton={true}
+              />
+            </View>
           </View>
 
           {/* Business Information */}
@@ -363,6 +401,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#374151',
     marginBottom: 8,
+  },
+  inputHint: {
+    fontSize: 12,
+    color: '#6b7280',
+    marginBottom: 8,
+    lineHeight: 16,
   },
   input: {
     borderWidth: 2,

@@ -21,6 +21,7 @@ import BusinessHoursManagementScreen from '../screens/BusinessHoursManagementScr
 import DeliveryAreaScreen from '../screens/DeliveryAreaScreen';
 import NotificationPreferencesScreen from '../screens/NotificationPreferencesScreen';
 import StoreInformationScreen from '../screens/StoreInformationScreen';
+import StoreLocationManagementScreen from '../screens/StoreLocationManagementScreen';
 import LanguageSettingsScreen from '../screens/LanguageSettingsScreen';
 import FCMTestScreen from '../screens/main/FCMTestScreen';
 
@@ -159,6 +160,7 @@ const AppNavigator: React.FC = () => {
           <Stack.Screen name="DeliveryArea" component={DeliveryAreaScreen} />
           <Stack.Screen name="NotificationPreferences" component={NotificationPreferencesScreen} />
           <Stack.Screen name="StoreInformation" component={StoreInformationScreen} />
+          <Stack.Screen name="StoreLocationManagement" component={StoreLocationManagementScreen} />
           <Stack.Screen name="LanguageSettings" component={LanguageSettingsScreen} />
           <Stack.Screen name="FCMTest" component={FCMTestScreen} />
           <Stack.Screen name="NetworkError">

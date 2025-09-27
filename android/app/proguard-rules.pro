@@ -8,3 +8,11 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+# Google Maps
+-keep class com.google.android.gms.maps.** { *; }
+-keep interface com.google.android.gms.maps.** { *; }
+-keep class com.google.android.gms.common.** { *; }
+
+# React Native Maps
+-keep class com.airbnb.android.react.maps.** { *; }

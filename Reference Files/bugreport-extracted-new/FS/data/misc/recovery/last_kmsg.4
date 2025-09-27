@@ -1,0 +1,50 @@
+1047.631916]  ? gp_try_fixup_and_notify+0x34/0x100
+[ 1047.631917]  ? exc_general_protection+0xda/0x1f0
+[ 1047.631918]  ? asm_exc_general_protection+0x2b/0x30
+[ 1047.631919]  ? restore_fpregs_from_fpstate+0x5d/0xc0
+[ 1047.631920]  ? restore_fpregs_from_fpstate+0x4f/0xc0
+[ 1047.631921]  ? fpu_reset_from_exception_fixup+0x19/0x20
+[ 1047.631922]  ? fixup_exception+0x219/0x5c0
+[ 1047.631923]  ? finish_task_switch+0xaf/0x310
+[ 1047.631924]  ? __schedule+0x5ae/0x910
+[ 1047.631926]  ? gp_try_fixup_and_notify+0x34/0x100
+[ 1047.631927]  ? exc_general_protection+0xda/0x1f0
+[ 1047.631928]  ? asm_exc_general_protection+0x2b/0x30
+[ 1047.631929]  ? restore_fpregs_from_fpstate+0x5d/0xc0
+[ 1047.631930]  ? restore_fpregs_from_fpstate+0x4f/0xc0
+[ 1047.631931]  ? fpregs_restore_userregs+0x50/0xc0
+[ 1047.631933]  ? switch_fpu_return+0xd/0x20
+[ 1047.631934]  ? exit_to_user_mode_prepare+0x7b/0xa0
+[ 1047.631943]  ? syscall_exit_to_user_mode+0x1e/0x30
+[ 1047.631945]  ? do_syscall_64+0x56/0xa0
+[ 1047.631946]  ? exc_page_fault+0x65/0xc0
+[ 1047.631947]  ? entry_SYSCALL_64_after_hwframe+0x78/0xe2
+[ 1047.631949]  </TASK>
+[ 1047.631949] Modules linked in: virtio_snd virtio_pmem virtio_net virtio_input virtio_media(O) virtio_gpu virt_wifi vhci_hcd v4l2loopback(O) usbip_core test_meminit system_heap rtc_test pulse8_cec net_failover nd_virtio mt76x2u mt76x2_common mt76x0u mt76x02_usb mt76x0_common mt76x02_lib mt76_usb mt76 mac80211_hwsim mac80211 libarc4 hci_vhci gs_usb can_dev goldfish_sync(O) goldfish_pipe(O) goldfish_battery goldfish_address_space(O) failover dummy_hcd dummy_cpufreq cfg80211 btusb btbcm btrtl btintel bluetooth rfkill zram zsmalloc vmw_vsock_virtio_transport virtio_pci virtio_pci_legacy_dev virtio_pci_modern_dev virtio_console virtio_blk virtio_rng virtio_dma_buf
+[ 1047.631966] ---[ end trace 0000000000000000 ]---
+[ 1047.631967] pstore: dump skipped in NMI path because of concurrent dump
+[ 1047.631968] RIP: 0010:exc_general_protection+0x30/0x1f0
+[ 1047.631970] Code: 89 e5 41 57 41 56 41 55 41 54 53 48 83 e4 f0 48 81 ec 80 00 00 00 49 89 f7 48 89 fb 65 48 8b 04 25 28 00 00 00 48 89 44 24 70 <e8> bb 1f 00 00 41 89 c6 48 8d 7c 24 10 b9 0b 00 00 00 48 c7 c6 d0
+[ 1047.631971] RSP: 0018:ffffaa270074bfa0 EFLAGS: 00010086
+[ 1047.631972] RAX: 34f65effd2d3e200 RBX: ffffaa270074c058 RCX: ffffffff8c8018d4
+[ 1047.631973] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffaa270074c058
+[ 1047.631973] RBP: ffffaa270074c048 R08: 0000000000000000 R09: 0000000000000000
+[ 1047.631974] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+[ 1047.631974] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[ 1047.631975] FS:  00007e54118049d0(0000) GS:ffff8943bdb40000(0000) knlGS:00007e52fc47a010
+[ 1047.631976] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1047.631976] CR2: ffffaa2702f6ff98 CR3: 0000000071ac2000 CR4: 0000000000950ea0
+[ 1047.634112] pstore: backend (ramoops) writing error (-28)
+[ 1047.634142] RIP: 0010:exc_general_protection+0x30/0x1f0
+[ 1047.634147] Code: 89 e5 41 57 41 56 41 55 41 54 53 48 83 e4 f0 48 81 ec 80 00 00 00 49 89 f7 48 89 fb 65 48 8b 04 25 28 00 00 00 48 89 44 24 70 <e8> bb 1f 00 00 41 89 c6 48 8d 7c 24 10 b9 0b 00 00 00 48 c7 c6 d0
+[ 1047.634148] RSP: 0018:ffffaa270074bfa0 EFLAGS: 00010086
+[ 1047.634149] RAX: 34f65effd2d3e200 RBX: ffffaa270074c058 RCX: ffffffff8c8018d4
+[ 1047.634159] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffaa270074c058
+[ 1047.634160] RBP: ffffaa270074c048 R08: 0000000000000000 R09: 0000000000000000
+[ 1047.634161] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+[ 1047.634161] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[ 1047.634162] FS:  0000725de28cdfe8(0000) GS:ffff8943bdac0000(0000) knlGS:0000000000000000
+[ 1047.634163] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1047.634163] CR2: ffffaa270074bf98 CR3: 0000000007bc4000 CR4: 0000000000950ea0
+[ 1048.727815] Shutting down cpus with NMI
+[ 1048.728867] Kernel Offset: 0xa400000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)

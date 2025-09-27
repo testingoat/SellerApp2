@@ -48,6 +48,10 @@ const ProfileSettingsScreen: React.FC = () => {
     navigation.navigate('StoreInformation' as never);
   };
 
+  const handleStoreLocation = () => {
+    navigation.navigate('StoreLocationManagement' as never);
+  };
+
   const handleBusinessHours = () => {
     navigation.navigate('BusinessHoursManagement' as never);
   };
@@ -116,6 +120,13 @@ const ProfileSettingsScreen: React.FC = () => {
           description: 'Edit store name, address, and contact',
           icon: 'storefront',
           onPress: handleStoreInfo,
+        },
+        {
+          id: 'store-location',
+          title: 'Store Location',
+          description: 'Set your store location on map',
+          icon: 'location-on',
+          onPress: handleStoreLocation,
         },
         {
           id: 'business-hours',

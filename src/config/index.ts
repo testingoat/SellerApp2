@@ -25,6 +25,11 @@ export const API_ENDPOINTS = {
   ADD_PRODUCT: `${SELLER_API_URL}/products`,
   UPDATE_PRODUCT: `${SELLER_API_URL}/products`,
   DELETE_PRODUCT: `${SELLER_API_URL}/products`,
+
+  // Location management endpoints
+  SET_LOCATION: `${SELLER_API_URL}/location`,
+  GET_LOCATION: `${SELLER_API_URL}/location`,
+  UPDATE_LOCATION: `${SELLER_API_URL}/location`,
 } as const;
 
 export const STORAGE_KEYS = {
@@ -37,4 +42,6 @@ export const CONFIG = {
   API_TIMEOUT: 30000, // 30 seconds
   OTP_RESEND_DELAY: 30, // 30 seconds
   TOKEN_REFRESH_THRESHOLD: 5 * 60 * 1000, // 5 minutes in milliseconds
+  // Google Maps API key for geocoding services
+  GOOGLE_MAPS_API_KEY: 'AIzaSyDOBBimUu_eGMwsXZUqrNFk3puT5rMWbig', // Correct Google Maps API key
 } as const;

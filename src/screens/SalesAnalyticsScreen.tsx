@@ -43,21 +43,21 @@ const SalesAnalyticsScreen: React.FC = () => {
       id: '1',
       name: 'Organic Bananas',
       unitsSold: 150,
-      revenue: '$120.50',
+      revenue: '₹120.50',
       image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBOIJU4GsJmy182AvQgvyoWBxaNTD0e_biAiZq_fU6dzQm-ve-9r6lMsRUlLkWW7MEMerSzkGJSD11g438MTK7LHb4ugoAtwZ24y7eyBUy43zSNBEkzpE7rKvDVHiZopy5U99Pu1eia2NXeL-aed8nxmRm6zPF9OrfUV3K1c3uzR4c-GW7G0JjfU7miN-RJ677yFOVps6ohFWXn6boeWpzO-3C2HRP_8ERRLfLewDBZYqDfwxb9crokVFNL5D4yVyQkZWqPMrLoaU4',
     },
     {
       id: '2',
       name: 'Fresh Strawberries',
       unitsSold: 120,
-      revenue: '$98.00',
+      revenue: '₹98.00',
       image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC7mYZ9lvAAPQ5gFEYdietNlR2JbJPg3T0WvPJYXFabTFrRpnIv3Hv60zoSR21baJiugQj8hnY_BL1Tdi2mbIulwwjkN4UARX6dLpzMVMnpqXoik8NXnMQBQ9ZoX7uAwlWiXwHMjeyKcWCume821xSqHJeTBQUET46OyNuHAC56f89gY7OTkuoTi-eSdCujXIGJ_FBDvhwuiHnoYPr3MwX4J9XQBLwjd7xXq02-ylz4FoShF6TamzZXEFM2vlN-oy6MDKWeNp_U_1U',
     },
     {
       id: '3',
       name: 'Whole Milk',
       unitsSold: 100,
-      revenue: '$85.20',
+      revenue: '₹85.20',
       image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuADHT76Y0CHlM1U65LKkuQKQO6PLaZc319fiA7l3wGZZvZ_wb7csJR779-6oDIGYKHZCkT_ggnAv3sa7k0vIh9rzrzCT_u-vVb_fBTONW9kpbQTXH9d1shatV4j489Yu6C_DQrkEk8Xia4b4FE2flFuL_y6XjINzq1rwlzV7rsLmReG7sDE9IFqebsMnedY_jNwkMvUnD46bVYquKXePVm8DT0wu9_mLhr5AFzajoOb9_ZlEvtz4IBK7uwWD6hKiLGJ6riDj-hdOas',
     },
   ];
@@ -94,7 +94,7 @@ const SalesAnalyticsScreen: React.FC = () => {
     <View style={styles.metricsGrid}>
       <View style={[styles.metricCard, styles.revenueCard]}>
         <Text style={styles.metricLabel}>Total Revenue</Text>
-        <Text style={styles.metricValue}>$2,345</Text>
+        <Text style={styles.metricValue}>₹2,345</Text>
       </View>
       <View style={styles.metricCard}>
         <Text style={styles.metricLabel}>Total Orders</Text>
@@ -102,7 +102,7 @@ const SalesAnalyticsScreen: React.FC = () => {
       </View>
       <View style={[styles.metricCard, styles.fullWidth]}>
         <Text style={styles.metricLabel}>Average Order Value</Text>
-        <Text style={styles.metricValue}>$19.54</Text>
+        <Text style={styles.metricValue}>₹19.54</Text>
       </View>
     </View>
   );

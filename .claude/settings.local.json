@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(npm run testsprite:notifications:*)",
+      "Bash(npm run testsprite:auth:*)",
+      "Bash(npm run testsprite:dashboard:*)",
+      "Bash(npm run testsprite:*)",
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp list:*)",
+      "Read(//c/Users/prabh/**)",
+      "Bash(claude mcp remove:*)",
+      "WebFetch(domain:docs.z.ai)",
+      "Bash(claude mcp:*)",
+      "Bash(ssh:*)",
+      "Bash(lscpu:*)",
+      "Bash(netstat:*)",
+      "Bash(systemctl:*)",
+      "Read(//c/**)",
+      "Bash(cat:*)",
+      "Bash(xargs:*)",
+      "Bash(find:*)",
+      "Bash(pm2 list:*)",
+      "Bash(pm2:*)",
+      "Read(//c//**)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

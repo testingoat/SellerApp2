@@ -112,6 +112,16 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
+    // Google Play Services Maps for react-native-maps
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+
+    // Google Play Services Location for react-native-geolocation-service
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // Additional Google Play Services for better compatibility
+    implementation 'com.google.android.gms:play-services-base:18.2.0'
+    implementation 'com.google.android.gms:play-services-tasks:18.0.2'
+
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

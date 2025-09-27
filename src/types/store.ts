@@ -1,4 +1,5 @@
 // Store Registration Types and Interfaces
+import { LocationData } from './location';
 
 export interface StoreRegistrationData {
   storeName: string;
@@ -10,6 +11,8 @@ export interface StoreRegistrationData {
   gstNumber?: string;
   bankAccount?: string;
   ifscCode?: string;
+  // Location data for store coordinates
+  storeLocation?: LocationData;
 }
 
 export interface StoreRegistrationRequest extends StoreRegistrationData {

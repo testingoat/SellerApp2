@@ -39,7 +39,7 @@ const OrderProcessingListScreen: React.FC = () => {
         address: '123 Main St, Anytown',
       },
       items: ['2x Organic Bananas', '1x Almond Milk', '3x Avocados'],
-      total: '$25.50',
+      total: '₹25.50',
     },
     {
       id: '#67890',
@@ -51,7 +51,7 @@ const OrderProcessingListScreen: React.FC = () => {
         address: '456 Oak Ave, Anytown',
       },
       items: ['1x Whole Milk', '2x Bread Loaves'],
-      total: '$12.30',
+      total: '₹12.30',
     },
   ];
 
