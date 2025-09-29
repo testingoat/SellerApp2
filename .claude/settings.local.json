@@ -24,7 +24,9 @@
       "Bash(pm2:*)",
       "Read(//c//**)",
       "Bash(tasklist:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(curl:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

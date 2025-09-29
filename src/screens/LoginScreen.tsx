@@ -7,6 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   KeyboardAvoidingView,
+  ScrollView,
   Platform,
   Alert,
 } from 'react-native';
@@ -82,110 +83,118 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onBack }) => {
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       >
         <StatusBar backgroundColor="#f6f8f6" barStyle="dark-content" />
-      
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => {
-            if (onBack) {
-              onBack();
-            } else {
-              navigation.goBack();
-            }
-          }}
+
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollViewContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <Icon name="arrow-back" size={24} color="#1f2937" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Login</Text>
-        <View style={styles.placeholder} />
-      </View>
-
-      {/* Content */}
-      <View style={styles.content}>
-        <View style={styles.titleSection}>
-          <Text style={styles.title}>Enter your phone number</Text>
-          <Text style={styles.subtitle}>
-            We'll send you a 6-digit code to verify your phone number.
-          </Text>
-        </View>
-
-        <View style={styles.formSection}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Phone Number</Text>
-            <View style={styles.phoneInputContainer}>
-              <View style={styles.countryCode}>
-                <Text style={styles.countryCodeText}>🇮🇳 +91</Text>
-              </View>
-              <TextInput
-                style={styles.phoneInput}
-                placeholder="Enter phone number"
-                placeholderTextColor="#9ca3af"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-                keyboardType="phone-pad"
-                maxLength={10}
-                autoFocus
-              />
-            </View>
-          </View>
-        </View>
-      </View>
-
-      {/* Bottom Button */}
-      <View style={styles.bottomSection}>
-        <TouchableOpacity
-          style={[
-            styles.sendButton,
-            (!phoneNumber.trim() || isLoading) && styles.sendButtonDisabled
-          ]}
-          onPress={handleSendOTP}
-          disabled={!phoneNumber.trim() || isLoading}
-        >
-          <Text style={styles.sendButtonText}>
-            {isLoading ? 'Sending...' : 'Send OTP'}
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.termsSection}>
-          <Text style={styles.termsText}>
-            By continuing, you agree to our{' '}
-            <Text style={styles.termsLink}>Terms of Service</Text>
-            {' '}and{' '}
-            <Text style={styles.termsLink}>Privacy Policy</Text>
-          </Text>
-        </View>
-        
-        {/* Development Test Buttons */}
-        {isDevelopmentMode() && (
-          <View style={styles.testSection}>
-            <Text style={styles.testTitle}>Development Mode - Test New User Flow</Text>
+          {/* Header */}
+          <View style={styles.header}>
             <TouchableOpacity
-              style={styles.testButton}
+              style={styles.backButton}
               onPress={() => {
-                forceNewUserState();
-                Alert.alert(
-                  'Test Mode',
-                  'Forced new user state. Navigate manually to test Store Registration.',
-                  [
-                    { text: 'Navigate to Store Registration', onPress: () => {
-                      navigation.navigate('StoreRegistration' as never);
-                    }},
-                    { text: 'OK' }
-                  ]
-                );
+                if (onBack) {
+                  onBack();
+                } else {
+                  navigation.goBack();
+                }
               }}
             >
-              <Text style={styles.testButtonText}>Test New User Flow</Text>
+              <Icon name="arrow-back" size={24} color="#1f2937" />
             </TouchableOpacity>
-            <Text style={styles.testHint}>
-              Or use phone: +91 1111111111 to simulate new user
-            </Text>
+            <Text style={styles.headerTitle}>Login</Text>
+            <View style={styles.placeholder} />
           </View>
-        )}
-      </View>
+
+          {/* Content */}
+          <View style={styles.content}>
+            <View style={styles.titleSection}>
+              <Text style={styles.title}>Enter your phone number</Text>
+              <Text style={styles.subtitle}>
+                We'll send you a 6-digit code to verify your phone number.
+              </Text>
+            </View>
+
+            <View style={styles.formSection}>
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Phone Number</Text>
+                <View style={styles.phoneInputContainer}>
+                  <View style={styles.countryCode}>
+                    <Text style={styles.countryCodeText}>🇮🇳 +91</Text>
+                  </View>
+                  <TextInput
+                    style={styles.phoneInput}
+                    placeholder="Enter phone number"
+                    placeholderTextColor="#9ca3af"
+                    value={phoneNumber}
+                    onChangeText={setPhoneNumber}
+                    keyboardType="phone-pad"
+                    maxLength={10}
+                    autoFocus
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+
+          {/* Bottom Button */}
+          <View style={styles.bottomSection}>
+            <TouchableOpacity
+              style={[
+                styles.sendButton,
+                (!phoneNumber.trim() || isLoading) && styles.sendButtonDisabled
+              ]}
+              onPress={handleSendOTP}
+              disabled={!phoneNumber.trim() || isLoading}
+            >
+              <Text style={styles.sendButtonText}>
+                {isLoading ? 'Sending...' : 'Send OTP'}
+              </Text>
+            </TouchableOpacity>
+
+            <View style={styles.termsSection}>
+              <Text style={styles.termsText}>
+                By continuing, you agree to our{' '}
+                <Text style={styles.termsLink}>Terms of Service</Text>
+                {' '}and{' '}
+                <Text style={styles.termsLink}>Privacy Policy</Text>
+              </Text>
+            </View>
+
+            {/* Development Test Buttons */}
+            {isDevelopmentMode() && (
+              <View style={styles.testSection}>
+                <Text style={styles.testTitle}>Development Mode - Test New User Flow</Text>
+                <TouchableOpacity
+                  style={styles.testButton}
+                  onPress={() => {
+                    forceNewUserState();
+                    Alert.alert(
+                      'Test Mode',
+                      'Forced new user state. Navigate manually to test Store Registration.',
+                      [
+                        { text: 'Navigate to Store Registration', onPress: () => {
+                          navigation.navigate('StoreRegistration' as never);
+                        }},
+                        { text: 'OK' }
+                      ]
+                    );
+                  }}
+                >
+                  <Text style={styles.testButtonText}>Test New User Flow</Text>
+                </TouchableOpacity>
+                <Text style={styles.testHint}>
+                  Or use phone: +91 1111111111 to simulate new user
+                </Text>
+              </View>
+            )}
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </NetworkErrorBoundary>
   );
@@ -196,6 +205,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f6f8f6',
   },
+  scrollView: {
+    flex: 1,
+    backgroundColor: '#f6f8f6',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    backgroundColor: '#f6f8f6',
+    minHeight: '100%',
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -203,6 +221,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 60,
     paddingBottom: 20,
+    backgroundColor: '#f6f8f6',
   },
   backButton: {
     width: 40,
@@ -229,10 +248,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 20,
+    backgroundColor: '#f6f8f6',
+    minHeight: 300,
   },
   titleSection: {
     alignItems: 'center',
     marginBottom: 40,
+    backgroundColor: '#f6f8f6',
   },
   title: {
     fontSize: 28,
@@ -252,9 +274,11 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 400,
     alignSelf: 'center',
+    backgroundColor: '#f6f8f6',
   },
   inputContainer: {
     marginBottom: 24,
+    backgroundColor: '#f6f8f6',
   },
   inputLabel: {
     fontSize: 16,
@@ -292,7 +316,10 @@ const styles = StyleSheet.create({
   },
   bottomSection: {
     paddingHorizontal: 24,
+    paddingTop: 20,
     paddingBottom: 40,
+    backgroundColor: '#f6f8f6',
+    marginTop: 'auto',
   },
   sendButton: {
     backgroundColor: '#3be340',

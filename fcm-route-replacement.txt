@@ -1,0 +1,3 @@
+    app.get("/admin/fcm-management", async (request, reply) => {
+        return reply.sendFile("/var/www/goatgoat-staging/server/src/public/fcm-dashboard/index.html");
+    });
