@@ -1,7 +1,9 @@
 // SellerApp2 Environment Configuration
-// This file configures the staging server for SellerApp2
+// This file now uses automatic environment detection for server switching
 
-const API_BASE_URL = 'https://staging.goatgoat.tech/api';
+import environment from './environment';
+
+const API_BASE_URL = `${environment.API_BASE_URL}/api`;
 const SELLER_API_URL = `${API_BASE_URL}/seller`;
 
 export const API_ENDPOINTS = {
