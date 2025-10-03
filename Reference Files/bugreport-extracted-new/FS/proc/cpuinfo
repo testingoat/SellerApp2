@@ -5,7 +5,7 @@ model		: 186
 model name	: Intel(R) Core(TM) 5 210H
 stepping	: 2
 microcode	: 0xffffffff
-cpu MHz		: 3440.021
+cpu MHz		: 4413.230
 cache size	: 12288 KB
 physical id	: 0
 siblings	: 1
@@ -19,7 +19,7 @@ cpuid level	: 28
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid aperfmperf pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt arch_capabilities
 bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed rfds bhi
-bogomips	: 5376.08
+bogomips	: 5376.14
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual
@@ -32,7 +32,7 @@ model		: 186
 model name	: Intel(R) Core(TM) 5 210H
 stepping	: 2
 microcode	: 0xffffffff
-cpu MHz		: 4037.128
+cpu MHz		: 4450.268
 cache size	: 12288 KB
 physical id	: 1
 siblings	: 1
@@ -46,7 +46,7 @@ cpuid level	: 28
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid aperfmperf pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt arch_capabilities
 bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed rfds bhi
-bogomips	: 5376.08
+bogomips	: 5376.14
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual
@@ -59,7 +59,7 @@ model		: 186
 model name	: Intel(R) Core(TM) 5 210H
 stepping	: 2
 microcode	: 0xffffffff
-cpu MHz		: 0.001
+cpu MHz		: 4489.642
 cache size	: 12288 KB
 physical id	: 2
 siblings	: 1
@@ -73,7 +73,7 @@ cpuid level	: 28
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid aperfmperf pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt arch_capabilities
 bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed rfds bhi
-bogomips	: 5376.08
+bogomips	: 5376.14
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual
@@ -86,7 +86,7 @@ model		: 186
 model name	: Intel(R) Core(TM) 5 210H
 stepping	: 2
 microcode	: 0xffffffff
-cpu MHz		: 3560.627
+cpu MHz		: 3956.410
 cache size	: 12288 KB
 physical id	: 3
 siblings	: 1
@@ -100,7 +100,7 @@ cpuid level	: 28
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid aperfmperf pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt arch_capabilities
 bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed rfds bhi
-bogomips	: 5376.08
+bogomips	: 5376.14
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual
@@ -113,7 +113,7 @@ model		: 186
 model name	: Intel(R) Core(TM) 5 210H
 stepping	: 2
 microcode	: 0xffffffff
-cpu MHz		: 3779.069
+cpu MHz		: 4038.635
 cache size	: 12288 KB
 physical id	: 4
 siblings	: 1
@@ -127,7 +127,7 @@ cpuid level	: 28
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid aperfmperf pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt arch_capabilities
 bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed rfds bhi
-bogomips	: 5376.08
+bogomips	: 5376.14
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual
@@ -140,7 +140,7 @@ model		: 186
 model name	: Intel(R) Core(TM) 5 210H
 stepping	: 2
 microcode	: 0xffffffff
-cpu MHz		: 3456.518
+cpu MHz		: 4434.062
 cache size	: 12288 KB
 physical id	: 5
 siblings	: 1
@@ -154,7 +154,7 @@ cpuid level	: 28
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid aperfmperf pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt arch_capabilities
 bugs		: spectre_v1 spectre_v2 spec_store_bypass swapgs retbleed rfds bhi
-bogomips	: 5376.08
+bogomips	: 5376.14
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 39 bits physical, 48 bits virtual

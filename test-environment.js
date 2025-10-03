@@ -19,8 +19,9 @@ console.log(`API Base URL: ${environment.default.API_BASE_URL}`);
 console.log(`Debug Mode: ${environment.default.DEBUG_MODE}`);
 console.log(`__DEV__: ${__DEV__}`);
 
-// Test both modes
-console.log('\n🔄 Testing Release Mode...');
+// Test production mode with NODE_ENV
+console.log('\n🔄 Testing Production Mode...');
+process.env.NODE_ENV = 'production';
 global.__DEV__ = false;
 delete require.cache[require.resolve('./src/config/environment.ts')];
 const prodEnvironment = require('./src/config/environment.ts');

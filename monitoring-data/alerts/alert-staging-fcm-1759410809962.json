@@ -1,0 +1,11 @@
+{
+  "level": "warning",
+  "type": "accessibility",
+  "message": "Low accessibility score: 71%",
+  "score": 71,
+  "target": "staging-fcm",
+  "targetName": "Staging FCM",
+  "sessionId": "770d56d9dfd7d5b77df73a2f368a4ff9",
+  "timestamp": "2025-10-02T13:13:29.962Z",
+  "resolved": false
+}

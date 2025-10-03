@@ -105,12 +105,16 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            // Allow HTTP requests in debug builds
+            manifestPlaceholders = [usesCleartextTraffic:"true"]
         }
         release {
             // Production release configuration for Google Play Store
             signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            // Allow HTTP requests in release builds for development server
+            manifestPlaceholders = [usesCleartextTraffic:"true"]
         }
     }
 }

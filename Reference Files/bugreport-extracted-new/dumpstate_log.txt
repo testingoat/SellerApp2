@@ -12,17 +12,16 @@ Adding dir /data/misc/update_engine/prefs (recursive: 1)
 Adding dir /data/misc/logd (recursive: 0)
 /data/misc/logd: No such file or directory
 Adding dir /data/misc/prereboot (recursive: 0)
-MOUNT INFO: 31 entries added to zip file
+MOUNT INFO: 59 entries added to zip file
 Failed to read metadata.
 *** command 'lpdump --all' failed: exit code 66
-Duration of 'LPDUMP': 1.03s
-Duration of 'DEVICE-MAPPER': 1.04s
+Duration of 'LPDUMP': 1.02s
+Duration of 'DEVICE-MAPPER': 1.02s
 Adding dir /metadata/ota (recursive: 1)
 execvp on command 'iotop -n 1 -m 100' failed (error: No such file or directory)
 *** command 'iotop -n 1 -m 100' failed: exit code 1
+Duration of 'DUMP TRACES': 2.46s
 Adding dir /data/misc/apexdata/com.android.uwb/log (recursive: 1)
-Duration of 'DUMP TRACES': 4.28s
-Duration of 'Wait for ': 1.73s
 shutdown thread pool
 Start thread pool:3
 section 1000 status 1
@@ -39,16 +38,16 @@ section 1111 status 2
 section 1112 status 1
 section 1112 status 2
 section 1113 status 1
-Warning: Skipping "android.hidl.allocator@1.0::IAllocator/ashmem": cannot be fetched from service manager (null)
 section 1113 status 2
-Warning: Skipping "android.hidl.base@1.0::IBase/ashmem": cannot be fetched from service manager (null)
 section 1114 status 1
 section 1114 status 2
 section 1115 status 1
-Warning: Skipping "android.hidl.base@1.0::IBase/default": cannot be fetched from service manager (null)
-Warning: Skipping "android.hidl.base@1.0::IBase/software": cannot be fetched from service manager (null)
 section 1115 status 2
 section 1116 status 1
+Warning: Skipping "android.hidl.allocator@1.0::IAllocator/ashmem": cannot be fetched from service manager (null)
+Warning: Skipping "android.hidl.base@1.0::IBase/ashmem": cannot be fetched from service manager (null)
+Warning: Skipping "android.hidl.base@1.0::IBase/default": cannot be fetched from service manager (null)
+Warning: Skipping "android.hidl.base@1.0::IBase/software": cannot be fetched from service manager (null)
 Warning: Skipping "android.hidl.token@1.0::ITokenManager/default": cannot be fetched from service manager (null)
 *** command 'lshal --all --types=all' failed: exit code 136
 android.frameworks.sensorservice@1.0::ISensorManager/default does not exist, or no permission to connect.
@@ -67,12 +66,12 @@ Adding dir /system/etc/vintf/ (recursive: 1)
 Adding dir /vendor/etc/vintf/ (recursive: 1)
 Adding dir /system_ext/etc/vintf/ (recursive: 1)
 Adding dir /data/misc/nfc/logs (recursive: 1)
-AddAnrTraceDir(): dump_traces_file=/data/user_de/0/com.android.shell/files/bugreports/dumptrace_0IYsX3, anr_traces_dir=/data/anr
-Dumping current ANR traces (/data/user_de/0/com.android.shell/files/bugreports/dumptrace_0IYsX3) to the main bugreport entry
+AddAnrTraceDir(): dump_traces_file=/data/user_de/0/com.android.shell/files/bugreports/dumptrace_JauWSx, anr_traces_dir=/data/anr
+Dumping current ANR traces (/data/user_de/0/com.android.shell/files/bugreports/dumptrace_JauWSx) to the main bugreport entry
 Calling IDumpstateDevice implementation using path /data/user_de/0/com.android.shell/files/bugreports/dumpstate_board.txt
 Calling IDumpstateDevice implementation using path /data/user_de/0/com.android.shell/files/bugreports/dumpstate_board.bin
 Using IDumpstateDevice AIDL HALIgnoring empty dumpstate_board.bin
-Duration of 'dumpstate_board()': 1.02s
+Duration of 'dumpstate_board()': 1.06s
 section 1116 status 2
 section 2001 status 1
 section 2001 status 2
@@ -95,9 +94,9 @@ section 3055 status 2
 section 3056 status 1
 section 3056 status 2
 done
-Duration of 'INCIDENT REPORT': 2.18s
-Duration of 'DUMPSYS HIGH': 1.86s
-Duration of 'SERVICE HIGH connectivity': 4.84s
+Duration of 'INCIDENT REPORT': 2.39s
+Duration of 'DUMPSYS HIGH': 3.92s
+Duration of 'SERVICE HIGH connectivity': 4.88s
 Error: must be root
 Adding dir /data/misc/snapshotctl_log (recursive: 0)
 execvp on command 'typec_connector_class' failed (error: No such file or directory)
@@ -122,14 +121,14 @@ Failed to start dump thread for service: android.hardware.uwb.IUwb/default, stat
 Failed to start dump thread for service: android.hardware.wifi.supplicant.ISupplicant/default, status: -2Can't find service: android.service.gatekeeper.IGateKeeperService
 Failed to start dump thread for service: android.service.gatekeeper.IGateKeeperService, status: -2Can't find service: android.system.vold.IVold/default
 Failed to start dump thread for service: android.system.vold.IVold/default, status: -2Can't find service: vold
-Failed to start dump thread for service: vold, status: -2Duration of 'DUMPSYS': 16.99s
+Failed to start dump thread for service: vold, status: -2Duration of 'DUMPSYS': 8.14s
 Adding dir /data/misc/bluetooth/logs (recursive: 1)
-Duration of 'APP SERVICES NON-PLATFORM': 1.54s
-Duration of 'APP PROVIDERS NON-PLATFORM': 1.18s
+Duration of 'APP SERVICES NON-PLATFORM': 1.93s
+Duration of 'APP PROVIDERS NON-PLATFORM': 1.09s
 Adding dir /linkerconfig (recursive: 1)
 Adding frozen processes from /sys/fs/cgroup
-Duration of 'DUMPSTATE': 28.48s
-Adding main entry (bugreport-sdk_gphone64_x86_64-BP22.250325.006-2025-09-26-22-57-56.txt) from /data/user_de/0/com.android.shell/files/bugreports/bugreport-sdk_gphone64_x86_64-BP22.250325.006-2025-09-26-22-57-56.tmp to .zip bugreport
-dumpstate id 4 finished around 2025/09/26 22:58:31 (35 s)
+Duration of 'DUMPSTATE': 22.67s
+Adding main entry (bugreport-sdk_gphone64_x86_64-BP22.250325.006-2025-09-30-10-16-32.txt) from /data/user_de/0/com.android.shell/files/bugreports/bugreport-sdk_gphone64_x86_64-BP22.250325.006-2025-09-30-10-16-32.tmp to .zip bugreport
+dumpstate id 2 finished around 2025/09/30 10:17:00 (28 s)
 Adding zip text entry main_entry.txt
 dumpstate_log.txt entry on zip file logged up to here

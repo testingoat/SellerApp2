@@ -67,8 +67,26 @@ const MainDashboardScreen: React.FC = () => {
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Store Status */}
-        <View style={styles.storeStatusCard}>
+        {/* Coming Soon Overlay */}
+        <View style={styles.comingSoonOverlay}>
+          <View style={styles.comingSoonCard}>
+            <Icon name="construction" size={64} color="#3be340" />
+            <Text style={styles.comingSoonTitle}>Coming Soon</Text>
+            <Text style={styles.comingSoonText}>
+              Dashboard analytics are being prepared for you.
+            </Text>
+            <Text style={styles.comingSoonSubtext}>
+              We're working hard to bring you detailed insights and metrics.
+            </Text>
+            <View style={styles.comingSoonBadge}>
+              <Icon name="schedule" size={16} color="#3be340" />
+              <Text style={styles.comingSoonBadgeText}>Available Soon</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Store Status - Blurred Background */}
+        <View style={[styles.storeStatusCard, styles.blurred]}>
           <View style={styles.storeStatusInfo}>
             <Text style={styles.storeStatusTitle}>Store Status</Text>
             <Text style={styles.storeStatusSubtitle}>
@@ -80,6 +98,7 @@ const MainDashboardScreen: React.FC = () => {
             onValueChange={setStoreOpen}
             trackColor={{ false: '#e5e7eb', true: '#3be340' }}
             thumbColor={storeOpen ? '#ffffff' : '#f4f3f4'}
+            disabled={true}
           />
         </View>
 
@@ -378,6 +397,68 @@ const styles = StyleSheet.create({
   chartLabel: {
     fontSize: 12,
     color: '#6b7280',
+  },
+  comingSoonOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(246, 248, 246, 0.95)',
+    zIndex: 1000,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  comingSoonCard: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 32,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+    maxWidth: 320,
+  },
+  comingSoonTitle: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#1f2937',
+    marginTop: 16,
+    marginBottom: 12,
+  },
+  comingSoonText: {
+    fontSize: 16,
+    color: '#6b7280',
+    textAlign: 'center',
+    marginBottom: 8,
+    lineHeight: 24,
+  },
+  comingSoonSubtext: {
+    fontSize: 14,
+    color: '#9ca3af',
+    textAlign: 'center',
+    marginBottom: 24,
+    lineHeight: 20,
+  },
+  comingSoonBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(59, 227, 64, 0.1)',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    gap: 6,
+  },
+  comingSoonBadgeText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#3be340',
+  },
+  blurred: {
+    opacity: 0.3,
   },
 });
 

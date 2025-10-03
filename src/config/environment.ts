@@ -11,25 +11,18 @@
  * ✅ Zero manual intervention required
  */
 
-export interface EnvironmentConfig {
-  API_BASE_URL: string;
-  FCM_ENDPOINT: string;
-  DEBUG_MODE: boolean;
-  ENVIRONMENT: 'staging' | 'production';
-}
-
 const environments = {
   staging: {
     API_BASE_URL: 'http://147.93.108.121:4000',  // 🟡 STAGING SERVER
     FCM_ENDPOINT: '/admin/fcm-management',
     DEBUG_MODE: true,
-    ENVIRONMENT: 'staging' as const,
+    ENVIRONMENT: 'staging',
   },
   production: {
     API_BASE_URL: 'http://147.93.108.121:3000',  // 🔴 PRODUCTION SERVER
     FCM_ENDPOINT: '/admin/fcm-management',
     DEBUG_MODE: false,
-    ENVIRONMENT: 'production' as const,
+    ENVIRONMENT: 'production',
   },
 };
 
@@ -40,7 +33,10 @@ const environments = {
  * - true in debug builds
  * - false in release builds
  */
-const config: EnvironmentConfig = __DEV__ 
+// Check if __DEV__ exists (React Native environment) or use Node.js fallback
+const isDevelopment = typeof __DEV__ !== 'undefined' ? __DEV__ : process.env.NODE_ENV !== 'production';
+
+const config = isDevelopment
   ? environments.staging    // 🛠️ Debug → Staging
   : environments.production; // 📱 Release → Production
 

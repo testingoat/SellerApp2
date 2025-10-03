@@ -1,0 +1,57 @@
+{
+  "monitoring": {
+    "defaultInterval": 60,
+    "maxRetries": 3,
+    "timeoutMs": 30000
+  },
+  "schedules": {
+    "comprehensive": {
+      "enabled": true,
+      "interval": 60,
+      "timeWindow": "00:00-23:59"
+    },
+    "quick": {
+      "enabled": true,
+      "interval": 15,
+      "targets": [
+        "prod-seller",
+        "prod-fcm"
+      ]
+    },
+    "deep": {
+      "enabled": true,
+      "interval": 1440,
+      "includeTrends": true,
+      "includePredictions": true
+    }
+  },
+  "reporting": {
+    "daily": {
+      "enabled": true,
+      "time": "23:59"
+    },
+    "weekly": {
+      "enabled": true,
+      "day": "sunday",
+      "time": "23:59"
+    },
+    "monthly": {
+      "enabled": true,
+      "day": 1,
+      "time": "23:59"
+    }
+  },
+  "notifications": {
+    "startup": true,
+    "shutdown": true,
+    "errors": true,
+    "summaries": true
+  },
+  "maintenance": {
+    "windows": [
+      "02:00-04:00"
+    ],
+    "skipDuringMaintenance": true,
+    "reducedMonitoring": true
+  }
+}

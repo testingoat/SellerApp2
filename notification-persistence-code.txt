@@ -1,0 +1,42 @@
+
+                    // 🔔 Create individual notification records for sellers (for in-app notification list)
+                    // This ensures notifications appear in the app's NotificationsScreen
+                    if ((targetType === 'sellers' || targetType === 'all') && sendResult.successCount > 0) {
+                        try {
+                            const { default: Notification } = await import('./models/notification.js');
+                            const { Seller } = await import('./models/index.js');
+                            
+                            // Get seller IDs that have the tokens we successfully sent to
+                            const sellers = await Seller.find({
+                                'fcmTokens.token': { $in: targetTokens }
+                            }).select('_id');
+                            
+                            const sellerIds = sellers.map((s: any) => s._id);
+                            
+                            if (sellerIds.length > 0) {
+                                // Create notification record for each seller
+                                const notificationPromises = sellerIds.map((sellerId: any) =>
+                                    Notification.create({
+                                        sellerId,
+                                        title: title.trim(),
+                                        message: message.trim(),
+                                        type: 'system',
+                                        icon: 'notifications',
+                                        isRead: false,
+                                        data: {
+                                            sentViaFCM: true,
+                                            sentAt: new Date().toISOString(),
+                                            targetType
+                                        }
+                                    })
+                                );
+                                
+                                await Promise.all(notificationPromises);
+                                console.log(`✅ Created ${sellerIds.length} in-app notification records for sellers`);
+                            }
+                        } catch (notifError: any) {
+                            console.error('⚠️ Failed to create in-app notifications:', notifError.message);
+                            // Don't fail the whole operation if this fails - it's non-blocking
+                        }
+                    }
+

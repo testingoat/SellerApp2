@@ -16,6 +16,7 @@ import { NetworkProvider } from './src/context/NetworkContext';
 import { fcmService } from './src/services/fcmService';
 import { locationUtils } from './src/utils/locationUtils';
 import { CONFIG } from './src/config';
+import './src/i18n'; // Initialize i18n
 
 function App(): React.JSX.Element {
   useEffect(() => {

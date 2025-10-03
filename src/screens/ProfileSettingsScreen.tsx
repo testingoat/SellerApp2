@@ -76,10 +76,6 @@ const ProfileSettingsScreen: React.FC = () => {
     navigation.navigate('SupportHelp' as never);
   };
 
-  const handleContactSupport = () => {
-    navigation.navigate('SupportHelp' as never);
-  };
-
   const handleLanguageSettings = () => {
     navigation.navigate('LanguageSettings' as never);
   };
@@ -109,6 +105,44 @@ const ProfileSettingsScreen: React.FC = () => {
       ]
     );
   };
+
+  // Build App Settings items dynamically based on build type
+  const appSettingsItems: SettingsItem[] = [
+    {
+      id: 'language',
+      title: 'Language Preferences',
+      description: 'Choose your preferred language',
+      icon: 'language',
+      onPress: handleLanguageSettings,
+    },
+    {
+      id: 'dark-mode',
+      title: 'Dark Mode',
+      description: 'Enable or disable dark theme',
+      icon: 'dark-mode',
+      isToggle: true,
+      toggleValue: isDark,
+      onToggle: toggleTheme,
+    },
+    {
+      id: 'notifications',
+      title: 'Notifications',
+      description: 'Customize your notification preferences',
+      icon: 'notifications',
+      onPress: handleNotifications,
+    },
+  ];
+
+  // Add FCM Test button ONLY in Debug builds (__DEV__ is true in Debug, false in Release)
+  if (__DEV__) {
+    appSettingsItems.push({
+      id: 'fcm-test',
+      title: 'FCM Test',
+      description: 'Test Firebase Cloud Messaging functionality',
+      icon: 'bug-report',
+      onPress: handleFCMTest,
+    });
+  }
 
   const settingsSections: SettingsSection[] = [
     {
@@ -165,38 +199,7 @@ const ProfileSettingsScreen: React.FC = () => {
     },
     {
       title: 'App Settings',
-      items: [
-        {
-          id: 'language',
-          title: 'Language Preferences',
-          description: 'Choose your preferred language',
-          icon: 'language',
-          onPress: handleLanguageSettings,
-        },
-        {
-          id: 'dark-mode',
-          title: 'Dark Mode',
-          description: 'Enable or disable dark theme',
-          icon: 'dark-mode',
-          isToggle: true,
-          toggleValue: isDark,
-          onToggle: toggleTheme,
-        },
-        {
-          id: 'notifications',
-          title: 'Notifications',
-          description: 'Customize your notification preferences',
-          icon: 'notifications',
-          onPress: handleNotifications,
-        },
-        {
-          id: 'fcm-test',
-          title: 'FCM Test',
-          description: 'Test Firebase Cloud Messaging functionality',
-          icon: 'bug-report',
-          onPress: handleFCMTest,
-        },
-      ],
+      items: appSettingsItems,
     },
     {
       title: 'Support',
@@ -207,13 +210,6 @@ const ProfileSettingsScreen: React.FC = () => {
           description: '',
           icon: 'help-center',
           onPress: handleHelpCenter,
-        },
-        {
-          id: 'contact-support',
-          title: 'Contact Support',
-          description: '',
-          icon: 'support-agent',
-          onPress: handleContactSupport,
         },
       ],
     },

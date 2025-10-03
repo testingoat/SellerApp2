@@ -1,0 +1,477 @@
+{
+  "session": "be770bbb9bde5ce66f1753dde4099d92",
+  "startTime": "2025-10-02T12:40:12.421Z",
+  "targets": [
+    {
+      "id": "prod-seller",
+      "name": "Production Seller",
+      "url": "https://goatgoat.tech/admin/resources/Seller",
+      "type": "seller",
+      "environment": "production",
+      "timestamp": "2025-10-02T12:40:12.424Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [
+          {
+            "timestamp": "2025-10-02T12:40:12.424Z",
+            "message": "Failed to load resource: the server responded with status 404",
+            "source": "network",
+            "severity": "error"
+          }
+        ],
+        "warnings": [
+          {
+            "timestamp": "2025-10-02T12:40:12.424Z",
+            "message": "Deprecated API usage detected",
+            "source": "javascript",
+            "severity": "warning"
+          }
+        ],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T12:40:12.424Z",
+            "message": "Application initialized successfully",
+            "source": "application",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 3
+      },
+      "performance": {
+        "loadTime": 1600,
+        "firstContentfulPaint": 772,
+        "largestContentfulPaint": 1125,
+        "cumulativeLayoutShift": 0.10730599401591352,
+        "firstInputDelay": 20,
+        "totalBlockingTime": 110,
+        "networkRequests": {
+          "total": 64,
+          "failed": 2,
+          "size": 1613491
+        },
+        "resources": {
+          "scripts": 6,
+          "stylesheets": 6,
+          "images": 25,
+          "fonts": 5
+        }
+      },
+      "ui": {
+        "snapshots": [
+          {
+            "timestamp": "2025-10-02T12:40:12.424Z",
+            "filename": "prod-seller-2025-10-02T12-40-12-424Z.png",
+            "path": "C:\\Seller App 2\\SellerApp2\\monitoring-data\\screenshots\\prod-seller-2025-10-02T12-40-12-424Z.png",
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "fullPage": true
+          }
+        ],
+        "changes": [
+          {
+            "type": "layout",
+            "severity": "minor",
+            "description": "Minor position change in navigation element",
+            "element": "#navbar",
+            "timestamp": "2025-10-02T12:40:12.424Z"
+          }
+        ],
+        "accessibility": {
+          "score": 98,
+          "issues": [
+            {
+              "type": "contrast",
+              "element": ".button-primary",
+              "description": "Low contrast ratio detected"
+            }
+          ]
+        },
+        "responsiveness": {
+          "mobile": {
+            "status": "pass",
+            "issues": 0
+          },
+          "tablet": {
+            "status": "pass",
+            "issues": 1
+          },
+          "desktop": {
+            "status": "pass",
+            "issues": 0
+          }
+        }
+      },
+      "health": 62,
+      "alerts": [
+        {
+          "level": "critical",
+          "type": "console_errors",
+          "message": "1 console errors detected",
+          "count": 1
+        }
+      ],
+      "duration": 0
+    },
+    {
+      "id": "prod-fcm",
+      "name": "Production FCM",
+      "url": "https://goatgoat.tech/admin/fcm-management",
+      "type": "fcm",
+      "environment": "production",
+      "timestamp": "2025-10-02T12:40:12.425Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "message": "Failed to load resource: the server responded with status 404",
+            "source": "network",
+            "severity": "error"
+          }
+        ],
+        "warnings": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "message": "Deprecated API usage detected",
+            "source": "javascript",
+            "severity": "warning"
+          }
+        ],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "message": "Application initialized successfully",
+            "source": "application",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 3
+      },
+      "performance": {
+        "loadTime": 2101,
+        "firstContentfulPaint": 1084,
+        "largestContentfulPaint": 1099,
+        "cumulativeLayoutShift": 0.05810332344227304,
+        "firstInputDelay": 69,
+        "totalBlockingTime": 114,
+        "networkRequests": {
+          "total": 55,
+          "failed": 2,
+          "size": 5831149
+        },
+        "resources": {
+          "scripts": 9,
+          "stylesheets": 6,
+          "images": 10,
+          "fonts": 1
+        }
+      },
+      "ui": {
+        "snapshots": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "filename": "prod-fcm-2025-10-02T12-40-12-425Z.png",
+            "path": "C:\\Seller App 2\\SellerApp2\\monitoring-data\\screenshots\\prod-fcm-2025-10-02T12-40-12-425Z.png",
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "fullPage": true
+          }
+        ],
+        "changes": [
+          {
+            "type": "layout",
+            "severity": "minor",
+            "description": "Minor position change in navigation element",
+            "element": "#navbar",
+            "timestamp": "2025-10-02T12:40:12.425Z"
+          }
+        ],
+        "accessibility": {
+          "score": 86,
+          "issues": [
+            {
+              "type": "contrast",
+              "element": ".button-primary",
+              "description": "Low contrast ratio detected"
+            }
+          ]
+        },
+        "responsiveness": {
+          "mobile": {
+            "status": "pass",
+            "issues": 0
+          },
+          "tablet": {
+            "status": "pass",
+            "issues": 1
+          },
+          "desktop": {
+            "status": "pass",
+            "issues": 0
+          }
+        }
+      },
+      "health": 72,
+      "alerts": [
+        {
+          "level": "critical",
+          "type": "console_errors",
+          "message": "1 console errors detected",
+          "count": 1
+        },
+        {
+          "level": "info",
+          "type": "accessibility",
+          "message": "Accessibility score: 86",
+          "score": 86
+        }
+      ],
+      "duration": 0
+    },
+    {
+      "id": "staging-seller",
+      "name": "Staging Seller",
+      "url": "https://staging.goatgoat.tech/admin/resources/Seller",
+      "type": "seller",
+      "environment": "staging",
+      "timestamp": "2025-10-02T12:40:12.425Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "message": "Failed to load resource: the server responded with status 404",
+            "source": "network",
+            "severity": "error"
+          }
+        ],
+        "warnings": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "message": "Deprecated API usage detected",
+            "source": "javascript",
+            "severity": "warning"
+          }
+        ],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "message": "Application initialized successfully",
+            "source": "application",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 3
+      },
+      "performance": {
+        "loadTime": 2010,
+        "firstContentfulPaint": 1316,
+        "largestContentfulPaint": 2287,
+        "cumulativeLayoutShift": 0.2266885425119778,
+        "firstInputDelay": 79,
+        "totalBlockingTime": 27,
+        "networkRequests": {
+          "total": 60,
+          "failed": 2,
+          "size": 4384266
+        },
+        "resources": {
+          "scripts": 5,
+          "stylesheets": 2,
+          "images": 10,
+          "fonts": 1
+        }
+      },
+      "ui": {
+        "snapshots": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "filename": "staging-seller-2025-10-02T12-40-12-425Z.png",
+            "path": "C:\\Seller App 2\\SellerApp2\\monitoring-data\\screenshots\\staging-seller-2025-10-02T12-40-12-425Z.png",
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "fullPage": true
+          }
+        ],
+        "changes": [
+          {
+            "type": "layout",
+            "severity": "minor",
+            "description": "Minor position change in navigation element",
+            "element": "#navbar",
+            "timestamp": "2025-10-02T12:40:12.425Z"
+          }
+        ],
+        "accessibility": {
+          "score": 87,
+          "issues": [
+            {
+              "type": "contrast",
+              "element": ".button-primary",
+              "description": "Low contrast ratio detected"
+            }
+          ]
+        },
+        "responsiveness": {
+          "mobile": {
+            "status": "pass",
+            "issues": 0
+          },
+          "tablet": {
+            "status": "pass",
+            "issues": 1
+          },
+          "desktop": {
+            "status": "pass",
+            "issues": 0
+          }
+        }
+      },
+      "health": 62,
+      "alerts": [
+        {
+          "level": "critical",
+          "type": "console_errors",
+          "message": "1 console errors detected",
+          "count": 1
+        },
+        {
+          "level": "info",
+          "type": "accessibility",
+          "message": "Accessibility score: 87",
+          "score": 87
+        }
+      ],
+      "duration": 0
+    },
+    {
+      "id": "staging-fcm",
+      "name": "Staging FCM",
+      "url": "https://staging.goatgoat.tech/admin/fcm-management",
+      "type": "fcm",
+      "environment": "staging",
+      "timestamp": "2025-10-02T12:40:12.425Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "message": "Failed to load resource: the server responded with status 404",
+            "source": "network",
+            "severity": "error"
+          }
+        ],
+        "warnings": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "message": "Deprecated API usage detected",
+            "source": "javascript",
+            "severity": "warning"
+          }
+        ],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "message": "Application initialized successfully",
+            "source": "application",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 3
+      },
+      "performance": {
+        "loadTime": 1735,
+        "firstContentfulPaint": 380,
+        "largestContentfulPaint": 1238,
+        "cumulativeLayoutShift": 0.19729701884811682,
+        "firstInputDelay": 52,
+        "totalBlockingTime": 34,
+        "networkRequests": {
+          "total": 58,
+          "failed": 0,
+          "size": 1110231
+        },
+        "resources": {
+          "scripts": 14,
+          "stylesheets": 6,
+          "images": 13,
+          "fonts": 3
+        }
+      },
+      "ui": {
+        "snapshots": [
+          {
+            "timestamp": "2025-10-02T12:40:12.425Z",
+            "filename": "staging-fcm-2025-10-02T12-40-12-425Z.png",
+            "path": "C:\\Seller App 2\\SellerApp2\\monitoring-data\\screenshots\\staging-fcm-2025-10-02T12-40-12-425Z.png",
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "fullPage": true
+          }
+        ],
+        "changes": [
+          {
+            "type": "layout",
+            "severity": "minor",
+            "description": "Minor position change in navigation element",
+            "element": "#navbar",
+            "timestamp": "2025-10-02T12:40:12.425Z"
+          }
+        ],
+        "accessibility": {
+          "score": 84,
+          "issues": [
+            {
+              "type": "contrast",
+              "element": ".button-primary",
+              "description": "Low contrast ratio detected"
+            }
+          ]
+        },
+        "responsiveness": {
+          "mobile": {
+            "status": "pass",
+            "issues": 0
+          },
+          "tablet": {
+            "status": "pass",
+            "issues": 1
+          },
+          "desktop": {
+            "status": "pass",
+            "issues": 0
+          }
+        }
+      },
+      "health": 72,
+      "alerts": [
+        {
+          "level": "critical",
+          "type": "console_errors",
+          "message": "1 console errors detected",
+          "count": 1
+        },
+        {
+          "level": "info",
+          "type": "accessibility",
+          "message": "Accessibility score: 84",
+          "score": 84
+        }
+      ],
+      "duration": 0
+    }
+  ],
+  "endTime": "2025-10-02T12:40:12.425Z"
+}

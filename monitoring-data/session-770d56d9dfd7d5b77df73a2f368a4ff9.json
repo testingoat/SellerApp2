@@ -1,0 +1,637 @@
+{
+  "id": "770d56d9dfd7d5b77df73a2f368a4ff9",
+  "startTime": "2025-10-02T13:13:21.411Z",
+  "targets": [
+    {
+      "target": {
+        "id": "prod-seller",
+        "name": "Production Seller",
+        "url": "https://goatgoat.tech/admin/resources/Seller",
+        "type": "seller",
+        "environment": "production",
+        "criticality": "high"
+      },
+      "timestamp": "2025-10-02T13:13:21.926Z",
+      "status": "success",
+      "console": {
+        "errors": [],
+        "warnings": [],
+        "logs": [],
+        "info": [
+          {
+            "timestamp": "2025-10-02T13:13:23.936Z",
+            "message": "Page loaded successfully",
+            "source": "https://example.com"
+          }
+        ],
+        "debug": [],
+        "totalMessages": 1
+      },
+      "performance": {
+        "navigation": {
+          "domContentLoaded": 880,
+          "loadComplete": 1457,
+          "firstPaint": 275,
+          "firstContentfulPaint": 1307,
+          "firstMeaningfulPaint": 525
+        },
+        "paint": {
+          "firstContentfulPaint": 379,
+          "largestContentfulPaint": 1448
+        },
+        "layout": {
+          "cumulativeLayoutShift": 0.10020623686056507,
+          "totalLayoutShift": 0.0023388186563413796
+        },
+        "responsiveness": {
+          "firstInputDelay": 68,
+          "totalBlockingTime": 81
+        },
+        "memory": {
+          "usedJSHeapSize": 36704841,
+          "totalJSHeapSize": 71064706,
+          "jsHeapSizeLimit": 2044673376
+        },
+        "traceId": "vpjf0p09zocal65janhtni",
+        "timestamp": "2025-10-02T13:13:23.936Z"
+      },
+      "network": {
+        "totalRequests": 2,
+        "successfulRequests": 2,
+        "failedRequests": 0,
+        "totalTransferSize": 0,
+        "resources": {
+          "document": 0,
+          "stylesheet": 1,
+          "script": 1,
+          "image": 0,
+          "font": 0,
+          "other": 0
+        },
+        "timings": {
+          "averageResponseTime": 0,
+          "slowestRequest": 0,
+          "fastestRequest": 0
+        },
+        "issues": []
+      },
+      "ui": {
+        "screenshots": [
+          {
+            "filename": "screenshot-g37oek1dnhcsyt6hhmhfli-2025-10-02T13-13-23-938Z.png",
+            "path": "C:\\Seller App 2\\SellerApp2\\screenshots\\screenshot-g37oek1dnhcsyt6hhmhfli-2025-10-02T13-13-23-938Z.png",
+            "type": "viewport",
+            "dimensions": {
+              "width": 1920,
+              "height": 1080
+            },
+            "timestamp": "2025-10-02T13-13-23-940Z"
+          }
+        ],
+        "changes": [
+          {
+            "type": "element_position",
+            "severity": "minor",
+            "element": ".navigation-bar",
+            "description": "Navigation bar element position shifted",
+            "timestamp": "2025-10-02T13-13-23-940Z"
+          }
+        ],
+        "snapshotCount": 1,
+        "changeCount": 1
+      },
+      "accessibility": {
+        "score": 84,
+        "issues": [],
+        "passes": [
+          {
+            "type": "image_alt",
+            "description": "All images have alt attributes"
+          },
+          {
+            "type": "heading_hierarchy",
+            "description": "Proper heading hierarchy maintained"
+          }
+        ],
+        "metrics": {
+          "contrastIssues": 0,
+          "ariaIssues": 0,
+          "keyboardIssues": 0,
+          "semanticIssues": 0
+        }
+      },
+      "alerts": [
+        {
+          "level": "warning",
+          "type": "layout_shift",
+          "message": "High cumulative layout shift: 0.100",
+          "value": 0.10020623686056507
+        }
+      ],
+      "health": 87,
+      "duration": 2015,
+      "trendAnalysis": {
+        "status": "no_historical_data",
+        "message": "No historical data available for trend analysis"
+      },
+      "benchmarkComparison": {
+        "performance": {
+          "loadTime": {
+            "current": 1457,
+            "benchmark": 2000,
+            "status": "excellent"
+          },
+          "firstContentfulPaint": {
+            "current": 379,
+            "benchmark": 1000,
+            "status": "excellent"
+          }
+        },
+        "health": {
+          "current": 87,
+          "benchmark": 90,
+          "status": "good"
+        }
+      }
+    },
+    {
+      "target": {
+        "id": "prod-fcm",
+        "name": "Production FCM",
+        "url": "https://goatgoat.tech/admin/fcm-management",
+        "type": "fcm",
+        "environment": "production",
+        "criticality": "high"
+      },
+      "timestamp": "2025-10-02T13:13:23.944Z",
+      "status": "success",
+      "console": {
+        "errors": [],
+        "warnings": [],
+        "logs": [],
+        "info": [
+          {
+            "timestamp": "2025-10-02T13:13:25.952Z",
+            "message": "Page loaded successfully",
+            "source": "https://example.com"
+          }
+        ],
+        "debug": [],
+        "totalMessages": 1
+      },
+      "performance": {
+        "navigation": {
+          "domContentLoaded": 738,
+          "loadComplete": 2171,
+          "firstPaint": 774,
+          "firstContentfulPaint": 581,
+          "firstMeaningfulPaint": 1545
+        },
+        "paint": {
+          "firstContentfulPaint": 621,
+          "largestContentfulPaint": 2506
+        },
+        "layout": {
+          "cumulativeLayoutShift": 0.016947439647278073,
+          "totalLayoutShift": 0.02345695183450305
+        },
+        "responsiveness": {
+          "firstInputDelay": 29,
+          "totalBlockingTime": 165
+        },
+        "memory": {
+          "usedJSHeapSize": 12558650,
+          "totalJSHeapSize": 50128655,
+          "jsHeapSizeLimit": 2044673376
+        },
+        "traceId": "2k8a2xnm6f2xcunl0r20k",
+        "timestamp": "2025-10-02T13:13:25.952Z"
+      },
+      "network": {
+        "totalRequests": 2,
+        "successfulRequests": 2,
+        "failedRequests": 0,
+        "totalTransferSize": 0,
+        "resources": {
+          "document": 0,
+          "stylesheet": 1,
+          "script": 1,
+          "image": 0,
+          "font": 0,
+          "other": 0
+        },
+        "timings": {
+          "averageResponseTime": 0,
+          "slowestRequest": 0,
+          "fastestRequest": 0
+        },
+        "issues": []
+      },
+      "ui": {
+        "screenshots": [
+          {
+            "filename": "screenshot-ixsdv1b2tjpb64hhad0drh-2025-10-02T13-13-25-952Z.png",
+            "path": "C:\\Seller App 2\\SellerApp2\\screenshots\\screenshot-ixsdv1b2tjpb64hhad0drh-2025-10-02T13-13-25-952Z.png",
+            "type": "viewport",
+            "dimensions": {
+              "width": 1920,
+              "height": 1080
+            },
+            "timestamp": "2025-10-02T13-13-25-953Z"
+          }
+        ],
+        "changes": [],
+        "snapshotCount": 1,
+        "changeCount": 0
+      },
+      "accessibility": {
+        "score": 86,
+        "issues": [
+          {
+            "type": "semantic",
+            "severity": "minor",
+            "element": ".button-primary",
+            "description": "Accessibility issue detected: semantic problem",
+            "impact": "minor"
+          }
+        ],
+        "passes": [
+          {
+            "type": "image_alt",
+            "description": "All images have alt attributes"
+          },
+          {
+            "type": "heading_hierarchy",
+            "description": "Proper heading hierarchy maintained"
+          }
+        ],
+        "metrics": {
+          "contrastIssues": 0,
+          "ariaIssues": 0,
+          "keyboardIssues": 0,
+          "semanticIssues": 1
+        }
+      },
+      "alerts": [],
+      "health": 95,
+      "duration": 2009,
+      "trendAnalysis": {
+        "status": "no_historical_data",
+        "message": "No historical data available for trend analysis"
+      },
+      "benchmarkComparison": {
+        "performance": {
+          "loadTime": {
+            "current": 2171,
+            "benchmark": 1500,
+            "status": "good"
+          },
+          "firstContentfulPaint": {
+            "current": 621,
+            "benchmark": 800,
+            "status": "excellent"
+          }
+        },
+        "health": {
+          "current": 95,
+          "benchmark": 95,
+          "status": "excellent"
+        }
+      }
+    },
+    {
+      "target": {
+        "id": "staging-seller",
+        "name": "Staging Seller",
+        "url": "https://staging.goatgoat.tech/admin/resources/Seller",
+        "type": "seller",
+        "environment": "staging",
+        "criticality": "medium"
+      },
+      "timestamp": "2025-10-02T13:13:25.953Z",
+      "status": "success",
+      "console": {
+        "errors": [],
+        "warnings": [],
+        "logs": [],
+        "info": [
+          {
+            "timestamp": "2025-10-02T13:13:27.956Z",
+            "message": "Page loaded successfully",
+            "source": "https://example.com"
+          }
+        ],
+        "debug": [],
+        "totalMessages": 1
+      },
+      "performance": {
+        "navigation": {
+          "domContentLoaded": 782,
+          "loadComplete": 1361,
+          "firstPaint": 939,
+          "firstContentfulPaint": 617,
+          "firstMeaningfulPaint": 944
+        },
+        "paint": {
+          "firstContentfulPaint": 1331,
+          "largestContentfulPaint": 1173
+        },
+        "layout": {
+          "cumulativeLayoutShift": 0.055879699878801925,
+          "totalLayoutShift": 0.055654378636572854
+        },
+        "responsiveness": {
+          "firstInputDelay": 64,
+          "totalBlockingTime": 173
+        },
+        "memory": {
+          "usedJSHeapSize": 29955971,
+          "totalJSHeapSize": 54437065,
+          "jsHeapSizeLimit": 2044673376
+        },
+        "traceId": "utwazwchhim0hftbyav17b",
+        "timestamp": "2025-10-02T13:13:27.956Z"
+      },
+      "network": {
+        "totalRequests": 2,
+        "successfulRequests": 2,
+        "failedRequests": 0,
+        "totalTransferSize": 0,
+        "resources": {
+          "document": 0,
+          "stylesheet": 1,
+          "script": 1,
+          "image": 0,
+          "font": 0,
+          "other": 0
+        },
+        "timings": {
+          "averageResponseTime": 0,
+          "slowestRequest": 0,
+          "fastestRequest": 0
+        },
+        "issues": []
+      },
+      "ui": {
+        "screenshots": [
+          {
+            "filename": "screenshot-i00quwscmd4ntudq4lc8t-2025-10-02T13-13-27-957Z.png",
+            "path": "C:\\Seller App 2\\SellerApp2\\screenshots\\screenshot-i00quwscmd4ntudq4lc8t-2025-10-02T13-13-27-957Z.png",
+            "type": "viewport",
+            "dimensions": {
+              "width": 1920,
+              "height": 1080
+            },
+            "timestamp": "2025-10-02T13-13-27-957Z"
+          }
+        ],
+        "changes": [
+          {
+            "type": "element_position",
+            "severity": "minor",
+            "element": ".navigation-bar",
+            "description": "Navigation bar element position shifted",
+            "timestamp": "2025-10-02T13-13-27-957Z"
+          }
+        ],
+        "snapshotCount": 1,
+        "changeCount": 1
+      },
+      "accessibility": {
+        "score": 92,
+        "issues": [],
+        "passes": [
+          {
+            "type": "image_alt",
+            "description": "All images have alt attributes"
+          },
+          {
+            "type": "heading_hierarchy",
+            "description": "Proper heading hierarchy maintained"
+          }
+        ],
+        "metrics": {
+          "contrastIssues": 0,
+          "ariaIssues": 0,
+          "keyboardIssues": 0,
+          "semanticIssues": 0
+        }
+      },
+      "alerts": [],
+      "health": 97,
+      "duration": 2005,
+      "trendAnalysis": {
+        "status": "no_historical_data",
+        "message": "No historical data available for trend analysis"
+      },
+      "benchmarkComparison": {
+        "performance": {
+          "loadTime": {
+            "current": 1361,
+            "benchmark": 2000,
+            "status": "excellent"
+          },
+          "firstContentfulPaint": {
+            "current": 1331,
+            "benchmark": 1000,
+            "status": "good"
+          }
+        },
+        "health": {
+          "current": 97,
+          "benchmark": 90,
+          "status": "excellent"
+        }
+      }
+    },
+    {
+      "target": {
+        "id": "staging-fcm",
+        "name": "Staging FCM",
+        "url": "https://staging.goatgoat.tech/admin/fcm-management",
+        "type": "fcm",
+        "environment": "staging",
+        "criticality": "medium"
+      },
+      "timestamp": "2025-10-02T13:13:27.958Z",
+      "status": "success",
+      "console": {
+        "errors": [],
+        "warnings": [],
+        "logs": [],
+        "info": [
+          {
+            "timestamp": "2025-10-02T13:13:29.959Z",
+            "message": "Page loaded successfully",
+            "source": "https://example.com"
+          }
+        ],
+        "debug": [],
+        "totalMessages": 1
+      },
+      "performance": {
+        "navigation": {
+          "domContentLoaded": 502,
+          "loadComplete": 1645,
+          "firstPaint": 287,
+          "firstContentfulPaint": 370,
+          "firstMeaningfulPaint": 882
+        },
+        "paint": {
+          "firstContentfulPaint": 309,
+          "largestContentfulPaint": 1389
+        },
+        "layout": {
+          "cumulativeLayoutShift": 0.060632319873639706,
+          "totalLayoutShift": 0.07181797900891776
+        },
+        "responsiveness": {
+          "firstInputDelay": 78,
+          "totalBlockingTime": 147
+        },
+        "memory": {
+          "usedJSHeapSize": 36917639,
+          "totalJSHeapSize": 111854925,
+          "jsHeapSizeLimit": 2044673376
+        },
+        "traceId": "mrxlao52ub01oko84bx2xn",
+        "timestamp": "2025-10-02T13:13:29.959Z"
+      },
+      "network": {
+        "totalRequests": 2,
+        "successfulRequests": 2,
+        "failedRequests": 0,
+        "totalTransferSize": 0,
+        "resources": {
+          "document": 0,
+          "stylesheet": 1,
+          "script": 1,
+          "image": 0,
+          "font": 0,
+          "other": 0
+        },
+        "timings": {
+          "averageResponseTime": 0,
+          "slowestRequest": 0,
+          "fastestRequest": 0
+        },
+        "issues": []
+      },
+      "ui": {
+        "screenshots": [
+          {
+            "filename": "screenshot-3vrgksz8qtdsjnze53adg-2025-10-02T13-13-29-959Z.png",
+            "path": "C:\\Seller App 2\\SellerApp2\\screenshots\\screenshot-3vrgksz8qtdsjnze53adg-2025-10-02T13-13-29-959Z.png",
+            "type": "viewport",
+            "dimensions": {
+              "width": 1920,
+              "height": 1080
+            },
+            "timestamp": "2025-10-02T13-13-29-961Z"
+          }
+        ],
+        "changes": [],
+        "snapshotCount": 1,
+        "changeCount": 0
+      },
+      "accessibility": {
+        "score": 71,
+        "issues": [],
+        "passes": [
+          {
+            "type": "image_alt",
+            "description": "All images have alt attributes"
+          },
+          {
+            "type": "heading_hierarchy",
+            "description": "Proper heading hierarchy maintained"
+          }
+        ],
+        "metrics": {
+          "contrastIssues": 0,
+          "ariaIssues": 0,
+          "keyboardIssues": 0,
+          "semanticIssues": 0
+        }
+      },
+      "alerts": [
+        {
+          "level": "warning",
+          "type": "accessibility",
+          "message": "Low accessibility score: 71%",
+          "score": 71
+        }
+      ],
+      "health": 100,
+      "duration": 2003,
+      "trendAnalysis": {
+        "status": "no_historical_data",
+        "message": "No historical data available for trend analysis"
+      },
+      "benchmarkComparison": {
+        "performance": {
+          "loadTime": {
+            "current": 1645,
+            "benchmark": 1500,
+            "status": "good"
+          },
+          "firstContentfulPaint": {
+            "current": 309,
+            "benchmark": 800,
+            "status": "excellent"
+          }
+        },
+        "health": {
+          "current": 100,
+          "benchmark": 95,
+          "status": "excellent"
+        }
+      }
+    }
+  ],
+  "alerts": [
+    {
+      "level": "warning",
+      "type": "layout_shift",
+      "message": "High cumulative layout shift: 0.100",
+      "value": 0.10020623686056507,
+      "target": "prod-seller",
+      "targetName": "Production Seller",
+      "sessionId": "770d56d9dfd7d5b77df73a2f368a4ff9",
+      "timestamp": "2025-10-02T13:13:23.942Z",
+      "resolved": false
+    },
+    {
+      "level": "warning",
+      "type": "accessibility",
+      "message": "Low accessibility score: 71%",
+      "score": 71,
+      "target": "staging-fcm",
+      "targetName": "Staging FCM",
+      "sessionId": "770d56d9dfd7d5b77df73a2f368a4ff9",
+      "timestamp": "2025-10-02T13:13:29.962Z",
+      "resolved": false
+    }
+  ],
+  "summary": {
+    "totalTargets": 4,
+    "successfulTargets": 4,
+    "failedTargets": 0,
+    "totalAlerts": 2,
+    "criticalAlerts": 0,
+    "warningAlerts": 2,
+    "avgHealthScore": 95,
+    "avgLoadTime": 1659,
+    "environmentSummary": {
+      "production": {
+        "healthy": 2,
+        "total": 2
+      },
+      "staging": {
+        "healthy": 2,
+        "total": 2
+      }
+    }
+  },
+  "endTime": "2025-10-02T13:13:29.970Z"
+}

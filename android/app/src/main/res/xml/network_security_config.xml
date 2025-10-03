@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Allow HTTP traffic to your development server -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">147.93.108.121</domain>
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">10.0.2.2</domain>
+    </domain-config>
+    
+    <!-- For debugging purposes in development, you can also enable cleartext for all domains -->
+    <!-- Remove this in production -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

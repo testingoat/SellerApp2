@@ -1,0 +1,50 @@
+[
+  {
+    "timestamp": "2025-10-02T13:13:27.958Z",
+    "sessionId": "770d56d9dfd7d5b77df73a2f368a4ff9",
+    "health": 100,
+    "performance": {
+      "navigation": {
+        "domContentLoaded": 502,
+        "loadComplete": 1645,
+        "firstPaint": 287,
+        "firstContentfulPaint": 370,
+        "firstMeaningfulPaint": 882
+      },
+      "paint": {
+        "firstContentfulPaint": 309,
+        "largestContentfulPaint": 1389
+      },
+      "layout": {
+        "cumulativeLayoutShift": 0.060632319873639706,
+        "totalLayoutShift": 0.07181797900891776
+      },
+      "responsiveness": {
+        "firstInputDelay": 78,
+        "totalBlockingTime": 147
+      },
+      "memory": {
+        "usedJSHeapSize": 36917639,
+        "totalJSHeapSize": 111854925,
+        "jsHeapSizeLimit": 2044673376
+      },
+      "traceId": "mrxlao52ub01oko84bx2xn",
+      "timestamp": "2025-10-02T13:13:29.959Z"
+    },
+    "console": {
+      "errors": [],
+      "warnings": [],
+      "logs": [],
+      "info": [
+        {
+          "timestamp": "2025-10-02T13:13:29.959Z",
+          "message": "Page loaded successfully",
+          "source": "https://example.com"
+        }
+      ],
+      "debug": [],
+      "totalMessages": 1
+    },
+    "alerts": 1
+  }
+]

@@ -1,0 +1,383 @@
+import { loginSeller, verifySellerOTP, resendSellerOTP, registerSeller, refreshSellerToken, logoutSeller } from '../controllers/auth/sellerAuth.js';
+import { getSellerProducts, createProduct, updateProduct, deleteProduct, toggleProductStatus, getCategories } from '../controllers/seller/sellerProduct.js';
+import { uploadProductImage, getProductImage, deleteProductImage } from '../controllers/seller/imageUpload.js';
+import { getSellerOrders, getPendingOrders, acceptOrder, rejectOrder, getDashboardMetrics } from '../controllers/seller/sellerOrder.js';
+import { setStoreLocation, getStoreLocation, updateStoreLocation } from '../controllers/seller/sellerLocation.js';
+import { verifyToken } from '../middleware/auth.js';
+// import { getSellerNotifications, markNotificationAsRead, deleteNotification, markAllNotificationsAsRead } from '../controllers/seller/sellerNotifications.js';
+
+export const sellerRoutes = async (fastify, options) => {
+    console.log('Registering seller routes');
+    // Authentication routes (no auth required)
+    console.log('Registering /seller/login');
+    fastify.post('/seller/login', loginSeller);
+    console.log('Registering /seller/verify-otp');
+    fastify.post('/seller/verify-otp', verifySellerOTP);
+    console.log('Registering /seller/resend-otp');
+    fastify.post('/seller/resend-otp', resendSellerOTP);
+    console.log('Registering /seller/refresh-token');
+    fastify.post('/seller/refresh-token', refreshSellerToken);
+    // Protected routes (auth required)
+    console.log('Registering /seller/register');
+    fastify.post('/seller/register', { preHandler: [verifyToken] }, registerSeller);
+    console.log('Registering /seller/logout');
+    fastify.post('/seller/logout', { preHandler: [verifyToken] }, logoutSeller);
+    // FCM Token endpoint
+    console.log('Registering /seller/fcm-token');
+    fastify.put('/seller/fcm-token', { preHandler: [verifyToken] }, async (req, reply) => {
+        try {
+            const { userId, role } = req.user;
+            const { fcmToken, platform, deviceInfo } = req.body;
+            if (role !== 'Seller') {
+                return reply.status(403).send({
+                    success: false,
+                    message: 'Access denied. Seller role required.'
+                });
+            }
+            if (!fcmToken) {
+                return reply.status(400).send({
+                    success: false,
+                    message: 'FCM token is required'
+                });
+            }
+            const { Seller } = await import('../models/user.js');
+            const seller = await Seller.findById(userId);
+            if (!seller) {
+                return reply.status(404).send({
+                    success: false,
+                    message: 'Seller not found'
+                });
+            }
+            // Initialize fcmTokens array if it doesn't exist
+            if (!seller.fcmTokens) {
+                seller.fcmTokens = [];
+            }
+            // Check if token already exists
+            const existingTokenIndex = seller.fcmTokens.findIndex(token => token.token === fcmToken);
+            if (existingTokenIndex !== -1) {
+                // Update existing token
+                seller.fcmTokens[existingTokenIndex] = {
+                    token: fcmToken,
+                    platform: platform || 'android',
+                    deviceInfo: deviceInfo || {},
+                    updatedAt: new Date()
+                };
+            }
+            else {
+                // Add new token
+                seller.fcmTokens.push({
+                    token: fcmToken,
+                    platform: platform || 'android',
+                    deviceInfo: deviceInfo || {},
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                });
+            }
+            await seller.save();
+            console.log('FCM token registered for seller:', userId);
+            return reply.send({
+                success: true,
+                message: 'FCM token registered successfully',
+                data: {
+                    tokenCount: seller.fcmTokens.length
+                }
+            });
+        }
+        catch (error) {
+            console.error('FCM Token Registration Error:', error);
+            return reply.status(500).send({
+                success: false,
+                message: 'Failed to register FCM token'
+            });
+        }
+    });
+    // Order Management Routes
+    console.log('Registering seller order management routes');
+    // Get all orders for seller
+    fastify.get('/seller/orders', { preHandler: [verifyToken] }, getSellerOrders);
+    // Get pending orders for seller approval
+    fastify.get('/seller/orders/pending', { preHandler: [verifyToken] }, getPendingOrders);
+    // Accept an order
+    fastify.post('/seller/orders/:orderId/accept', { preHandler: [verifyToken] }, acceptOrder);
+    // Reject an order
+    fastify.post('/seller/orders/:orderId/reject', { preHandler: [verifyToken] }, rejectOrder);
+    // Get dashboard metrics
+    fastify.get('/seller/dashboard/metrics', { preHandler: [verifyToken] }, getDashboardMetrics);
+    // Location Management Routes
+    console.log('Registering seller location management routes');
+    // Set store location (for both registration and profile)
+    fastify.post('/seller/location', { preHandler: [verifyToken] }, setStoreLocation);
+    // Get store location
+    fastify.get('/seller/location', { preHandler: [verifyToken] }, getStoreLocation);
+    // Update store location
+    fastify.put('/seller/location', { preHandler: [verifyToken] }, updateStoreLocation);
+    // Image Upload Routes
+    console.log('Registering seller image upload routes');
+    // Upload product image
+    fastify.post('/seller/images/upload', { preHandler: [verifyToken] }, uploadProductImage);
+    // Get product image (public route for serving images)
+    fastify.get('/seller/images/:id', getProductImage);
+    // Delete product image
+    fastify.delete('/seller/images/:id', { preHandler: [verifyToken] }, deleteProductImage);
+    // Product Management Routes
+    console.log('Registering seller product routes');
+    // Get all products for the seller
+    fastify.get('/seller/products', { preHandler: [verifyToken] }, getSellerProducts);
+    // Create new product
+    fastify.post('/seller/products', { preHandler: [verifyToken] }, createProduct);
+    // Update product
+    fastify.put('/seller/products/:id', { preHandler: [verifyToken] }, updateProduct);
+    // Delete product
+    fastify.delete('/seller/products/:id', { preHandler: [verifyToken] }, deleteProduct);
+    // Toggle product status
+    fastify.put('/seller/products/:id/status', { preHandler: [verifyToken] }, toggleProductStatus);
+    // Get categories for product creation
+    fastify.get('/seller/categories', { preHandler: [verifyToken] }, getCategories);
+    // Profile routes (for future use)
+    console.log('Registering /seller/profile');
+    fastify.get('/seller/profile', { preHandler: [verifyToken] }, async (req, reply) => {
+        try {
+            const { userId, role } = req.user;
+            if (role !== 'Seller') {
+                return reply.status(403).send({
+                    success: false,
+                    message: 'Access denied. Seller role required.'
+                });
+            }
+            const { Seller } = await import('../models/user.js');
+            const seller = await Seller.findById(userId);
+            if (!seller) {
+                return reply.status(404).send({
+                    success: false,
+                    message: 'Seller not found'
+                });
+            }
+            return reply.send({
+                success: true,
+                message: 'Seller profile retrieved successfully',
+                user: {
+                    id: seller._id,
+                    name: seller.name,
+                    phone: seller.phone,
+                    email: seller.email,
+                    role: seller.role,
+                    storeName: seller.storeName,
+                    storeAddress: seller.storeAddress,
+                    businessHours: seller.businessHours,
+                    deliveryAreas: seller.deliveryAreas,
+                    isVerified: seller.isVerified,
+                    profileCompleted: seller.profileCompleted,
+                    createdAt: seller.createdAt,
+                    updatedAt: seller.updatedAt
+                }
+            });
+        }
+        catch (error) {
+            console.error('Get Seller Profile Error:', error);
+            return reply.status(500).send({
+                success: false,
+                message: 'Failed to retrieve seller profile'
+            });
+        }
+    });
+
+    console.log('🐛 DEBUG: About to reach notification routes section');
+    // TODO: Notification Management Routes will be added here
+    console.log('🐛 DEBUG: Skipping notification routes for now');
+    /*
+    // Notification Management Routes
+    console.log('🔔 About to register seller notification routes');
+    try {
+        console.log('🔔 Testing notification function imports:', {
+            getSellerNotifications: typeof getSellerNotifications,
+            markNotificationAsRead: typeof markNotificationAsRead,
+            deleteNotification: typeof deleteNotification,
+            markAllNotificationsAsRead: typeof markAllNotificationsAsRead
+        });
+        
+        // Get all notifications for authenticated seller
+        fastify.get('/seller/notifications', { preHandler: [verifyToken] }, getSellerNotifications);
+        console.log('✅ Registered GET /seller/notifications');
+        
+        // Mark specific notification as read
+        fastify.put('/seller/notifications/:id/read', { preHandler: [verifyToken] }, markNotificationAsRead);
+        console.log('✅ Registered PUT /seller/notifications/:id/read');
+        
+        // Delete specific notification
+        fastify.delete('/seller/notifications/:id', { preHandler: [verifyToken] }, deleteNotification);
+        console.log('✅ Registered DELETE /seller/notifications/:id');
+        
+        // Mark all notifications as read
+        fastify.put('/seller/notifications/mark-all-read', { preHandler: [verifyToken] }, markAllNotificationsAsRead);
+        console.log('✅ Registered PUT /seller/notifications/mark-all-read');
+        
+        console.log('✅ All notification routes registered successfully');
+    } catch (error) {
+        console.error('❌ Error registering notification routes:', error);
+    }
+    });
+
+    // Inline Seller Notification Management Routes
+    console.log('🔔 Adding inline seller notification routes');
+    
+    // Get all notifications for authenticated seller
+    fastify.get('/seller/notifications', { preHandler: [verifyToken] }, async (request, reply) => {
+        try {
+            const { userId, role } = request.user;
+            
+            if (role !== 'Seller') {
+                return reply.status(403).send({
+                    success: false,
+                    message: 'Access denied. Only sellers can access notifications.',
+                });
+            }
+
+            // Import notification model dynamically
+            const { default: Notification } = await import('../../models/notification.js');
+
+            const notifications = await Notification.find({ sellerId: userId })
+                .sort({ createdAt: -1 })
+                .select('title message type icon isRead createdAt data');
+
+            const unreadCount = await Notification.countDocuments({ 
+                sellerId: userId, 
+                isRead: false 
+            });
+
+            return reply.send({
+                success: true,
+                data: {
+                    notifications,
+                    unreadCount,
+                },
+            });
+        } catch (error) {
+            console.error('Get seller notifications error:', error);
+            return reply.status(500).send({
+                success: false,
+                message: 'Internal server error',
+            });
+        }
+    });
+    
+    // Mark specific notification as read
+    fastify.put('/seller/notifications/:id/read', { preHandler: [verifyToken] }, async (request, reply) => {
+        try {
+            const { userId, role } = request.user;
+            const { id } = request.params;
+
+            if (role !== 'Seller') {
+                return reply.status(403).send({
+                    success: false,
+                    message: 'Access denied. Only sellers can modify notifications.',
+                });
+            }
+
+            const { default: Notification } = await import('../../models/notification.js');
+            
+            const notification = await Notification.findOneAndUpdate(
+                { _id: id, sellerId: userId },
+                { isRead: true },
+                { new: true }
+            );
+
+            if (!notification) {
+                return reply.status(404).send({
+                    success: false,
+                    message: 'Notification not found.',
+                });
+            }
+
+            return reply.send({
+                success: true,
+                message: 'Notification marked as read',
+                data: notification,
+            });
+        } catch (error) {
+            console.error('Mark notification as read error:', error);
+            return reply.status(500).send({
+                success: false,
+                message: 'Internal server error',
+            });
+        }
+    });
+    
+    // Delete specific notification
+    fastify.delete('/seller/notifications/:id', { preHandler: [verifyToken] }, async (request, reply) => {
+        try {
+            const { userId, role } = request.user;
+            const { id } = request.params;
+
+            if (role !== 'Seller') {
+                return reply.status(403).send({
+                    success: false,
+                    message: 'Access denied. Only sellers can delete notifications.',
+                });
+            }
+
+            const { default: Notification } = await import('../../models/notification.js');
+            
+            const notification = await Notification.findOneAndDelete({
+                _id: id,
+                sellerId: userId,
+            });
+
+            if (!notification) {
+                return reply.status(404).send({
+                    success: false,
+                    message: 'Notification not found.',
+                });
+            }
+
+            return reply.send({
+                success: true,
+                message: 'Notification deleted successfully',
+            });
+        } catch (error) {
+            console.error('Delete notification error:', error);
+            return reply.status(500).send({
+                success: false,
+                message: 'Internal server error',
+            });
+        }
+    });
+    
+    // Mark all notifications as read
+    fastify.put('/seller/notifications/mark-all-read', { preHandler: [verifyToken] }, async (request, reply) => {
+        try {
+            const { userId, role } = request.user;
+
+            if (role !== 'Seller') {
+                return reply.status(403).send({
+                    success: false,
+                message: 'Access denied. Only sellers can modify notifications.',
+                });
+            }
+
+            const { default: Notification } = await import('../../models/notification.js');
+            
+            const result = await Notification.updateMany(
+                { sellerId: userId, isRead: false },
+                { isRead: true }
+            );
+
+            return reply.send({
+                success: true,
+                message: 'Marked ' + result.modifiedCount + ' notifications as read',
+                data: {
+                    modifiedCount: result.modifiedCount,
+                },
+            });
+        } catch (error) {
+            console.error('Mark all notifications as read error:', error);
+            return reply.status(500).send({
+                success: false,
+                message: 'Internal server error',
+            });
+        }
+    });
+    
+    console.log('✅ Seller notification routes registered successfully');
+
+    console.log('Seller routes registered successfully');
+};

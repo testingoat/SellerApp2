@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -7,13 +7,17 @@ import {
   StatusBar,
   ScrollView,
   Alert,
+  RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import { notificationService, SellerNotification } from '../services/notificationService';
 
-interface Notification {
+interface UINotification {
   id: string;
   title: string;
+  subtitle?: string;
   time: string;
   icon: string;
   isRead: boolean;
@@ -21,43 +25,28 @@ interface Notification {
 
 const NotificationsScreen: React.FC = () => {
   const navigation = useNavigation();
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: '1',
-      title: 'New Order Received',
-      time: '10:30 AM',
-      icon: 'inventory-2',
-      isRead: false,
-    },
-    {
-      id: '2',
-      title: 'Low Stock Alert: Bananas',
-      time: 'Yesterday, 2:15 PM',
-      icon: 'warning',
-      isRead: false,
-    },
-    {
-      id: '3',
-      title: 'App Update Available',
-      time: '2 days ago, 9:45 AM',
-      icon: 'system-update',
-      isRead: true,
-    },
-    {
-      id: '4',
-      title: 'Payment Received',
-      time: '3 days ago, 4:20 PM',
-      icon: 'payment',
-      isRead: true,
-    },
-    {
-      id: '5',
-      title: 'Order Delivered Successfully',
-      time: '4 days ago, 11:30 AM',
-      icon: 'check-circle',
-      isRead: true,
-    },
-  ]);
+  const [items, setItems] = useState<UINotification[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [unreadCount, setUnreadCount] = useState<number>(0);
+
+  const loadNotifications = async (isRefresh = false) => {
+    try {
+      if (isRefresh) setRefreshing(true); else setLoading(true);
+      const result = await notificationService.getNotifications(1, 30);
+      setUnreadCount(result.unreadCount || 0);
+      setItems((result.notifications || []).map(mapServerToUI));
+    } catch (error: any) {
+      console.error('Failed to load notifications:', error?.message || error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    loadNotifications();
+  }, []);
 
   const handleBack = () => {
     navigation.goBack();
@@ -72,25 +61,45 @@ const NotificationsScreen: React.FC = () => {
         {
           text: 'Delete',
           style: 'destructive',
-          onPress: () => {
-            setNotifications(prev => 
-              prev.filter(notification => notification.id !== notificationId)
-            );
+          onPress: async () => {
+            try {
+              await notificationService.deleteNotification(notificationId);
+              setItems(prev => prev.filter(n => n.id !== notificationId));
+              // Also update unread count if needed
+              setUnreadCount(prev => Math.max(0, prev - 1));
+            } catch (error: any) {
+              console.error('Delete notification failed:', error?.message || error);
+            }
           },
         },
       ]
     );
   };
 
-  const markAsRead = (notificationId: string) => {
-    setNotifications(prev =>
-      prev.map(notification =>
-        notification.id === notificationId
-          ? { ...notification, isRead: true }
-          : notification
-      )
-    );
+  const markAsRead = async (notificationId: string) => {
+    try {
+      const target = items.find(n => n.id === notificationId);
+      if (!target || target.isRead) return;
+      setItems(prev => prev.map(n => n.id === notificationId ? { ...n, isRead: true } : n));
+      setUnreadCount(prev => Math.max(0, prev - 1));
+      await notificationService.markAsRead(notificationId);
+    } catch (error: any) {
+      console.error('Mark as read failed:', error?.message || error);
+    }
   };
+
+  const markAllAsRead = async () => {
+    try {
+      if (unreadCount === 0) return;
+      setItems(prev => prev.map(n => ({ ...n, isRead: true })));
+      setUnreadCount(0);
+      await notificationService.markAllRead();
+    } catch (error: any) {
+      console.error('Mark all as read failed:', error?.message || error);
+    }
+  };
+
+  const onRefresh = () => loadNotifications(true);
 
   const getIconName = (iconType: string) => {
     switch (iconType) {
@@ -103,7 +112,7 @@ const NotificationsScreen: React.FC = () => {
     }
   };
 
-  const renderNotification = (notification: Notification) => (
+  const renderNotification = (notification: UINotification) => (
     <TouchableOpacity
       key={notification.id}
       style={styles.notificationCard}
@@ -120,6 +129,9 @@ const NotificationsScreen: React.FC = () => {
       
       <View style={styles.notificationContent}>
         <Text style={styles.notificationTitle}>{notification.title}</Text>
+        {!!notification.subtitle && (
+          <Text style={styles.notificationSubtitle}>{notification.subtitle}</Text>
+        )}
         <Text style={styles.notificationTime}>{notification.time}</Text>
       </View>
       
@@ -137,6 +149,8 @@ const NotificationsScreen: React.FC = () => {
     </TouchableOpacity>
   );
 
+  const unreadBadge = useMemo(() => unreadCount > 0 ? ` (${unreadCount})` : '', [unreadCount]);
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#f6f8f6" barStyle="dark-content" />
@@ -146,28 +160,62 @@ const NotificationsScreen: React.FC = () => {
         <TouchableOpacity style={styles.backButton} onPress={handleBack}>
           <Icon name="arrow-back" size={24} color="#1f2937" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Notifications</Text>
-        <View style={styles.placeholder} />
+        <Text style={styles.headerTitle}>Notifications{unreadBadge}</Text>
+        <TouchableOpacity style={styles.markAllButton} onPress={markAllAsRead} disabled={unreadCount === 0}>
+          <Text style={[styles.markAllText, unreadCount === 0 && { opacity: 0.5 }]}>Mark all read</Text>
+        </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <View style={styles.content}>
-          {notifications.length > 0 ? (
-            notifications.map(renderNotification)
-          ) : (
-            <View style={styles.emptyState}>
-              <Icon name="notifications-none" size={64} color="#9ca3af" />
-              <Text style={styles.emptyStateTitle}>No Notifications</Text>
-              <Text style={styles.emptyStateDescription}>
-                You're all caught up! New notifications will appear here.
-              </Text>
-            </View>
-          )}
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#3be340" />
         </View>
-      </ScrollView>
+      ) : (
+        <ScrollView 
+          style={styles.scrollView} 
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#3be340"]} />
+          }
+        >
+          <View style={styles.content}>
+            {items.length > 0 ? (
+              items.map(renderNotification)
+            ) : (
+              <View style={styles.emptyState}>
+                <Icon name="notifications-none" size={64} color="#9ca3af" />
+                <Text style={styles.emptyStateTitle}>No Notifications</Text>
+                <Text style={styles.emptyStateDescription}>
+                  You're all caught up! New notifications will appear here.
+                </Text>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      )}
     </View>
   );
 };
+
+function mapServerToUI(n: SellerNotification): UINotification {
+  return {
+    id: n._id,
+    title: n.title || 'Notification',
+    subtitle: n.message || undefined,
+    time: formatTime(n.createdAt),
+    icon: n.icon || 'notifications',
+    isRead: !!n.isRead,
+  };
+}
+
+function formatTime(iso: string): string {
+  try {
+    const d = new Date(iso);
+    return d.toLocaleString();
+  } catch {
+    return '' + iso;
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -201,6 +249,20 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     width: 40,
+  },
+  markAllButton: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  markAllText: {
+    color: '#10b981',
+    fontWeight: '600',
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 40,
   },
   scrollView: {
     flex: 1,
@@ -241,8 +303,14 @@ const styles = StyleSheet.create({
     color: '#1f2937',
     marginBottom: 4,
   },
-  notificationTime: {
+  notificationSubtitle: {
     fontSize: 14,
+    color: 'rgba(31, 41, 55, 0.7)',
+    marginTop: 2,
+    marginBottom: 2,
+  },
+  notificationTime: {
+    fontSize: 12,
     color: 'rgba(31, 41, 55, 0.6)',
   },
   notificationActions: {

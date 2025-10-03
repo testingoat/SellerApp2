@@ -1,0 +1,69 @@
+graph TD
+    subgraph "App Initialization"
+        direction LR
+        A[Start] --> B{isBootLoading?};
+        B -- Yes --> C[SplashScreen];
+        B -- No --> D{isAuthenticated?};
+        C --> D;
+    end
+
+    subgraph "Authentication Flow"
+        direction LR
+        D -- No --> AuthNav;
+        subgraph "AuthNavigator"
+            direction LR
+            AuthNav --> Login[LoginScreen];
+            Login --> OTP[OTPVerificationScreen];
+            OTP --> StoreRegAuth[StoreRegistrationScreen];
+        end
+    end
+
+    subgraph "Main Application"
+        direction TB
+        D -- Yes --> MainFlow{needsRegistration?};
+        MainFlow -- Yes --> StoreRegMain[StoreRegistrationScreen];
+        MainFlow -- No --> MainTabs[MainTabNavigator];
+        StoreRegMain -- onComplete --> MainTabs;
+
+        subgraph "MainTabNavigator"
+            direction LR
+            MainTabs --> Dashboard[DashboardScreen];
+            MainTabs --> Products[ProductListScreen];
+            MainTabs --> Orders[OrderProcessingListScreen];
+            MainTabs --> Analytics[SalesAnalyticsScreen];
+            MainTabs --> Profile[ProfileSettingsScreen];
+        end
+
+        subgraph "Other Screens"
+            direction TB
+            MainTabs --> AddEditProduct[AddEditProductScreen];
+            MainTabs --> BankAccount[BankAccountScreen];
+            MainTabs --> ManagePayment[ManagePaymentMethodsScreen];
+            MainTabs --> OrderTimeline[OrderTimelineScreen];
+            MainTabs --> CustomerComm[CustomerCommunicationScreen];
+            MainTabs --> DigitalWallet[DigitalWalletScreen];
+            MainTabs --> Notifications[NotificationsScreen];
+            MainTabs --> PayoutPrefs[PayoutPreferencesScreen];
+            MainTabs --> SupportHelp[SupportHelpScreen];
+            MainTabs --> BusinessHours[BusinessHoursManagementScreen];
+            MainTabs --> DeliveryArea[DeliveryAreaScreen];
+            MainTabs --> NotifPrefs[NotificationPreferencesScreen];
+            MainTabs --> StoreInfo[StoreInformationScreen];
+            MainTabs --> StoreLocation[StoreLocationManagementScreen];
+            MainTabs --> Language[LanguageSettingsScreen];
+            MainTabs --> FCMTest[FCMTestScreen];
+        end
+    end
+
+    subgraph "Utility"
+        direction LR
+        ErrorScreen[NetworkErrorScreen]
+    end
+
+    classDef screen fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef decision fill:#ccf,stroke:#333,stroke-width:2px;
+    classDef flow fill:#cfc,stroke:#333,stroke-width:2px;
+
+    class A,C,Login,OTP,StoreRegAuth,StoreRegMain,Dashboard,Products,Orders,Analytics,Profile,AddEditProduct,BankAccount,ManagePayment,OrderTimeline,CustomerComm,DigitalWallet,Notifications,PayoutPrefs,SupportHelp,BusinessHours,DeliveryArea,NotifPrefs,StoreInfo,StoreLocation,Language,FCMTest,ErrorScreen screen;
+    class B,D,MainFlow decision;
+    class AuthNav,MainTabs flow;

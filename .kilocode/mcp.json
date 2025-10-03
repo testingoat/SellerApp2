@@ -1,13 +1,23 @@
 {
   "mcpServers": {
     "TestSprite": {
-      "command": "npx",
+      "command": "cmd",
       "args": [
+        "/c",
+        "npx",
         "@testsprite/testsprite-mcp@latest"
       ],
       "env": {
         "API_KEY": "sk-user-FCz9hI9l6OZ5PiQeIVk1rGk2k6txC6LHT8ArBNYhozqUFySyiM0e5SrGFfc7spiv6bXHua13ERd92iiazg_1qGFXMZ__s5XqFiefY4v3R4tx5on8KQqpgfaqOQzcUNpFlPg"
       }
+    },
+    "chrome-devtools": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "chrome-devtools-mcp@latest"
+      ]
     }
   }
 }

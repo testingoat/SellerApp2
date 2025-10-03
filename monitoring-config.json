@@ -1,0 +1,286 @@
+{
+  "version": "1.0.0",
+  "environments": {
+    "production": {
+      "baseUrl": "https://goatgoat.tech",
+      "priority": "high"
+    },
+    "staging": {
+      "baseUrl": "https://staging.goatgoat.tech",
+      "priority": "medium"
+    }
+  },
+  "targets": [
+    {
+      "id": "prod-seller",
+      "name": "Production Seller",
+      "environment": "production",
+      "path": "/admin/resources/Seller",
+      "enabled": true,
+      "priority": "critical",
+      "tags": ["admin", "seller", "management"],
+      "monitoring": {
+        "interval": 15,
+        "timeout": 30000,
+        "retries": 3,
+        "checks": {
+          "console": true,
+          "performance": true,
+          "accessibility": true,
+          "screenshots": true,
+          "network": true
+        },
+        "thresholds": {
+          "loadTime": 3000,
+          "firstContentfulPaint": 1500,
+          "healthScore": 80,
+          "consoleErrors": 0
+        }
+      },
+      "alerts": {
+        "critical": {
+          "consoleErrors": true,
+          "loadTime": 5000,
+          "healthScore": 60
+        },
+        "warning": {
+          "loadTime": 3000,
+          "healthScore": 75
+        }
+      }
+    },
+    {
+      "id": "prod-fcm",
+      "name": "Production FCM Management",
+      "environment": "production",
+      "path": "/admin/fcm-management",
+      "enabled": true,
+      "priority": "critical",
+      "tags": ["admin", "fcm", "notifications"],
+      "monitoring": {
+        "interval": 15,
+        "timeout": 30000,
+        "retries": 3,
+        "checks": {
+          "console": true,
+          "performance": true,
+          "accessibility": true,
+          "screenshots": true,
+          "network": true
+        },
+        "thresholds": {
+          "loadTime": 3000,
+          "firstContentfulPaint": 1500,
+          "healthScore": 80,
+          "consoleErrors": 0
+        }
+      },
+      "alerts": {
+        "critical": {
+          "consoleErrors": true,
+          "loadTime": 5000,
+          "healthScore": 60
+        },
+        "warning": {
+          "loadTime": 3000,
+          "healthScore": 75
+        }
+      }
+    },
+    {
+      "id": "staging-seller",
+      "name": "Staging Seller",
+      "environment": "staging",
+      "path": "/admin/resources/Seller",
+      "enabled": true,
+      "priority": "medium",
+      "tags": ["admin", "seller", "management", "staging"],
+      "monitoring": {
+        "interval": 30,
+        "timeout": 30000,
+        "retries": 2,
+        "checks": {
+          "console": true,
+          "performance": true,
+          "accessibility": true,
+          "screenshots": true,
+          "network": true
+        },
+        "thresholds": {
+          "loadTime": 4000,
+          "firstContentfulPaint": 2000,
+          "healthScore": 70,
+          "consoleErrors": 1
+        }
+      },
+      "alerts": {
+        "critical": {
+          "consoleErrors": 3,
+          "loadTime": 7000,
+          "healthScore": 50
+        },
+        "warning": {
+          "consoleErrors": 1,
+          "loadTime": 4000,
+          "healthScore": 65
+        }
+      }
+    },
+    {
+      "id": "staging-fcm",
+      "name": "Staging FCM Management",
+      "environment": "staging",
+      "path": "/admin/fcm-management",
+      "enabled": true,
+      "priority": "medium",
+      "tags": ["admin", "fcm", "notifications", "staging"],
+      "monitoring": {
+        "interval": 30,
+        "timeout": 30000,
+        "retries": 2,
+        "checks": {
+          "console": true,
+          "performance": true,
+          "accessibility": true,
+          "screenshots": true,
+          "network": true
+        },
+        "thresholds": {
+          "loadTime": 4000,
+          "firstContentfulPaint": 2000,
+          "healthScore": 70,
+          "consoleErrors": 1
+        }
+      },
+      "alerts": {
+        "critical": {
+          "consoleErrors": 3,
+          "loadTime": 7000,
+          "healthScore": 50
+        },
+        "warning": {
+          "consoleErrors": 1,
+          "loadTime": 4000,
+          "healthScore": 65
+        }
+      }
+    }
+  ],
+  "schedules": {
+    "quick": {
+      "enabled": true,
+      "cron": "*/15 * * * *",
+      "targets": ["prod-seller", "prod-fcm"],
+      "description": "Quick check for critical production targets every 15 minutes"
+    },
+    "comprehensive": {
+      "enabled": true,
+      "cron": "0 */1 * * *",
+      "targets": "all",
+      "description": "Full monitoring of all targets every hour"
+    },
+    "deep": {
+      "enabled": true,
+      "cron": "0 2 * * *",
+      "targets": "all",
+      "description": "Deep analysis with trends and predictions daily at 2 AM"
+    }
+  },
+  "globalSettings": {
+    "defaultTimeout": 30000,
+    "defaultRetries": 3,
+    "concurrentMonitoring": 4,
+    "dataRetention": {
+      "sessions": 90,
+      "screenshots": 30,
+      "reports": 365,
+      "logs": 30
+    },
+    "notifications": {
+      "enabled": true,
+      "channels": {
+        "console": true,
+        "email": false,
+        "slack": false,
+        "webhook": false
+      },
+      "rateLimit": {
+        "critical": "immediate",
+        "warning": "5m",
+        "info": "1h"
+      }
+    },
+    "performance": {
+      "benchmark": {
+        "excellent": { "loadTime": 1000, "healthScore": 95 },
+        "good": { "loadTime": 2000, "healthScore": 85 },
+        "fair": { "loadTime": 3000, "healthScore": 75 },
+        "poor": { "loadTime": 5000, "healthScore": 60 }
+      }
+    }
+  },
+  "templates": {
+    "adminPage": {
+      "monitoring": {
+        "interval": 15,
+        "timeout": 30000,
+        "retries": 3,
+        "checks": {
+          "console": true,
+          "performance": true,
+          "accessibility": true,
+          "screenshots": true,
+          "network": true
+        },
+        "thresholds": {
+          "loadTime": 3000,
+          "firstContentfulPaint": 1500,
+          "healthScore": 80,
+          "consoleErrors": 0
+        }
+      },
+      "alerts": {
+        "critical": {
+          "consoleErrors": true,
+          "loadTime": 5000,
+          "healthScore": 60
+        },
+        "warning": {
+          "loadTime": 3000,
+          "healthScore": 75
+        }
+      }
+    },
+    "publicPage": {
+      "monitoring": {
+        "interval": 30,
+        "timeout": 20000,
+        "retries": 2,
+        "checks": {
+          "console": true,
+          "performance": true,
+          "accessibility": true,
+          "screenshots": true,
+          "network": false
+        },
+        "thresholds": {
+          "loadTime": 2000,
+          "firstContentfulPaint": 1000,
+          "healthScore": 85,
+          "consoleErrors": 0
+        }
+      },
+      "alerts": {
+        "critical": {
+          "consoleErrors": true,
+          "loadTime": 4000,
+          "healthScore": 70
+        },
+        "warning": {
+          "loadTime": 2000,
+          "healthScore": 80
+        }
+      }
+    }
+  }
+}

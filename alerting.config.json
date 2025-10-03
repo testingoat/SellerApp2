@@ -1,0 +1,97 @@
+{
+  "thresholds": {
+    "critical": {
+      "healthScore": 70,
+      "loadTime": 5000,
+      "errorCount": 1,
+      "failedRequests": 2
+    },
+    "warning": {
+      "healthScore": 80,
+      "loadTime": 3000,
+      "errorCount": 0,
+      "warningCount": 5,
+      "failedRequests": 1
+    },
+    "info": {
+      "healthScore": 90,
+      "loadTime": 2000,
+      "layoutShift": 0.1
+    }
+  },
+  "notifications": {
+    "email": {
+      "enabled": true,
+      "recipients": [
+        "admin@company.com",
+        "devops@company.com"
+      ],
+      "criticalOnly": false
+    },
+    "slack": {
+      "enabled": true,
+      "webhook": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK",
+      "channel": "#alerts",
+      "criticalOnly": false
+    },
+    "teams": {
+      "enabled": false,
+      "webhook": "https://outlook.office.com/webhook/YOUR/TEAMS/WEBHOOK",
+      "criticalOnly": true
+    }
+  },
+  "escalation": {
+    "enabled": true,
+    "levels": [
+      {
+        "name": "immediate",
+        "delay": 0,
+        "notifications": [
+          "email",
+          "slack"
+        ]
+      },
+      {
+        "name": "followup",
+        "delay": 300,
+        "notifications": [
+          "email",
+          "slack",
+          "teams"
+        ]
+      },
+      {
+        "name": "escalation",
+        "delay": 1800,
+        "notifications": [
+          "email",
+          "slack",
+          "teams"
+        ],
+        "additionalRecipients": [
+          "manager@company.com"
+        ]
+      }
+    ]
+  },
+  "suppression": {
+    "enabled": true,
+    "rules": [
+      {
+        "type": "same_alert",
+        "window": 600,
+        "maxCount": 1
+      },
+      {
+        "type": "maintenance_window",
+        "schedule": [
+          "02:00-04:00"
+        ],
+        "levels": [
+          "info",
+          "warning"
+        ]
+      }
+    ]
+  }
+}

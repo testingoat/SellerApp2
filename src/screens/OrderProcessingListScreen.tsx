@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,53 +7,65 @@ import {
   StatusBar,
   ScrollView,
   FlatList,
+  ActivityIndicator,
+  RefreshControl,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
-
-interface OrderItem {
-  id: string;
-  time: string;
-  status: 'New' | 'Ready' | 'In Progress' | 'Completed' | 'Cancelled';
-  customer: {
-    name: string;
-    phone: string;
-    address: string;
-  };
-  items: string[];
-  total: string;
-}
+import { orderService, Order } from '../services/orderService';
 
 const OrderProcessingListScreen: React.FC = () => {
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState<'new' | 'progress' | 'completed' | 'cancelled'>('new');
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const mockOrders: OrderItem[] = [
-    {
-      id: '#12345',
-      time: '10:30 AM',
-      status: 'New',
-      customer: {
-        name: 'Sarah Chen',
-        phone: '(555) 123-4567',
-        address: '123 Main St, Anytown',
-      },
-      items: ['2x Organic Bananas', '1x Almond Milk', '3x Avocados'],
-      total: '₹25.50',
-    },
-    {
-      id: '#67890',
-      time: '11:15 AM',
-      status: 'Ready',
-      customer: {
-        name: 'David Lee',
-        phone: '(555) 987-6543',
-        address: '456 Oak Ave, Anytown',
-      },
-      items: ['1x Whole Milk', '2x Bread Loaves'],
-      total: '₹12.30',
-    },
-  ];
+  // Fetch orders when component mounts or tab changes
+  useEffect(() => {
+    fetchOrders();
+  }, [activeTab]);
+
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const statusFilter = getStatusFilter();
+      const response = await orderService.getOrders(1, 50, statusFilter);
+
+      setOrders(response.orders || []);
+    } catch (err: any) {
+      console.error('Failed to fetch orders:', err);
+      setError(err.message || 'Failed to load orders');
+      Alert.alert('Error', err.message || 'Failed to load orders');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchOrders();
+    setRefreshing(false);
+  };
+
+  const getStatusFilter = (): string => {
+    switch (activeTab) {
+      case 'new':
+        return 'pending_seller_approval';
+      case 'progress':
+        return 'available,confirmed,arriving';
+      case 'completed':
+        return 'delivered';
+      case 'cancelled':
+        return 'cancelled,seller_rejected';
+      default:
+        return '';
+    }
+  };
 
   const handleBack = () => {
     navigation.goBack();
@@ -70,12 +82,62 @@ const OrderProcessingListScreen: React.FC = () => {
     });
   };
 
-  const handleReject = (orderId: string) => {
-    console.log('Rejecting order:', orderId);
+  const handleReject = async (orderId: string) => {
+    Alert.prompt(
+      'Reject Order',
+      'Please provide a reason for rejection:',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Reject',
+          style: 'destructive',
+          onPress: async (reason) => {
+            if (!reason || reason.trim().length === 0) {
+              Alert.alert('Error', 'Please provide a rejection reason');
+              return;
+            }
+
+            try {
+              await orderService.rejectOrder(orderId, reason);
+              Alert.alert('Success', 'Order rejected successfully');
+              fetchOrders(); // Refresh the list
+            } catch (err: any) {
+              Alert.alert('Error', err.message || 'Failed to reject order');
+            }
+          },
+        },
+      ],
+      'plain-text'
+    );
   };
 
-  const handleAccept = (orderId: string) => {
-    console.log('Accepting order:', orderId);
+  const handleAccept = async (orderId: string) => {
+    Alert.alert(
+      'Accept Order',
+      'Are you sure you want to accept this order?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Accept',
+          style: 'default',
+          onPress: async () => {
+            try {
+              await orderService.acceptOrder(orderId);
+              Alert.alert('Success', 'Order accepted successfully');
+              fetchOrders(); // Refresh the list
+            } catch (err: any) {
+              Alert.alert('Error', err.message || 'Failed to accept order');
+            }
+          },
+        },
+      ]
+    );
   };
 
   const handleViewDetails = (orderId: string) => {
@@ -111,17 +173,30 @@ const OrderProcessingListScreen: React.FC = () => {
     { key: 'cancelled', label: 'Cancelled' },
   ];
 
-  const renderOrderCard = ({ item }: { item: OrderItem }) => (
+  const formatTime = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const formatPrice = (price: number): string => {
+    return `₹${price.toFixed(2)}`;
+  };
+
+  const getDisplayStatus = (order: Order): string => {
+    return orderService.formatOrderStatus(order.status);
+  };
+
+  const renderOrderCard = ({ item }: { item: Order }) => (
     <View style={styles.orderCard}>
       {/* Order Header */}
       <View style={styles.orderHeader}>
         <View>
-          <Text style={styles.orderId}>{item.id}</Text>
-          <Text style={styles.orderTime}>{item.time}</Text>
+          <Text style={styles.orderId}>#{item.orderId}</Text>
+          <Text style={styles.orderTime}>{formatTime(item.createdAt)}</Text>
         </View>
-        <View style={[styles.statusBadge, { backgroundColor: getStatusBgColor(item.status) }]}>
-          <Text style={[styles.statusText, { color: getStatusColor(item.status) }]}>
-            {item.status}
+        <View style={[styles.statusBadge, { backgroundColor: orderService.getStatusColor(item.status) + '33' }]}>
+          <Text style={[styles.statusText, { color: orderService.getStatusColor(item.status) }]}>
+            {getDisplayStatus(item)}
           </Text>
         </View>
       </View>
@@ -145,42 +220,44 @@ const OrderProcessingListScreen: React.FC = () => {
         </View>
         <View style={styles.addressRow}>
           <Icon name="location-on" size={20} color="#6b7280" />
-          <Text style={styles.addressText}>{item.customer.address}</Text>
+          <Text style={styles.addressText}>{item.deliveryLocation.address || 'No address provided'}</Text>
         </View>
       </View>
 
       {/* Items */}
       <View style={styles.itemsSection}>
         <Text style={styles.itemsTitle}>Items</Text>
-        {item.items.map((itemText, index) => (
-          <Text key={index} style={styles.itemText}>{itemText}</Text>
+        {item.items.map((orderItem, index) => (
+          <Text key={index} style={styles.itemText}>
+            {orderItem.count}x {orderItem.item.name} - {formatPrice(orderItem.item.price)}
+          </Text>
         ))}
-        <Text style={styles.totalText}>Total: {item.total}</Text>
+        <Text style={styles.totalText}>Total: {formatPrice(item.totalPrice)}</Text>
       </View>
 
       {/* Actions */}
       <View style={styles.actionsSection}>
-        {item.status === 'New' ? (
+        {item.status === 'pending_seller_approval' ? (
           <View style={styles.actionButtons}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[styles.actionButton, styles.rejectButton]}
-              onPress={() => handleReject(item.id)}
+              onPress={() => handleReject(item._id)}
             >
               <Icon name="close" size={20} color="#ef4444" />
               <Text style={styles.rejectButtonText}>Reject</Text>
             </TouchableOpacity>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[styles.actionButton, styles.acceptButton]}
-              onPress={() => handleAccept(item.id)}
+              onPress={() => handleAccept(item._id)}
             >
               <Icon name="check" size={20} color="white" />
               <Text style={styles.acceptButtonText}>Accept</Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.actionButton, styles.viewButton]}
-            onPress={() => handleViewDetails(item.id)}
+            onPress={() => handleViewDetails(item._id)}
           >
             <Icon name="visibility" size={20} color="white" />
             <Text style={styles.viewButtonText}>View Details</Text>
@@ -225,13 +302,42 @@ const OrderProcessingListScreen: React.FC = () => {
       </View>
 
       {/* Orders List */}
-      <FlatList
-        data={mockOrders}
-        renderItem={renderOrderCard}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.ordersList}
-        showsVerticalScrollIndicator={false}
-      />
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#10b981" />
+          <Text style={styles.loadingText}>Loading orders...</Text>
+        </View>
+      ) : error ? (
+        <View style={styles.errorContainer}>
+          <Icon name="error-outline" size={48} color="#ef4444" />
+          <Text style={styles.errorText}>{error}</Text>
+          <TouchableOpacity style={styles.retryButton} onPress={fetchOrders}>
+            <Text style={styles.retryButtonText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      ) : orders.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Icon name="inbox" size={64} color="#9ca3af" />
+          <Text style={styles.emptyText}>No orders found</Text>
+          <Text style={styles.emptySubtext}>Orders will appear here when customers place them</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={orders}
+          renderItem={renderOrderCard}
+          keyExtractor={(item) => item._id}
+          contentContainerStyle={styles.ordersList}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#10b981']}
+              tintColor="#10b981"
+            />
+          }
+        />
+      )}
 
 
     </View>
@@ -444,6 +550,59 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: 'white',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#6b7280',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#ef4444',
+    textAlign: 'center',
+  },
+  retryButton: {
+    marginTop: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    backgroundColor: '#10b981',
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'white',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    marginTop: 16,
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#6b7280',
+  },
+  emptySubtext: {
+    marginTop: 8,
+    fontSize: 14,
+    color: '#9ca3af',
+    textAlign: 'center',
   },
 
 });

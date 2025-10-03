@@ -1,0 +1,295 @@
+{
+  "session": "2263891b19daa69c345498fe4f7b8991",
+  "startTime": "2025-10-02T13:11:51.301Z",
+  "targets": [
+    {
+      "id": "prod-seller",
+      "name": "Production Seller",
+      "url": "https://goatgoat.tech/admin/resources/Seller",
+      "type": "seller",
+      "environment": "production",
+      "timestamp": "2025-10-02T13:11:51.302Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [
+          {
+            "timestamp": "2025-10-02T13:11:51.302Z",
+            "message": "Manual check: Check browser console for actual errors",
+            "source": "manual-check",
+            "severity": "error"
+          }
+        ],
+        "warnings": [
+          {
+            "timestamp": "2025-10-02T13:11:51.302Z",
+            "message": "Manual check: Check browser console for actual warnings",
+            "source": "manual-check",
+            "severity": "warning"
+          }
+        ],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T13:11:51.302Z",
+            "message": "Manual check completed - please check browser console manually",
+            "source": "manual-check",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 3
+      },
+      "performance": {
+        "loadTime": 0,
+        "firstContentfulPaint": 0,
+        "largestContentfulPaint": 0,
+        "cumulativeLayoutShift": 0,
+        "firstInputDelay": 0,
+        "networkRequests": {
+          "total": 0,
+          "failed": 0,
+          "size": 0
+        }
+      },
+      "ui": {
+        "snapshots": [],
+        "accessibility": {
+          "score": 95,
+          "issues": []
+        }
+      },
+      "health": 80,
+      "alerts": [
+        {
+          "level": "critical",
+          "type": "console_errors",
+          "message": "1 console errors detected",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "type": "console_warnings",
+          "message": "1 console warnings detected",
+          "count": 1
+        }
+      ],
+      "duration": 1
+    },
+    {
+      "id": "prod-fcm",
+      "name": "Production FCM",
+      "url": "https://goatgoat.tech/admin/fcm-management",
+      "type": "fcm",
+      "environment": "production",
+      "timestamp": "2025-10-02T13:11:51.303Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [
+          {
+            "timestamp": "2025-10-02T13:11:51.303Z",
+            "message": "Manual check: Check browser console for actual errors",
+            "source": "manual-check",
+            "severity": "error"
+          }
+        ],
+        "warnings": [
+          {
+            "timestamp": "2025-10-02T13:11:51.303Z",
+            "message": "Manual check: Check browser console for actual warnings",
+            "source": "manual-check",
+            "severity": "warning"
+          }
+        ],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T13:11:51.303Z",
+            "message": "Manual check completed - please check browser console manually",
+            "source": "manual-check",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 3
+      },
+      "performance": {
+        "loadTime": 0,
+        "firstContentfulPaint": 0,
+        "largestContentfulPaint": 0,
+        "cumulativeLayoutShift": 0,
+        "firstInputDelay": 0,
+        "networkRequests": {
+          "total": 0,
+          "failed": 0,
+          "size": 0
+        }
+      },
+      "ui": {
+        "snapshots": [],
+        "accessibility": {
+          "score": 95,
+          "issues": []
+        }
+      },
+      "health": 80,
+      "alerts": [
+        {
+          "level": "critical",
+          "type": "console_errors",
+          "message": "1 console errors detected",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "type": "console_warnings",
+          "message": "1 console warnings detected",
+          "count": 1
+        }
+      ],
+      "duration": 0
+    },
+    {
+      "id": "staging-seller",
+      "name": "Staging Seller",
+      "url": "https://staging.goatgoat.tech/admin/resources/Seller",
+      "type": "seller",
+      "environment": "staging",
+      "timestamp": "2025-10-02T13:11:51.303Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [
+          {
+            "timestamp": "2025-10-02T13:11:51.303Z",
+            "message": "Manual check: Check browser console for actual errors",
+            "source": "manual-check",
+            "severity": "error"
+          }
+        ],
+        "warnings": [
+          {
+            "timestamp": "2025-10-02T13:11:51.303Z",
+            "message": "Manual check: Check browser console for actual warnings",
+            "source": "manual-check",
+            "severity": "warning"
+          }
+        ],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T13:11:51.303Z",
+            "message": "Manual check completed - please check browser console manually",
+            "source": "manual-check",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 3
+      },
+      "performance": {
+        "loadTime": 0,
+        "firstContentfulPaint": 0,
+        "largestContentfulPaint": 0,
+        "cumulativeLayoutShift": 0,
+        "firstInputDelay": 0,
+        "networkRequests": {
+          "total": 0,
+          "failed": 0,
+          "size": 0
+        }
+      },
+      "ui": {
+        "snapshots": [],
+        "accessibility": {
+          "score": 95,
+          "issues": []
+        }
+      },
+      "health": 80,
+      "alerts": [
+        {
+          "level": "critical",
+          "type": "console_errors",
+          "message": "1 console errors detected",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "type": "console_warnings",
+          "message": "1 console warnings detected",
+          "count": 1
+        }
+      ],
+      "duration": 0
+    },
+    {
+      "id": "staging-fcm",
+      "name": "Staging FCM",
+      "url": "https://staging.goatgoat.tech/admin/fcm-management",
+      "type": "fcm",
+      "environment": "staging",
+      "timestamp": "2025-10-02T13:11:51.304Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [
+          {
+            "timestamp": "2025-10-02T13:11:51.304Z",
+            "message": "Manual check: Check browser console for actual errors",
+            "source": "manual-check",
+            "severity": "error"
+          }
+        ],
+        "warnings": [
+          {
+            "timestamp": "2025-10-02T13:11:51.304Z",
+            "message": "Manual check: Check browser console for actual warnings",
+            "source": "manual-check",
+            "severity": "warning"
+          }
+        ],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T13:11:51.304Z",
+            "message": "Manual check completed - please check browser console manually",
+            "source": "manual-check",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 3
+      },
+      "performance": {
+        "loadTime": 0,
+        "firstContentfulPaint": 0,
+        "largestContentfulPaint": 0,
+        "cumulativeLayoutShift": 0,
+        "firstInputDelay": 0,
+        "networkRequests": {
+          "total": 0,
+          "failed": 0,
+          "size": 0
+        }
+      },
+      "ui": {
+        "snapshots": [],
+        "accessibility": {
+          "score": 95,
+          "issues": []
+        }
+      },
+      "health": 80,
+      "alerts": [
+        {
+          "level": "critical",
+          "type": "console_errors",
+          "message": "1 console errors detected",
+          "count": 1
+        },
+        {
+          "level": "warning",
+          "type": "console_warnings",
+          "message": "1 console warnings detected",
+          "count": 1
+        }
+      ],
+      "duration": 0
+    }
+  ],
+  "endTime": "2025-10-02T13:11:51.304Z"
+}

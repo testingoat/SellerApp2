@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,12 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { orderService, Order } from '../services/orderService';
 
 interface TimelineStep {
   id: string;
@@ -22,50 +25,154 @@ interface TimelineStep {
 const OrderTimelineScreen: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const orderId = route.params?.orderId || '#12345';
+  const orderId = route.params?.orderId;
 
-  const timelineSteps: TimelineStep[] = [
-    {
+  const [order, setOrder] = useState<Order | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (orderId) {
+      fetchOrderDetails();
+    }
+  }, [orderId]);
+
+  const fetchOrderDetails = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const orderData = await orderService.getOrderById(orderId);
+
+      if (orderData) {
+        setOrder(orderData);
+      } else {
+        setError('Order not found');
+      }
+    } catch (err: any) {
+      console.error('Failed to fetch order details:', err);
+      setError(err.message || 'Failed to load order details');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatTime = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const generateTimeline = (order: Order): TimelineStep[] => {
+    const steps: TimelineStep[] = [];
+
+    // Step 1: Order Placed
+    steps.push({
       id: '1',
       title: 'Order Placed',
-      time: '10:00 AM',
+      time: formatTime(order.createdAt),
       icon: 'inventory-2',
       completed: true,
       active: false,
-    },
-    {
-      id: '2',
-      title: 'Order Accepted',
-      time: '10:15 AM',
-      icon: 'done',
-      completed: true,
-      active: false,
-    },
-    {
-      id: '3',
-      title: 'In Transit',
-      time: '10:45 AM',
-      icon: 'local-shipping',
-      completed: true,
-      active: true,
-    },
-    {
-      id: '4',
-      title: 'Delivered',
-      time: 'Pending',
-      icon: 'home',
-      completed: false,
-      active: false,
-    },
-    {
-      id: '5',
-      title: 'Completed',
-      time: 'Pending',
-      icon: 'check-circle',
-      completed: false,
-      active: false,
-    },
-  ];
+    });
+
+    // Step 2: Order Accepted/Rejected
+    if (order.sellerResponse.status === 'accepted') {
+      steps.push({
+        id: '2',
+        title: 'Order Accepted',
+        time: order.sellerResponse.responseTime ? formatTime(order.sellerResponse.responseTime) : 'Pending',
+        icon: 'done',
+        completed: true,
+        active: order.status === 'available',
+      });
+    } else if (order.sellerResponse.status === 'rejected') {
+      steps.push({
+        id: '2',
+        title: 'Order Rejected',
+        time: order.sellerResponse.responseTime ? formatTime(order.sellerResponse.responseTime) : 'Pending',
+        icon: 'close',
+        completed: true,
+        active: false,
+      });
+      return steps; // Stop here if rejected
+    } else {
+      steps.push({
+        id: '2',
+        title: 'Awaiting Acceptance',
+        time: 'Pending',
+        icon: 'schedule',
+        completed: false,
+        active: true,
+      });
+      return steps; // Stop here if pending
+    }
+
+    // Step 3: Confirmed
+    if (order.status === 'confirmed' || order.status === 'arriving' || order.status === 'delivered') {
+      steps.push({
+        id: '3',
+        title: 'Order Confirmed',
+        time: formatTime(order.updatedAt),
+        icon: 'check-circle',
+        completed: true,
+        active: order.status === 'confirmed',
+      });
+    } else {
+      steps.push({
+        id: '3',
+        title: 'Order Confirmed',
+        time: 'Pending',
+        icon: 'check-circle',
+        completed: false,
+        active: false,
+      });
+    }
+
+    // Step 4: In Transit
+    if (order.status === 'arriving' || order.status === 'delivered') {
+      steps.push({
+        id: '4',
+        title: 'In Transit',
+        time: formatTime(order.updatedAt),
+        icon: 'local-shipping',
+        completed: true,
+        active: order.status === 'arriving',
+      });
+    } else {
+      steps.push({
+        id: '4',
+        title: 'In Transit',
+        time: 'Pending',
+        icon: 'local-shipping',
+        completed: false,
+        active: false,
+      });
+    }
+
+    // Step 5: Delivered
+    if (order.status === 'delivered') {
+      steps.push({
+        id: '5',
+        title: 'Delivered',
+        time: formatTime(order.updatedAt),
+        icon: 'home',
+        completed: true,
+        active: true,
+      });
+    } else {
+      steps.push({
+        id: '5',
+        title: 'Delivered',
+        time: 'Pending',
+        icon: 'home',
+        completed: false,
+        active: false,
+      });
+    }
+
+    return steps;
+  };
+
+  const timelineSteps: TimelineStep[] = order ? generateTimeline(order) : [];
 
   const handleBack = () => {
     navigation.goBack();
@@ -116,23 +223,62 @@ const OrderTimelineScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#f6f8f6" barStyle="dark-content" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleBack}>
           <Icon name="arrow-back" size={24} color="#1f2937" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Order {orderId}</Text>
+        <Text style={styles.headerTitle}>Order #{order?.orderId || orderId}</Text>
         <View style={styles.placeholder} />
       </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <View style={styles.content}>
-          <View style={styles.timeline}>
-            {timelineSteps.map((step, index) => renderTimelineStep(step, index))}
-          </View>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#10b981" />
+          <Text style={styles.loadingText}>Loading order details...</Text>
         </View>
-      </ScrollView>
+      ) : error ? (
+        <View style={styles.errorContainer}>
+          <Icon name="error-outline" size={48} color="#ef4444" />
+          <Text style={styles.errorText}>{error}</Text>
+          <TouchableOpacity style={styles.retryButton} onPress={fetchOrderDetails}>
+            <Text style={styles.retryButtonText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      ) : order ? (
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+          <View style={styles.content}>
+            {/* Order Info Card */}
+            <View style={styles.orderInfoCard}>
+              <Text style={styles.orderInfoTitle}>Order Details</Text>
+              <View style={styles.orderInfoRow}>
+                <Text style={styles.orderInfoLabel}>Customer:</Text>
+                <Text style={styles.orderInfoValue}>{order.customer.name}</Text>
+              </View>
+              <View style={styles.orderInfoRow}>
+                <Text style={styles.orderInfoLabel}>Phone:</Text>
+                <Text style={styles.orderInfoValue}>{order.customer.phone}</Text>
+              </View>
+              <View style={styles.orderInfoRow}>
+                <Text style={styles.orderInfoLabel}>Total:</Text>
+                <Text style={styles.orderInfoValue}>₹{order.totalPrice.toFixed(2)}</Text>
+              </View>
+              <View style={styles.orderInfoRow}>
+                <Text style={styles.orderInfoLabel}>Status:</Text>
+                <Text style={[styles.orderInfoValue, { color: orderService.getStatusColor(order.status) }]}>
+                  {orderService.formatOrderStatus(order.status)}
+                </Text>
+              </View>
+            </View>
+
+            {/* Timeline */}
+            <View style={styles.timeline}>
+              {timelineSteps.map((step, index) => renderTimelineStep(step, index))}
+            </View>
+          </View>
+        </ScrollView>
+      ) : null}
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
@@ -299,6 +445,74 @@ const styles = StyleSheet.create({
   activeNavText: {
     color: '#3be340',
     fontWeight: '700',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#6b7280',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#ef4444',
+    textAlign: 'center',
+  },
+  retryButton: {
+    marginTop: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    backgroundColor: '#10b981',
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'white',
+  },
+  orderInfoCard: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  orderInfoTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#1f2937',
+    marginBottom: 12,
+  },
+  orderInfoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  orderInfoLabel: {
+    fontSize: 14,
+    color: '#6b7280',
+  },
+  orderInfoValue: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1f2937',
   },
 });
 

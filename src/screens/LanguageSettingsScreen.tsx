@@ -7,105 +7,140 @@ import {
   StatusBar,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
-
-interface Language {
-  id: string;
-  name: string;
-  code: string;
-}
+import { useTranslation } from 'react-i18next';
+import { changeLanguage, AVAILABLE_LANGUAGES, getCurrentLanguage } from '../i18n';
+import { useTheme } from '../context/ThemeContext';
+import httpClient from '../services/httpClient';
 
 const LanguageSettingsScreen: React.FC = () => {
   const navigation = useNavigation();
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
-
-  const languages: Language[] = [
-    { id: 'en', name: 'English', code: 'en' },
-    { id: 'es', name: 'Spanish', code: 'es' },
-    { id: 'fr', name: 'French', code: 'fr' },
-    { id: 'de', name: 'German', code: 'de' },
-    { id: 'it', name: 'Italian', code: 'it' },
-    { id: 'pt', name: 'Portuguese', code: 'pt' },
-    { id: 'zh', name: 'Chinese', code: 'zh' },
-    { id: 'ja', name: 'Japanese', code: 'ja' },
-    { id: 'ko', name: 'Korean', code: 'ko' },
-    { id: 'ar', name: 'Arabic', code: 'ar' },
-  ];
+  const { t } = useTranslation();
+  const { theme } = useTheme();
+  const [currentLang, setCurrentLang] = useState(getCurrentLanguage());
+  const [loading, setLoading] = useState(false);
 
   const handleBack = () => {
     navigation.goBack();
   };
 
-  const handleLanguageSelect = (languageId: string) => {
-    setSelectedLanguage(languageId);
-  };
+  const handleLanguageChange = async (languageCode: string) => {
+    if (languageCode === currentLang) {
+      return;
+    }
 
-  const handleSave = () => {
-    const selectedLang = languages.find(lang => lang.id === selectedLanguage);
-    Alert.alert(
-      'Language Updated',
-      `Language changed to ${selectedLang?.name}. Please restart the app for changes to take effect.`,
-      [{ text: 'OK' }]
-    );
-  };
+    setLoading(true);
+    try {
+      // Change language in app
+      const success = await changeLanguage(languageCode);
 
-  const renderLanguageOption = (language: Language) => (
-    <TouchableOpacity
-      key={language.id}
-      style={[
-        styles.languageOption,
-        selectedLanguage === language.id && styles.selectedLanguageOption,
-      ]}
-      onPress={() => handleLanguageSelect(language.id)}
-      activeOpacity={0.7}
-    >
-      <Text style={[
-        styles.languageName,
-        selectedLanguage === language.id && styles.selectedLanguageName,
-      ]}>
-        {language.name}
-      </Text>
-      <View style={[
-        styles.radioButton,
-        selectedLanguage === language.id && styles.selectedRadioButton,
-      ]}>
-        {selectedLanguage === language.id && (
-          <View style={styles.radioButtonInner} />
-        )}
-      </View>
-    </TouchableOpacity>
-  );
+      if (success) {
+        // Update language preference on server
+        try {
+          await httpClient.put('/seller/profile', {
+            languagePreference: languageCode,
+          });
+          console.log('✅ Language preference saved to server');
+        } catch (serverError) {
+          console.warn('⚠️ Failed to save language to server:', serverError);
+          // Continue anyway - local change was successful
+        }
+
+        setCurrentLang(languageCode);
+        Alert.alert(
+          t('common.success'),
+          t('language.languageChanged'),
+          [
+            {
+              text: t('common.ok'),
+              onPress: () => navigation.goBack(),
+            },
+          ]
+        );
+      } else {
+        Alert.alert(t('common.error'), t('language.languageChangeFailed'));
+      }
+    } catch (error) {
+      console.error('Error changing language:', error);
+      Alert.alert(t('common.error'), t('language.languageChangeFailed'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="#f6f8f6" barStyle="dark-content" />
-      
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <StatusBar backgroundColor={theme.background} barStyle={theme.statusBarStyle as any} />
+
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: theme.background, borderBottomColor: theme.border }]}>
         <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-          <Icon name="arrow-back" size={24} color="#1f2937" />
+          <Icon name="arrow-back" size={24} color={theme.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Language</Text>
+        <Text style={[styles.headerTitle, { color: theme.text }]}>
+          {t('language.selectLanguage')}
+        </Text>
         <View style={styles.placeholder} />
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
-          <Text style={styles.sectionTitle}>Select Language</Text>
+          <Text style={[styles.sectionTitle, { color: theme.text }]}>
+            {t('language.currentLanguage')}: {AVAILABLE_LANGUAGES.find(l => l.code === currentLang)?.nativeName}
+          </Text>
+
           <View style={styles.languageList}>
-            {languages.map(renderLanguageOption)}
+            {AVAILABLE_LANGUAGES.map((language) => {
+              const isSelected = language.code === currentLang;
+
+              return (
+                <TouchableOpacity
+                  key={language.code}
+                  style={[
+                    styles.languageOption,
+                    { backgroundColor: theme.card, borderColor: theme.border },
+                    isSelected && { borderColor: theme.primary, backgroundColor: theme.primary + '20' },
+                  ]}
+                  onPress={() => handleLanguageChange(language.code)}
+                  activeOpacity={0.7}
+                  disabled={loading}
+                >
+                  <View style={styles.languageInfo}>
+                    <Text style={[
+                      styles.languageName,
+                      { color: theme.text },
+                      isSelected && { color: theme.primary, fontWeight: '600' },
+                    ]}>
+                      {language.nativeName}
+                    </Text>
+                    <Text style={[styles.languageCode, { color: theme.textSecondary }]}>
+                      {language.name}
+                    </Text>
+                  </View>
+
+                  {isSelected && (
+                    <Icon name="check-circle" size={24} color={theme.primary} />
+                  )}
+
+                  {loading && language.code !== currentLang && (
+                    <ActivityIndicator size="small" color={theme.primary} />
+                  )}
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          <View style={[styles.infoBox, { backgroundColor: theme.primary + '20' }]}>
+            <Icon name="info" size={20} color={theme.primary} />
+            <Text style={[styles.infoText, { color: theme.textSecondary }]}>
+              Language changes will take effect immediately. Your preference will be saved.
+            </Text>
           </View>
         </View>
       </ScrollView>
-
-      {/* Save Button */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.saveButtonText}>Save</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -113,7 +148,6 @@ const LanguageSettingsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f8f6',
   },
   header: {
     flexDirection: 'row',
@@ -122,9 +156,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 16,
-    backgroundColor: '#f6f8f6',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(59, 227, 64, 0.2)',
   },
   backButton: {
     width: 40,
@@ -136,7 +168,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#1f2937',
     flex: 1,
     textAlign: 'center',
   },
@@ -149,16 +180,16 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 16,
     paddingTop: 16,
-    paddingBottom: 100,
+    paddingBottom: 32,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#1f2937',
+    fontSize: 16,
+    fontWeight: '600',
     marginBottom: 16,
   },
   languageList: {
     gap: 12,
+    marginTop: 8,
   },
   languageOption: {
     flexDirection: 'row',
@@ -166,67 +197,37 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 16,
-    backgroundColor: 'white',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'rgba(59, 227, 64, 0.2)',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  selectedLanguageOption: {
-    borderColor: '#3be340',
-    backgroundColor: 'rgba(59, 227, 64, 0.1)',
+  languageInfo: {
+    flex: 1,
   },
   languageName: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#1f2937',
-  },
-  selectedLanguageName: {
-    color: '#3be340',
-    fontWeight: '600',
-  },
-  radioButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'rgba(59, 227, 64, 0.3)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  selectedRadioButton: {
-    borderColor: '#3be340',
-  },
-  radioButtonInner: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#3be340',
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#f6f8f6',
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    paddingBottom: 32,
-  },
-  saveButton: {
-    backgroundColor: '#3be340',
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  saveButtonText: {
     fontSize: 18,
-    fontWeight: '700',
-    color: '#112112',
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  languageCode: {
+    fontSize: 14,
+  },
+  infoBox: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    padding: 16,
+    marginTop: 24,
+    borderRadius: 8,
+  },
+  infoText: {
+    flex: 1,
+    marginLeft: 12,
+    fontSize: 13,
+    lineHeight: 18,
   },
 });
 

@@ -183,7 +183,25 @@ const SalesAnalyticsScreen: React.FC = () => {
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <View style={styles.content}>
+        {/* Coming Soon Overlay */}
+        <View style={styles.comingSoonOverlay}>
+          <View style={styles.comingSoonCard}>
+            <Icon name="analytics" size={64} color="#3be340" />
+            <Text style={styles.comingSoonTitle}>Coming Soon</Text>
+            <Text style={styles.comingSoonText}>
+              Advanced analytics and insights are on the way!
+            </Text>
+            <Text style={styles.comingSoonSubtext}>
+              We're building powerful analytics tools to help you understand your business better.
+            </Text>
+            <View style={styles.comingSoonBadge}>
+              <Icon name="schedule" size={16} color="#3be340" />
+              <Text style={styles.comingSoonBadgeText}>Available Soon</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={[styles.content, styles.blurred]}>
           {renderPeriodSelector()}
           {renderMetricsCards()}
           {renderSalesTrends()}
@@ -405,6 +423,68 @@ const styles = StyleSheet.create({
     color: '#1f2937',
     minWidth: 40,
     textAlign: 'right',
+  },
+  comingSoonOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(246, 248, 246, 0.95)',
+    zIndex: 1000,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  comingSoonCard: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 32,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+    maxWidth: 320,
+  },
+  comingSoonTitle: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#1f2937',
+    marginTop: 16,
+    marginBottom: 12,
+  },
+  comingSoonText: {
+    fontSize: 16,
+    color: '#6b7280',
+    textAlign: 'center',
+    marginBottom: 8,
+    lineHeight: 24,
+  },
+  comingSoonSubtext: {
+    fontSize: 14,
+    color: '#9ca3af',
+    textAlign: 'center',
+    marginBottom: 24,
+    lineHeight: 20,
+  },
+  comingSoonBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(59, 227, 64, 0.1)',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    gap: 6,
+  },
+  comingSoonBadgeText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#3be340',
+  },
+  blurred: {
+    opacity: 0.3,
   },
 
 });

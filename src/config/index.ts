@@ -32,6 +32,12 @@ export const API_ENDPOINTS = {
   SET_LOCATION: `${SELLER_API_URL}/location`,
   GET_LOCATION: `${SELLER_API_URL}/location`,
   UPDATE_LOCATION: `${SELLER_API_URL}/location`,
+
+  // Seller notifications endpoints
+  NOTIFICATIONS: `${SELLER_API_URL}/notifications`,
+  NOTIFICATION_MARK_READ: `${SELLER_API_URL}/notifications/:id/read`,
+  NOTIFICATION_DELETE: `${SELLER_API_URL}/notifications/:id`,
+  NOTIFICATIONS_MARK_ALL_READ: `${SELLER_API_URL}/notifications/mark-all-read`,
 } as const;
 
 export const STORAGE_KEYS = {

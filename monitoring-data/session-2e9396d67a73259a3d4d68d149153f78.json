@@ -1,0 +1,199 @@
+{
+  "session": "2e9396d67a73259a3d4d68d149153f78",
+  "startTime": "2025-10-02T20:30:04.694Z",
+  "targets": [
+    {
+      "id": "prod-seller",
+      "name": "Production Seller - goatgoat.tech/admin/resources/Seller",
+      "url": "https://goatgoat.tech/admin/resources/Seller",
+      "type": "seller",
+      "environment": "production",
+      "timestamp": "2025-10-02T20:30:04.695Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [],
+        "warnings": [],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T20:30:05.156Z",
+            "message": "AdminJS interface loaded successfully",
+            "source": "application",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 1
+      },
+      "performance": {
+        "loadTime": 461,
+        "firstContentfulPaint": 0,
+        "largestContentfulPaint": 0,
+        "cumulativeLayoutShift": 0,
+        "firstInputDelay": 0,
+        "networkRequests": {
+          "total": 0,
+          "failed": 0,
+          "size": 0
+        }
+      },
+      "ui": {
+        "snapshots": [],
+        "accessibility": {
+          "score": 95,
+          "issues": []
+        }
+      },
+      "health": 100,
+      "alerts": [],
+      "duration": 461
+    },
+    {
+      "id": "prod-fcm",
+      "name": "Production FCM - goatgoat.tech/admin/fcm-management",
+      "url": "https://goatgoat.tech/admin/fcm-management",
+      "type": "fcm",
+      "environment": "production",
+      "timestamp": "2025-10-02T20:30:05.158Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [],
+        "warnings": [],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T20:30:05.492Z",
+            "message": "FCM Dashboard loaded successfully",
+            "source": "application",
+            "severity": "info"
+          },
+          {
+            "timestamp": "2025-10-02T20:30:05.492Z",
+            "message": "FCM Dashboard - Phase 5.1 loaded successfully",
+            "source": "fcm-system",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 2
+      },
+      "performance": {
+        "loadTime": 334,
+        "firstContentfulPaint": 0,
+        "largestContentfulPaint": 0,
+        "cumulativeLayoutShift": 0,
+        "firstInputDelay": 0,
+        "networkRequests": {
+          "total": 0,
+          "failed": 0,
+          "size": 0
+        }
+      },
+      "ui": {
+        "snapshots": [],
+        "accessibility": {
+          "score": 95,
+          "issues": []
+        }
+      },
+      "health": 100,
+      "alerts": [],
+      "duration": 334
+    },
+    {
+      "id": "staging-seller",
+      "name": "Staging Seller - staging.goatgoat.tech/admin/resources/Seller",
+      "url": "https://staging.goatgoat.tech/admin/resources/Seller",
+      "type": "seller",
+      "environment": "staging",
+      "timestamp": "2025-10-02T20:30:05.493Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [],
+        "warnings": [],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T20:30:05.970Z",
+            "message": "AdminJS interface loaded successfully",
+            "source": "application",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 1
+      },
+      "performance": {
+        "loadTime": 477,
+        "firstContentfulPaint": 0,
+        "largestContentfulPaint": 0,
+        "cumulativeLayoutShift": 0,
+        "firstInputDelay": 0,
+        "networkRequests": {
+          "total": 0,
+          "failed": 0,
+          "size": 0
+        }
+      },
+      "ui": {
+        "snapshots": [],
+        "accessibility": {
+          "score": 95,
+          "issues": []
+        }
+      },
+      "health": 100,
+      "alerts": [],
+      "duration": 477
+    },
+    {
+      "id": "staging-fcm",
+      "name": "Staging FCM - staging.goatgoat.tech/admin/fcm-management",
+      "url": "https://staging.goatgoat.tech/admin/fcm-management",
+      "type": "fcm",
+      "environment": "staging",
+      "timestamp": "2025-10-02T20:30:05.972Z",
+      "status": "success",
+      "metrics": {},
+      "console": {
+        "errors": [],
+        "warnings": [],
+        "logs": [
+          {
+            "timestamp": "2025-10-02T20:30:06.285Z",
+            "message": "FCM Dashboard loaded successfully",
+            "source": "application",
+            "severity": "info"
+          },
+          {
+            "timestamp": "2025-10-02T20:30:06.285Z",
+            "message": "FCM Dashboard - Phase 5.1 loaded successfully",
+            "source": "fcm-system",
+            "severity": "info"
+          }
+        ],
+        "totalMessages": 2
+      },
+      "performance": {
+        "loadTime": 313,
+        "firstContentfulPaint": 0,
+        "largestContentfulPaint": 0,
+        "cumulativeLayoutShift": 0,
+        "firstInputDelay": 0,
+        "networkRequests": {
+          "total": 0,
+          "failed": 0,
+          "size": 0
+        }
+      },
+      "ui": {
+        "snapshots": [],
+        "accessibility": {
+          "score": 95,
+          "issues": []
+        }
+      },
+      "health": 100,
+      "alerts": [],
+      "duration": 313
+    }
+  ],
+  "endTime": "2025-10-02T20:30:06.286Z"
+}
