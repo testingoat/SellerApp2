@@ -18,6 +18,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { productService, Product, Category } from '../services/productService';
 import { useAuthStore } from '../state/authStore';
 import { MainStackParamList } from '../config/navigationTypes';
+import { useSafeTheme } from '../hooks/useSafeTheme';
+import { withNetworkErrorBoundary } from '../components/NetworkErrorBoundary';
 
 type ProductListNavigationProp = StackNavigationProp<MainStackParamList>;
 
@@ -34,6 +36,7 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
 }) => {
   const navigation = useNavigation<ProductListNavigationProp>();
   const { user, token, isAuthenticated } = useAuthStore();
+  const { colors, isDarkMode } = useSafeTheme();
   
   // State management
   const [searchQuery, setSearchQuery] = useState('');
@@ -279,15 +282,15 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="#f6f8f6" barStyle="dark-content" />
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <StatusBar backgroundColor={colors.background} barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
 
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: colors.background }]}>
         <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-          <Icon name="arrow-back" size={24} color="#1f2937" />
+          <Icon name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Products</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Products</Text>
         <TouchableOpacity
           style={styles.refreshButton}
           onPress={refreshData}
@@ -296,7 +299,7 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
           <Icon
             name="refresh"
             size={24}
-            color={refreshing ? "#9ca3af" : "#3be340"}
+            color={refreshing ? colors.textSecondary : colors.primary}
           />
         </TouchableOpacity>
       </View>
@@ -304,11 +307,15 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
       <View style={styles.content}>
         {/* Search Bar */}
         <View style={styles.searchContainer}>
-          <Icon name="search" size={20} color="#6b7280" style={styles.searchIcon} />
+          <Icon name="search" size={20} color={colors.textSecondary} style={styles.searchIcon} />
           <TextInput
-            style={styles.searchInput}
+            style={[styles.searchInput, { 
+              backgroundColor: colors.card, 
+              color: colors.text,
+              shadowColor: isDarkMode ? '#000' : '#000',
+            }]}
             placeholder="Search products"
-            placeholderTextColor="#6b7280"
+            placeholderTextColor={colors.textSecondary}
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
@@ -326,13 +333,19 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
               key={option.key}
               style={[
                 styles.categoryButton,
-                selectedStatus === option.key && styles.categoryButtonActive
+                { 
+                  backgroundColor: selectedStatus === option.key ? colors.primary : colors.card, 
+                  borderColor: selectedStatus === option.key ? colors.primary : colors.border 
+                }
               ]}
               onPress={() => setSelectedStatus(option.key as any)}
             >
               <Text style={[
                 styles.categoryButtonText,
-                selectedStatus === option.key && styles.categoryButtonTextActive
+                { 
+                  color: selectedStatus === option.key ? '#000' : colors.textSecondary,
+                  fontWeight: selectedStatus === option.key ? '600' : '500'
+                }
               ]}>
                 {option.label} ({option.count})
               </Text>
@@ -352,13 +365,19 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
               key={category._id || category.name}
               style={[
                 styles.categoryButton,
-                selectedCategory === category.name && styles.categoryButtonActive
+                { 
+                  backgroundColor: selectedCategory === category.name ? colors.primary : colors.card, 
+                  borderColor: selectedCategory === category.name ? colors.primary : colors.border 
+                }
               ]}
               onPress={() => setSelectedCategory(category.name)}
             >
               <Text style={[
                 styles.categoryButtonText,
-                selectedCategory === category.name && styles.categoryButtonTextActive
+                { 
+                  color: selectedCategory === category.name ? '#000' : colors.textSecondary,
+                  fontWeight: selectedCategory === category.name ? '600' : '500'
+                }
               ]}>
                 {category.name}
               </Text>
@@ -369,8 +388,8 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
         {/* Refresh Hint */}
         {!loading && !refreshing && (
           <View style={styles.refreshHint}>
-            <Icon name="info" size={16} color="#6b7280" />
-            <Text style={styles.refreshHintText}>
+            <Icon name="info" size={16} color={colors.textSecondary} />
+            <Text style={[styles.refreshHintText, { color: colors.textSecondary }]}>
               Pull down or tap refresh button to update product status
             </Text>
           </View>
@@ -379,17 +398,17 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
         {/* Loading State */}
         {loading && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#3be340" />
-            <Text style={styles.loadingText}>Loading products...</Text>
+            <ActivityIndicator size="large" color={colors.primary} />
+            <Text style={[styles.loadingText, { color: colors.textSecondary }]}>Loading products...</Text>
           </View>
         )}
 
         {/* Error State */}
         {error && (
           <View style={styles.errorContainer}>
-            <Icon name="error-outline" size={48} color="#ef4444" />
-            <Text style={styles.errorText}>{error}</Text>
-            <TouchableOpacity style={styles.retryButton} onPress={loadData}>
+            <Icon name="error-outline" size={48} color={colors.error} />
+            <Text style={[styles.errorText, { color: colors.textSecondary }]}>{error}</Text>
+            <TouchableOpacity style={[styles.retryButton, { backgroundColor: colors.primary }]} onPress={loadData}>
               <Text style={styles.retryButtonText}>Retry</Text>
             </TouchableOpacity>
           </View>
@@ -404,17 +423,18 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
               <RefreshControl
                 refreshing={refreshing}
                 onRefresh={refreshData}
-                colors={['#3be340']}
-                tintColor="#3be340"
+                colors={[colors.primary]}
+                tintColor={colors.primary}
+                progressBackgroundColor={colors.card}
               />
             }
           >
             <View style={styles.productsContainer}>
               {filteredProducts.length === 0 ? (
                 <View style={styles.emptyContainer}>
-                  <Icon name="inventory" size={64} color="#9ca3af" />
-                  <Text style={styles.emptyTitle}>No products found</Text>
-                  <Text style={styles.emptySubtitle}>
+                  <Icon name="inventory" size={64} color={colors.textSecondary} />
+                  <Text style={[styles.emptyTitle, { color: colors.text }]}>No products found</Text>
+                  <Text style={[styles.emptySubtitle, { color: colors.textSecondary }]}>
                     {products.length === 0 
                       ? 'Add your first product to get started'
                       : 'Try adjusting your filters or search term'}
@@ -422,12 +442,15 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
                 </View>
               ) : (
                 filteredProducts.map((product) => (
-                  <View key={product._id} style={styles.productCard}>
+                  <View key={product._id} style={[styles.productCard, { 
+                    backgroundColor: colors.card,
+                    shadowColor: isDarkMode ? '#000' : '#000',
+                  }]}>
                     <TouchableOpacity
                       style={styles.productCardContent}
                       onPress={() => handleEditProduct(product)}
                     >
-                      <View style={styles.productImageContainer}>
+                      <View style={[styles.productImageContainer, { backgroundColor: colors.surface }]}>
                         {product.image ? (
                           <Image 
                             source={{ uri: product.image }} 
@@ -435,14 +458,14 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
                             resizeMode="cover"
                           />
                         ) : (
-                          <Icon name="image" size={32} color="#9ca3af" />
+                          <Icon name="image" size={32} color={colors.textSecondary} />
                         )}
                       </View>
 
                       <View style={styles.productInfo}>
-                        <Text style={styles.productName}>{product.name}</Text>
-                        <Text style={styles.productPrice}>${product.price}</Text>
-                        <Text style={styles.productCategory}>{product.category?.name}</Text>
+                        <Text style={[styles.productName, { color: colors.text }]}>{product.name}</Text>
+                        <Text style={[styles.productPrice, { color: colors.textSecondary }]}>${product.price}</Text>
+                        <Text style={[styles.productCategory, { color: colors.textSecondary }]}>{product.category?.name}</Text>
                         
                         {/* Admin Approval Status */}
                         <View style={styles.statusContainer}>
@@ -466,7 +489,7 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
                       <View style={styles.productActions}>
                         <Text style={[
                           styles.stockStatus,
-                          product.stock > 0 ? styles.inStock : styles.outOfStock
+                          { color: product.stock > 0 ? colors.success : colors.error }
                         ]}>
                           Stock: {product.stock}
                         </Text>
@@ -482,7 +505,7 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
                         <Icon
                           name={product.isActive ? 'visibility' : 'visibility-off'}
                           size={24}
-                          color={product.isActive ? '#10b981' : '#6b7280'}
+                          color={product.isActive ? colors.success : colors.textSecondary}
                         />
                       </TouchableOpacity>
                     )}
@@ -496,7 +519,10 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
 
       {/* Floating Add Button */}
       <View style={styles.floatingButtonContainer}>
-        <TouchableOpacity style={styles.floatingButton} onPress={handleAddProduct}>
+        <TouchableOpacity style={[styles.floatingButton, { 
+          backgroundColor: colors.primary,
+          shadowColor: colors.primary,
+        }]} onPress={handleAddProduct}>
           <Icon name="add" size={32} color="#000" />
         </TouchableOpacity>
       </View>
@@ -507,7 +533,6 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f8f6',
   },
   header: {
     flexDirection: 'row',
@@ -515,7 +540,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 16,
-    backgroundColor: '#f6f8f6',
   },
   backButton: {
     padding: 8,
@@ -523,7 +547,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#1f2937',
     flex: 1,
     textAlign: 'center',
     marginRight: 40,
@@ -541,7 +564,6 @@ const styles = StyleSheet.create({
   },
   refreshHintText: {
     fontSize: 12,
-    color: '#6b7280',
     marginLeft: 4,
     textAlign: 'center',
   },
@@ -561,14 +583,11 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   searchInput: {
-    backgroundColor: 'white',
     borderRadius: 8,
     paddingLeft: 40,
     paddingRight: 16,
     paddingVertical: 12,
     fontSize: 16,
-    color: '#1f2937',
-    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
@@ -576,40 +595,28 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     marginBottom: 16,
-    maxHeight: 36, // Fixed height to prevent stretching
+    maxHeight: 36,
   },
   categoryContent: {
     paddingHorizontal: 0,
-    alignItems: 'center', // Center items vertically
-    flexDirection: 'row', // Ensure horizontal layout
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   categoryButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    height: 36, // Fixed height
-    borderRadius: 18, // Half of height for perfect pill shape
-    backgroundColor: '#f9fafb',
+    height: 36,
+    borderRadius: 18,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12, // Better spacing
-    minWidth: 60, // Minimum width for better appearance
-  },
-  categoryButtonActive: {
-    backgroundColor: '#3be340',
-    borderColor: '#3be340',
+    marginRight: 12,
+    minWidth: 60,
   },
   categoryButtonText: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#6b7280',
     textAlign: 'center',
-    lineHeight: 18, // Better text alignment
-  },
-  categoryButtonTextActive: {
-    color: '#112112',
-    fontWeight: '600',
+    lineHeight: 18,
   },
   productsList: {
     flex: 1,
@@ -619,13 +626,11 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   productCard: {
-    backgroundColor: 'white',
     borderRadius: 12,
     padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,
-    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
@@ -634,7 +639,6 @@ const styles = StyleSheet.create({
   productImageContainer: {
     width: 64,
     height: 64,
-    backgroundColor: '#f3f4f6',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -645,24 +649,15 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1f2937',
     marginBottom: 4,
   },
   productPrice: {
     fontSize: 14,
-    color: '#6b7280',
   },
   stockStatus: {
     fontSize: 14,
     fontWeight: '500',
   },
-  inStock: {
-    color: '#10b981',
-  },
-  outOfStock: {
-    color: '#ef4444',
-  },
-  // Loading states
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -672,9 +667,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 16,
     fontSize: 16,
-    color: '#6b7280',
   },
-  // Error states
   errorContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -684,13 +677,11 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: '#6b7280',
     textAlign: 'center',
     marginTop: 16,
     marginBottom: 20,
   },
   retryButton: {
-    backgroundColor: '#3be340',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
@@ -700,7 +691,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  // Empty state
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -711,18 +701,15 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#1f2937',
     marginTop: 16,
     textAlign: 'center',
   },
   emptySubtitle: {
     fontSize: 16,
-    color: '#6b7280',
     marginTop: 8,
     textAlign: 'center',
     lineHeight: 22,
   },
-  // Enhanced product card
   productCardContent: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -736,7 +723,6 @@ const styles = StyleSheet.create({
   },
   productCategory: {
     fontSize: 12,
-    color: '#9ca3af',
     marginTop: 2,
   },
   statusContainer: {
@@ -785,11 +771,9 @@ const styles = StyleSheet.create({
   floatingButton: {
     width: 64,
     height: 64,
-    backgroundColor: '#3be340',
     borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#3be340',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -800,4 +784,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductListScreen;
+export default withNetworkErrorBoundary(ProductListScreen, {
+  showErrorOnOffline: false, // Let banner handle general offline state
+});

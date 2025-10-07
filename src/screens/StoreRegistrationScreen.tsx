@@ -19,6 +19,7 @@ import { locationService } from '../services/locationService';
 import { StoreRegistrationData } from '../types/store';
 import { LocationData } from '../types/location';
 import LocationInput from '../components/LocationInput';
+import { withNetworkErrorBoundary } from '../components/NetworkErrorBoundary';
 
 interface StoreRegistrationScreenProps {
   onComplete: () => void;
@@ -476,4 +477,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StoreRegistrationScreen;
+export default withNetworkErrorBoundary(StoreRegistrationScreen, {
+  showErrorOnOffline: false, // Let banner handle general offline state
+});

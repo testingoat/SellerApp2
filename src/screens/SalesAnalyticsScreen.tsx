@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeTheme } from '../hooks/useSafeTheme';
+import { withNetworkErrorBoundary } from '../components/NetworkErrorBoundary';
 
 interface TopProduct {
   id: string;
@@ -26,6 +28,7 @@ interface CategorySale {
 
 const SalesAnalyticsScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { colors, isDarkMode } = useSafeTheme();
   const [selectedPeriod, setSelectedPeriod] = useState<'Today' | 'Week' | 'Month' | 'Custom'>('Today');
 
   const handleBack = () => {
@@ -69,19 +72,19 @@ const SalesAnalyticsScreen: React.FC = () => {
   ];
 
   const renderPeriodSelector = () => (
-    <View style={styles.periodSelector}>
+    <View style={[styles.periodSelector, { backgroundColor: colors.surface }]}>
       {periods.map((period) => (
         <TouchableOpacity
           key={period}
           style={[
             styles.periodButton,
-            selectedPeriod === period && styles.periodButtonActive
+            selectedPeriod === period && { backgroundColor: colors.primary }
           ]}
           onPress={() => setSelectedPeriod(period)}
         >
           <Text style={[
             styles.periodButtonText,
-            selectedPeriod === period && styles.periodButtonTextActive
+            { color: selectedPeriod === period ? '#000' : colors.textSecondary },
           ]}>
             {period}
           </Text>
@@ -92,33 +95,33 @@ const SalesAnalyticsScreen: React.FC = () => {
 
   const renderMetricsCards = () => (
     <View style={styles.metricsGrid}>
-      <View style={[styles.metricCard, styles.revenueCard]}>
-        <Text style={styles.metricLabel}>Total Revenue</Text>
-        <Text style={styles.metricValue}>₹2,345</Text>
+      <View style={[styles.metricCard, { backgroundColor: colors.primary + '30' }]}>
+        <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>Total Revenue</Text>
+        <Text style={[styles.metricValue, { color: colors.text }]}>₹2,345</Text>
       </View>
-      <View style={styles.metricCard}>
-        <Text style={styles.metricLabel}>Total Orders</Text>
-        <Text style={styles.metricValue}>120</Text>
+      <View style={[styles.metricCard, { backgroundColor: colors.surface }]}>
+        <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>Total Orders</Text>
+        <Text style={[styles.metricValue, { color: colors.text }]}>120</Text>
       </View>
-      <View style={[styles.metricCard, styles.fullWidth]}>
-        <Text style={styles.metricLabel}>Average Order Value</Text>
-        <Text style={styles.metricValue}>₹19.54</Text>
+      <View style={[styles.metricCard, styles.fullWidth, { backgroundColor: colors.surface }]}>
+        <Text style={[styles.metricLabel, { color: colors.textSecondary }]}>Average Order Value</Text>
+        <Text style={[styles.metricValue, { color: colors.text }]}>₹19.54</Text>
       </View>
     </View>
   );
 
   const renderSalesTrends = () => (
-    <View style={styles.chartSection}>
-      <Text style={styles.sectionTitle}>Sales Trends</Text>
+    <View style={[styles.chartSection, { backgroundColor: colors.surface }]}>
+      <Text style={[styles.sectionTitle, { color: colors.text }]}>Sales Trends</Text>
       <View style={styles.chartContainer}>
         {/* Placeholder for chart - in a real app, you'd use a charting library */}
-        <View style={styles.chartPlaceholder}>
-          <Text style={styles.chartPlaceholderText}>Sales Chart</Text>
-          <Text style={styles.chartPlaceholderSubtext}>Chart visualization would go here</Text>
+        <View style={[styles.chartPlaceholder, { backgroundColor: colors.primary + '20' }]}>
+          <Text style={[styles.chartPlaceholderText, { color: colors.primary }]}>Sales Chart</Text>
+          <Text style={[styles.chartPlaceholderSubtext, { color: colors.textSecondary }]}>Chart visualization would go here</Text>
         </View>
         <View style={styles.chartLabels}>
           {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-            <Text key={day} style={styles.chartLabel}>{day}</Text>
+            <Text key={day} style={[styles.chartLabel, { color: colors.textSecondary }]}>{day}</Text>
           ))}
         </View>
       </View>
@@ -126,17 +129,17 @@ const SalesAnalyticsScreen: React.FC = () => {
   );
 
   const renderTopProducts = () => (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Top Selling Products</Text>
+    <View style={[styles.section, { backgroundColor: colors.surface }]}>
+      <Text style={[styles.sectionTitle, { color: colors.text }]}>Top Selling Products</Text>
       <View style={styles.productsList}>
         {topProducts.map((product) => (
           <View key={product.id} style={styles.productItem}>
             <Image source={{ uri: product.image }} style={styles.productImage} />
             <View style={styles.productInfo}>
-              <Text style={styles.productName}>{product.name}</Text>
-              <Text style={styles.productUnits}>{product.unitsSold} units sold</Text>
+              <Text style={[styles.productName, { color: colors.text }]}>{product.name}</Text>
+              <Text style={[styles.productUnits, { color: colors.textSecondary }]}>{product.unitsSold} units sold</Text>
             </View>
-            <Text style={styles.productRevenue}>{product.revenue}</Text>
+            <Text style={[styles.productRevenue, { color: colors.text }]}>{product.revenue}</Text>
           </View>
         ))}
       </View>
@@ -144,23 +147,23 @@ const SalesAnalyticsScreen: React.FC = () => {
   );
 
   const renderCategorySales = () => (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Category Sales</Text>
+    <View style={[styles.section, { backgroundColor: colors.surface }]}>
+      <Text style={[styles.sectionTitle, { color: colors.text }]}>Category Sales</Text>
       <View style={styles.categoryList}>
         {categorySales.map((category) => (
           <View key={category.name} style={styles.categoryItem}>
-            <Text style={styles.categoryName}>{category.name}</Text>
+            <Text style={[styles.categoryName, { color: colors.text }]}>{category.name}</Text>
             <View style={styles.progressBarContainer}>
-              <View style={styles.progressBarBackground}>
+              <View style={[styles.progressBarBackground, { backgroundColor: colors.border }]}>
                 <View 
                   style={[
                     styles.progressBarFill,
-                    { width: `${category.percentage}%` }
+                    { width: `${category.percentage}%`, backgroundColor: colors.primary }
                   ]} 
                 />
               </View>
             </View>
-            <Text style={styles.categoryPercentage}>{category.percentage}%</Text>
+            <Text style={[styles.categoryPercentage, { color: colors.text }]}>{category.percentage}%</Text>
           </View>
         ))}
       </View>
@@ -168,35 +171,35 @@ const SalesAnalyticsScreen: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="#f6f8f6" barStyle="dark-content" />
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <StatusBar backgroundColor={colors.background} barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: colors.background + 'CC' }]}>
         <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-          <Icon name="arrow-back" size={24} color="#1f2937" />
+          <Icon name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Analytics</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Analytics</Text>
         <TouchableOpacity style={styles.downloadButton} onPress={handleDownload}>
-          <Icon name="file-download" size={24} color="#1f2937" />
+          <Icon name="file-download" size={24} color={colors.text} />
         </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Coming Soon Overlay */}
-        <View style={styles.comingSoonOverlay}>
-          <View style={styles.comingSoonCard}>
-            <Icon name="analytics" size={64} color="#3be340" />
-            <Text style={styles.comingSoonTitle}>Coming Soon</Text>
-            <Text style={styles.comingSoonText}>
+        <View style={[styles.comingSoonOverlay, { backgroundColor: colors.background + 'F0' }]}>
+          <View style={[styles.comingSoonCard, { backgroundColor: colors.card }]}>
+            <Icon name="analytics" size={64} color={colors.primary} />
+            <Text style={[styles.comingSoonTitle, { color: colors.text }]}>Coming Soon</Text>
+            <Text style={[styles.comingSoonText, { color: colors.textSecondary }]}>
               Advanced analytics and insights are on the way!
             </Text>
-            <Text style={styles.comingSoonSubtext}>
+            <Text style={[styles.comingSoonSubtext, { color: colors.textSecondary }]}>
               We're building powerful analytics tools to help you understand your business better.
             </Text>
-            <View style={styles.comingSoonBadge}>
-              <Icon name="schedule" size={16} color="#3be340" />
-              <Text style={styles.comingSoonBadgeText}>Available Soon</Text>
+            <View style={[styles.comingSoonBadge, { backgroundColor: colors.primary + '20' }]}>
+              <Icon name="schedule" size={16} color={colors.primary} />
+              <Text style={[styles.comingSoonBadgeText, { color: colors.primary }]}>Available Soon</Text>
             </View>
           </View>
         </View>
@@ -218,7 +221,6 @@ const SalesAnalyticsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f8f6',
   },
   header: {
     flexDirection: 'row',
@@ -227,7 +229,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 16,
-    backgroundColor: 'rgba(246, 248, 246, 0.8)',
     backdropFilter: 'blur(10px)',
   },
   backButton: {
@@ -237,7 +238,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#1f2937',
     flex: 1,
     textAlign: 'center',
   },
@@ -255,7 +255,6 @@ const styles = StyleSheet.create({
   },
   periodSelector: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderRadius: 8,
     padding: 4,
     marginBottom: 16,
@@ -269,16 +268,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 6,
   },
-  periodButtonActive: {
-    backgroundColor: '#3be340',
-  },
   periodButtonText: {
     fontSize: 14,
     fontWeight: '500',
-    color: 'rgba(31, 41, 55, 0.6)',
-  },
-  periodButtonTextActive: {
-    color: '#1f2937',
   },
   metricsGrid: {
     flexDirection: 'row',
@@ -287,14 +279,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   metricCard: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderRadius: 8,
     padding: 16,
     flex: 1,
     minWidth: '45%',
-  },
-  revenueCard: {
-    backgroundColor: 'rgba(59, 227, 64, 0.2)',
   },
   fullWidth: {
     minWidth: '100%',
@@ -302,16 +290,13 @@ const styles = StyleSheet.create({
   metricLabel: {
     fontSize: 14,
     fontWeight: '500',
-    color: 'rgba(31, 41, 55, 0.8)',
     marginBottom: 4,
   },
   metricValue: {
     fontSize: 24,
     fontWeight: '700',
-    color: '#1f2937',
   },
   chartSection: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
@@ -319,7 +304,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#1f2937',
     marginBottom: 16,
   },
   chartContainer: {
@@ -327,7 +311,6 @@ const styles = StyleSheet.create({
   },
   chartPlaceholder: {
     height: 150,
-    backgroundColor: 'rgba(59, 227, 64, 0.1)',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -336,11 +319,9 @@ const styles = StyleSheet.create({
   chartPlaceholderText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#3be340',
   },
   chartPlaceholderSubtext: {
     fontSize: 12,
-    color: '#6b7280',
     marginTop: 4,
   },
   chartLabels: {
@@ -350,10 +331,8 @@ const styles = StyleSheet.create({
   chartLabel: {
     fontSize: 12,
     fontWeight: '500',
-    color: 'rgba(31, 41, 55, 0.6)',
   },
   section: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
@@ -377,17 +356,14 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1f2937',
     marginBottom: 4,
   },
   productUnits: {
     fontSize: 14,
-    color: 'rgba(31, 41, 55, 0.6)',
   },
   productRevenue: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#1f2937',
   },
   categoryList: {
     gap: 12,
@@ -400,7 +376,6 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#1f2937',
     minWidth: 60,
   },
   progressBarContainer: {
@@ -408,19 +383,16 @@ const styles = StyleSheet.create({
   },
   progressBarBackground: {
     height: 8,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderRadius: 4,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#3be340',
     borderRadius: 4,
   },
   categoryPercentage: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#1f2937',
     minWidth: 40,
     textAlign: 'right',
   },
@@ -430,14 +402,12 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(246, 248, 246, 0.95)',
     zIndex: 1000,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
   comingSoonCard: {
-    backgroundColor: 'white',
     borderRadius: 20,
     padding: 32,
     alignItems: 'center',
@@ -451,20 +421,17 @@ const styles = StyleSheet.create({
   comingSoonTitle: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#1f2937',
     marginTop: 16,
     marginBottom: 12,
   },
   comingSoonText: {
     fontSize: 16,
-    color: '#6b7280',
     textAlign: 'center',
     marginBottom: 8,
     lineHeight: 24,
   },
   comingSoonSubtext: {
     fontSize: 14,
-    color: '#9ca3af',
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 20,
@@ -472,7 +439,6 @@ const styles = StyleSheet.create({
   comingSoonBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(59, 227, 64, 0.1)',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -481,12 +447,12 @@ const styles = StyleSheet.create({
   comingSoonBadgeText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#3be340',
   },
   blurred: {
     opacity: 0.3,
   },
-
 });
 
-export default SalesAnalyticsScreen;
+export default withNetworkErrorBoundary(SalesAnalyticsScreen, {
+  showErrorOnOffline: false, // Let banner handle general offline state
+});

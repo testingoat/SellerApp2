@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -10,18 +10,29 @@ import {
   ActivityIndicator,
   RefreshControl,
   Alert,
+  TextInput,
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { orderService, Order } from '../services/orderService';
+import { useTheme } from '../context/ThemeContext';
+import { withNetworkErrorBoundary } from '../components/NetworkErrorBoundary';
 
 const OrderProcessingListScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<'new' | 'progress' | 'completed' | 'cancelled'>('new');
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Search and Filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [dateFilter, setDateFilter] = useState<'all' | 'today' | 'week' | 'month'>('all');
+  const [sortBy, setSortBy] = useState<'date' | 'amount'>('date');
 
   // Fetch orders when component mounts or tab changes
   useEffect(() => {
@@ -67,8 +78,67 @@ const OrderProcessingListScreen: React.FC = () => {
     }
   };
 
+  // Filter and search orders
+  const filteredOrders = useMemo(() => {
+    let filtered = [...orders];
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(order =>
+        order._id?.toLowerCase().includes(query) ||
+        order.customer?.name?.toLowerCase().includes(query) ||
+        order.customer?.phone?.includes(query) ||
+        order.totalAmount?.toString().includes(query)
+      );
+    }
+
+    // Apply date filter
+    if (dateFilter !== 'all') {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+      filtered = filtered.filter(order => {
+        const orderDate = new Date(order.createdAt);
+
+        switch (dateFilter) {
+          case 'today':
+            return orderDate >= today;
+          case 'week':
+            const weekAgo = new Date(today);
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            return orderDate >= weekAgo;
+          case 'month':
+            const monthAgo = new Date(today);
+            monthAgo.setMonth(monthAgo.getMonth() - 1);
+            return orderDate >= monthAgo;
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      if (sortBy === 'date') {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      } else {
+        return (b.totalAmount || 0) - (a.totalAmount || 0);
+      }
+    });
+
+    return filtered;
+  }, [orders, searchQuery, dateFilter, sortBy]);
+
   const handleBack = () => {
     navigation.goBack();
+  };
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setDateFilter('all');
+    setSortBy('date');
+    setShowFilterModal(false);
   };
 
   const handleCall = (phone: string, customer: any) => {
@@ -187,12 +257,12 @@ const OrderProcessingListScreen: React.FC = () => {
   };
 
   const renderOrderCard = ({ item }: { item: Order }) => (
-    <View style={styles.orderCard}>
+    <View style={[styles.orderCard, { backgroundColor: theme.colors.card }]}>
       {/* Order Header */}
       <View style={styles.orderHeader}>
         <View>
-          <Text style={styles.orderId}>#{item.orderId}</Text>
-          <Text style={styles.orderTime}>{formatTime(item.createdAt)}</Text>
+          <Text style={[styles.orderId, { color: theme.colors.text }]}>#{item.orderId}</Text>
+          <Text style={[styles.orderTime, { color: theme.colors.textSecondary }]}>{formatTime(item.createdAt)}</Text>
         </View>
         <View style={[styles.statusBadge, { backgroundColor: orderService.getStatusColor(item.status) + '33' }]}>
           <Text style={[styles.statusText, { color: orderService.getStatusColor(item.status) }]}>
@@ -205,34 +275,34 @@ const OrderProcessingListScreen: React.FC = () => {
       <View style={styles.customerSection}>
         <View style={styles.customerInfo}>
           <View style={styles.customerRow}>
-            <Icon name="person" size={20} color="#6b7280" />
+            <Icon name="person" size={20} color={theme.colors.textMuted} />
             <View style={styles.customerDetails}>
-              <Text style={styles.customerName}>{item.customer.name}</Text>
-              <Text style={styles.customerPhone}>{item.customer.phone}</Text>
+              <Text style={[styles.customerName, { color: theme.colors.text }]}>{item.customer.name}</Text>
+              <Text style={[styles.customerPhone, { color: theme.colors.textSecondary }]}>{item.customer.phone}</Text>
             </View>
           </View>
           <TouchableOpacity
-            style={styles.callButton}
+            style={[styles.callButton, { backgroundColor: theme.colors.primary + '20' }]}
             onPress={() => handleCall(item.customer.phone, item.customer)}
           >
-            <Icon name="call" size={20} color="#3be340" />
+            <Icon name="call" size={20} color={theme.colors.primary} />
           </TouchableOpacity>
         </View>
         <View style={styles.addressRow}>
-          <Icon name="location-on" size={20} color="#6b7280" />
-          <Text style={styles.addressText}>{item.deliveryLocation.address || 'No address provided'}</Text>
+          <Icon name="location-on" size={20} color={theme.colors.textMuted} />
+          <Text style={[styles.addressText, { color: theme.colors.textSecondary }]}>{item.deliveryLocation.address || 'No address provided'}</Text>
         </View>
       </View>
 
       {/* Items */}
       <View style={styles.itemsSection}>
-        <Text style={styles.itemsTitle}>Items</Text>
+        <Text style={[styles.itemsTitle, { color: theme.colors.text }]}>Items</Text>
         {item.items.map((orderItem, index) => (
-          <Text key={index} style={styles.itemText}>
+          <Text key={index} style={[styles.itemText, { color: theme.colors.textSecondary }]}>
             {orderItem.count}x {orderItem.item.name} - {formatPrice(orderItem.item.price)}
           </Text>
         ))}
-        <Text style={styles.totalText}>Total: {formatPrice(item.totalPrice)}</Text>
+        <Text style={[styles.totalText, { color: theme.colors.text }]}>Total: {formatPrice(item.totalPrice)}</Text>
       </View>
 
       {/* Actions */}
@@ -240,14 +310,14 @@ const OrderProcessingListScreen: React.FC = () => {
         {item.status === 'pending_seller_approval' ? (
           <View style={styles.actionButtons}>
             <TouchableOpacity
-              style={[styles.actionButton, styles.rejectButton]}
+              style={[styles.actionButton, styles.rejectButton, { backgroundColor: theme.colors.error + '20', borderColor: theme.colors.error }]}
               onPress={() => handleReject(item._id)}
             >
-              <Icon name="close" size={20} color="#ef4444" />
-              <Text style={styles.rejectButtonText}>Reject</Text>
+              <Icon name="close" size={20} color={theme.colors.error} />
+              <Text style={[styles.rejectButtonText, { color: theme.colors.error }]}>Reject</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.actionButton, styles.acceptButton]}
+              style={[styles.actionButton, styles.acceptButton, { backgroundColor: theme.colors.primary }]}
               onPress={() => handleAccept(item._id)}
             >
               <Icon name="check" size={20} color="white" />
@@ -256,7 +326,7 @@ const OrderProcessingListScreen: React.FC = () => {
           </View>
         ) : (
           <TouchableOpacity
-            style={[styles.actionButton, styles.viewButton]}
+            style={[styles.actionButton, styles.viewButton, { backgroundColor: theme.colors.primary }]}
             onPress={() => handleViewDetails(item._id)}
           >
             <Icon name="visibility" size={20} color="white" />
@@ -268,32 +338,33 @@ const OrderProcessingListScreen: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="#f6f8f6" barStyle="dark-content" />
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <StatusBar backgroundColor={theme.colors.background} barStyle={theme.isDark ? 'light-content' : 'dark-content'} />
       
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: theme.colors.background }]}>
         <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-          <Icon name="arrow-back" size={24} color="#1f2937" />
+          <Icon name="arrow-back" size={24} color={theme.colors.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Orders</Text>
+        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Orders</Text>
         <View style={styles.placeholder} />
       </View>
 
       {/* Tabs */}
-      <View style={styles.tabsContainer}>
+      <View style={[styles.tabsContainer, { backgroundColor: theme.colors.background }]}>
         {tabs.map((tab) => (
           <TouchableOpacity
             key={tab.key}
             style={[
               styles.tab,
-              activeTab === tab.key && styles.activeTab
+              activeTab === tab.key && [styles.activeTab, { backgroundColor: theme.colors.primary }]
             ]}
             onPress={() => setActiveTab(tab.key as any)}
           >
             <Text style={[
               styles.tabText,
-              activeTab === tab.key && styles.activeTabText
+              { color: theme.colors.textMuted },
+              activeTab === tab.key && [styles.activeTabText, { color: '#fff' }]
             ]}>
               {tab.label}
             </Text>
@@ -301,29 +372,76 @@ const OrderProcessingListScreen: React.FC = () => {
         ))}
       </View>
 
+      {/* Search and Filter Bar */}
+      <View style={[styles.searchFilterContainer, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.searchBar, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
+          <Icon name="search" size={20} color={theme.colors.textMuted} />
+          <TextInput
+            style={[styles.searchInput, { color: theme.colors.text }]}
+            placeholder="Search by order ID, customer, phone..."
+            placeholderTextColor={theme.colors.textMuted}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+          {searchQuery.length > 0 && (
+            <TouchableOpacity onPress={() => setSearchQuery('')}>
+              <Icon name="close" size={20} color={theme.colors.textMuted} />
+            </TouchableOpacity>
+          )}
+        </View>
+        <TouchableOpacity
+          style={[styles.filterButton, { 
+            backgroundColor: theme.colors.card,
+            borderColor: theme.colors.border 
+          }]}
+          onPress={() => setShowFilterModal(true)}
+        >
+          <Icon name="filter-list" size={20} color={theme.colors.primary} />
+        </TouchableOpacity>
+      </View>
+
+      {/* Active Filters Display */}
+      {(dateFilter !== 'all' || sortBy !== 'date') && (
+        <View style={[styles.activeFiltersContainer, { backgroundColor: theme.colors.primary + '10' }]}>
+          <Text style={[styles.activeFiltersText, { color: theme.colors.text }]}>
+            Filters: {dateFilter !== 'all' && `${dateFilter} • `}
+            {sortBy === 'amount' && 'Sorted by amount'}
+          </Text>
+          <TouchableOpacity onPress={clearFilters}>
+            <Text style={[styles.clearFiltersText, { color: theme.colors.primary }]}>Clear</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       {/* Orders List */}
       {loading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#10b981" />
-          <Text style={styles.loadingText}>Loading orders...</Text>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
+          <Text style={[styles.loadingText, { color: theme.colors.text }]}>Loading orders...</Text>
         </View>
       ) : error ? (
         <View style={styles.errorContainer}>
-          <Icon name="error-outline" size={48} color="#ef4444" />
-          <Text style={styles.errorText}>{error}</Text>
-          <TouchableOpacity style={styles.retryButton} onPress={fetchOrders}>
+          <Icon name="error-outline" size={48} color={theme.colors.error} />
+          <Text style={[styles.errorText, { color: theme.colors.text }]}>{error}</Text>
+          <TouchableOpacity style={[styles.retryButton, { backgroundColor: theme.colors.primary }]} onPress={fetchOrders}>
             <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         </View>
-      ) : orders.length === 0 ? (
+      ) : filteredOrders.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Icon name="inbox" size={64} color="#9ca3af" />
-          <Text style={styles.emptyText}>No orders found</Text>
-          <Text style={styles.emptySubtext}>Orders will appear here when customers place them</Text>
+          <Icon name="inbox" size={64} color={theme.colors.textMuted} />
+          <Text style={[styles.emptyText, { color: theme.colors.text }]}>
+            {searchQuery || dateFilter !== 'all' ? 'No matching orders found' : 'No orders found'}
+          </Text>
+          <Text style={[styles.emptySubtext, { color: theme.colors.textSecondary }]}>
+            {searchQuery || dateFilter !== 'all'
+              ? 'Try adjusting your search or filters'
+              : 'Orders will appear here when customers place them'}
+          </Text>
         </View>
       ) : (
         <FlatList
-          data={orders}
+          data={filteredOrders}
           renderItem={renderOrderCard}
           keyExtractor={(item) => item._id}
           contentContainerStyle={styles.ordersList}
@@ -332,13 +450,102 @@ const OrderProcessingListScreen: React.FC = () => {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              colors={['#10b981']}
-              tintColor="#10b981"
+              colors={[theme.colors.primary]}
+              tintColor={theme.colors.primary}
             />
           }
         />
       )}
 
+      {/* Filter Modal */}
+      <Modal
+        visible={showFilterModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowFilterModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContent, { backgroundColor: theme.colors.card }]}>
+            <View style={[styles.modalHeader, { borderBottomColor: theme.colors.border }]}>
+              <Text style={[styles.modalTitle, { color: theme.colors.text }]}>Filter Orders</Text>
+              <TouchableOpacity onPress={() => setShowFilterModal(false)}>
+                <Icon name="close" size={24} color={theme.colors.text} />
+              </TouchableOpacity>
+            </View>
+
+            {/* Date Filter */}
+            <View style={styles.filterSection}>
+              <Text style={[styles.filterLabel, { color: theme.colors.text }]}>Date Range</Text>
+              <View style={styles.filterOptions}>
+                {['all', 'today', 'week', 'month'].map((option) => (
+                  <TouchableOpacity
+                    key={option}
+                    style={[
+                      styles.filterOption,
+                      { backgroundColor: theme.colors.background, borderColor: theme.colors.border },
+                      dateFilter === option && [styles.filterOptionActive, { backgroundColor: theme.colors.primary }]
+                    ]}
+                    onPress={() => setDateFilter(option as any)}
+                  >
+                    <Text style={[
+                      styles.filterOptionText,
+                      { color: theme.colors.text },
+                      dateFilter === option && [styles.filterOptionTextActive, { color: '#fff' }]
+                    ]}>
+                      {option === 'all' ? 'All Time' : option.charAt(0).toUpperCase() + option.slice(1)}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+
+            {/* Sort By */}
+            <View style={styles.filterSection}>
+              <Text style={[styles.filterLabel, { color: theme.colors.text }]}>Sort By</Text>
+              <View style={styles.filterOptions}>
+                {[
+                  { key: 'date', label: 'Date' },
+                  { key: 'amount', label: 'Amount' }
+                ].map((option) => (
+                  <TouchableOpacity
+                    key={option.key}
+                    style={[
+                      styles.filterOption,
+                      { backgroundColor: theme.colors.background, borderColor: theme.colors.border },
+                      sortBy === option.key && [styles.filterOptionActive, { backgroundColor: theme.colors.primary }]
+                    ]}
+                    onPress={() => setSortBy(option.key as any)}
+                  >
+                    <Text style={[
+                      styles.filterOptionText,
+                      { color: theme.colors.text },
+                      sortBy === option.key && [styles.filterOptionTextActive, { color: '#fff' }]
+                    ]}>
+                      {option.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+
+            {/* Action Buttons */}
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.clearButton, { backgroundColor: theme.colors.background, borderColor: theme.colors.border }]}
+                onPress={clearFilters}
+              >
+                <Text style={[styles.clearButtonText, { color: theme.colors.text }]}>Clear All</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.applyButton, { backgroundColor: theme.colors.primary }]}
+                onPress={() => setShowFilterModal(false)}
+              >
+                <Text style={styles.applyButtonText}>Apply Filters</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
     </View>
   );
@@ -604,7 +811,152 @@ const styles = StyleSheet.create({
     color: '#9ca3af',
     textAlign: 'center',
   },
+  // Search and Filter styles
+  searchFilterContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 12,
+  },
+  searchBar: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 14,
+    color: '#1f2937',
+    padding: 0,
+  },
+  filterButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  activeFiltersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '#f0fdf4',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb',
+  },
+  activeFiltersText: {
+    fontSize: 12,
+    color: '#15803d',
+    fontWeight: '500',
+  },
+  clearFiltersText: {
+    fontSize: 12,
+    color: '#3be340',
+    fontWeight: '600',
+  },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingTop: 20,
+    paddingBottom: 32,
+    paddingHorizontal: 20,
+    maxHeight: '70%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1f2937',
+  },
+  filterSection: {
+    marginBottom: 24,
+  },
+  filterLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1f2937',
+    marginBottom: 12,
+  },
+  filterOptions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  filterOption: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 8,
+    backgroundColor: '#f3f4f6',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  filterOptionActive: {
+    backgroundColor: '#dcfce7',
+    borderColor: '#3be340',
+  },
+  filterOptionText: {
+    fontSize: 14,
+    color: '#6b7280',
+    fontWeight: '500',
+  },
+  filterOptionTextActive: {
+    color: '#15803d',
+    fontWeight: '600',
+  },
+  modalActions: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 8,
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  clearButton: {
+    backgroundColor: '#f3f4f6',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  clearButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#6b7280',
+  },
+  applyButton: {
+    backgroundColor: '#3be340',
+  },
+  applyButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#112112',
+  },
 
 });
 
-export default OrderProcessingListScreen;
+export default withNetworkErrorBoundary(OrderProcessingListScreen, {
+  showErrorOnOffline: false, // Let banner handle general offline state
+});

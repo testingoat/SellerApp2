@@ -22,6 +22,8 @@ import { launchImageLibrary, launchCamera, ImagePickerResponse, MediaType } from
 import { productService, Product, Category, CreateProductData, UpdateProductData } from '../services/productService';
 import { useAuthStore } from '../state/authStore';
 import { MainStackParamList } from '../config/navigationTypes';
+import { useTheme } from '../context/ThemeContext';
+import { withNetworkErrorBoundary } from '../components/NetworkErrorBoundary';
 
 type AddEditProductNavigationProp = StackNavigationProp<MainStackParamList>;
 
@@ -56,6 +58,7 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
   const navigation = useNavigation<AddEditProductNavigationProp>();
   const route = useRoute();
   const { user, token, isAuthenticated } = useAuthStore();
+  const { theme } = useTheme();
   
   const editingProduct = route.params?.product || product;
   const isEditing = !!editingProduct;
@@ -204,6 +207,12 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
         }
       } else {
         // Create new product
+        // Get the first uploaded image's ID (if any)
+        const firstImage = productImages.find(img => img.imageId);
+        const imageUrl = firstImage?.imageId
+          ? productService.getImageUrl(firstImage.imageId)
+          : undefined;
+
         const createData: CreateProductData = {
           name: formData.name.trim(),
           price: Number(formData.price),
@@ -212,7 +221,10 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
           stock: Number(formData.stock),
           category: selectedCategoryId,
           description: formData.description.trim(),
+          image: imageUrl, // Include image URL if available
         };
+
+        console.log('📦 Creating product with data:', createData);
 
         const response = await productService.createProduct(createData);
         
@@ -348,7 +360,8 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
     setIsUploadingImage(true);
 
     try {
-      const response = await productService.uploadImage(image);
+      // Fix: Pass uri and name separately as the service expects
+      const response = await productService.uploadImage(image.uri, image.name);
 
       if (response.success && response.data) {
         // Update the image with server response
@@ -366,7 +379,7 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
       }
     } catch (error) {
       console.error('❌ Error uploading image:', error);
-      Alert.alert('Upload Error', error instanceof Error ? error.message : 'Failed to upload image');
+      Alert.alert('Upload Error', error instanceof Error ? error.message : 'Network error. Please check your internet connection and try again.');
 
       // Remove the image from local state if upload failed
       setProductImages(prev => prev.filter(img => img.uri !== image.uri));
@@ -391,15 +404,15 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="#f6f8f6" barStyle="dark-content" />
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <StatusBar backgroundColor={theme.colors.background} barStyle={theme.isDark ? 'light-content' : 'dark-content'} />
 
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: theme.colors.background }]}>
         <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-          <Icon name="arrow-back" size={24} color="#1f2937" />
+          <Icon name="arrow-back" size={24} color={theme.colors.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{isEditing ? 'Edit Product' : 'Add Product'}</Text>
+        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>{isEditing ? 'Edit Product' : 'Add Product'}</Text>
         <View style={styles.placeholder} />
       </View>
 
@@ -407,7 +420,7 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
         <View style={styles.content}>
           {/* Product Images Section */}
           <View style={styles.imageSection}>
-            <Text style={styles.inputLabel}>Product Images</Text>
+            <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Product Images</Text>
 
             {/* Display existing images */}
             {productImages.length > 0 && (
@@ -450,11 +463,11 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
 
           {/* Product Name */}
           <View style={styles.inputSection}>
-            <Text style={styles.inputLabel}>Product Name</Text>
+            <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Product Name</Text>
             <TextInput
-              style={styles.textInput}
+              style={[styles.textInput, { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text }]}
               placeholder="e.g. Organic Bananas"
-              placeholderTextColor="#9ca3af"
+              placeholderTextColor={theme.colors.textMuted}
               value={formData.name}
               onChangeText={(text) => updateFormData('name', text)}
             />
@@ -462,11 +475,11 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
 
           {/* Description */}
           <View style={styles.inputSection}>
-            <Text style={styles.inputLabel}>Description</Text>
+            <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Description</Text>
             <TextInput
-              style={[styles.textInput, styles.textArea]}
+              style={[styles.textInput, styles.textArea, { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text }]}
               placeholder="e.g. Freshly sourced from local farms..."
-              placeholderTextColor="#9ca3af"
+              placeholderTextColor={theme.colors.textMuted}
               value={formData.description}
               onChangeText={(text) => updateFormData('description', text)}
               multiline
@@ -477,33 +490,33 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
 
           {/* Category */}
           <View style={styles.inputSection}>
-            <Text style={styles.inputLabel}>Category</Text>
+            <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Category</Text>
             {isLoadingCategories ? (
-              <View style={[styles.pickerContainer, { justifyContent: 'center' }]}>
-                <ActivityIndicator size="small" color="#3be340" />
-                <Text style={[styles.pickerText, { marginLeft: 8 }]}>Loading categories...</Text>
+              <View style={[styles.pickerContainer, { justifyContent: 'center', backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
+                <ActivityIndicator size="small" color={theme.colors.primary} />
+                <Text style={[styles.pickerText, { marginLeft: 8, color: theme.colors.text }]}>Loading categories...</Text>
               </View>
             ) : (
               <TouchableOpacity
-                style={styles.pickerContainer}
+                style={[styles.pickerContainer, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}
                 onPress={() => setShowCategoryModal(true)}
                 activeOpacity={0.7}
               >
-                <Text style={styles.pickerText}>
+                <Text style={[styles.pickerText, { color: theme.colors.text }]}>
                   {categories.find(cat => cat._id === selectedCategoryId)?.name || 'Select Category'}
                 </Text>
-                <Icon name="keyboard-arrow-down" size={24} color="#3be340" />
+                <Icon name="keyboard-arrow-down" size={24} color={theme.colors.primary} />
               </TouchableOpacity>
             )}
           </View>
 
           {/* Quantity/Unit */}
           <View style={styles.inputSection}>
-            <Text style={styles.inputLabel}>Quantity/Unit (e.g., "1 kg", "500g", "1 piece")</Text>
+            <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Quantity/Unit (e.g., "1 kg", "500g", "1 piece")</Text>
             <TextInput
-              style={styles.textInput}
+              style={[styles.textInput, { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text }]}
               placeholder="e.g. 1 kg, 500g, 1 piece"
-              placeholderTextColor="#9ca3af"
+              placeholderTextColor={theme.colors.textMuted}
               value={formData.quantity}
               onChangeText={(text) => updateFormData('quantity', text)}
             />
@@ -512,22 +525,22 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
           {/* Price Row */}
           <View style={styles.rowContainer}>
             <View style={styles.halfInput}>
-              <Text style={styles.inputLabel}>Price</Text>
+              <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Price</Text>
               <TextInput
-                style={styles.textInput}
+                style={[styles.textInput, { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text }]}
                 placeholder="e.g. 2.99"
-                placeholderTextColor="#9ca3af"
+                placeholderTextColor={theme.colors.textMuted}
                 value={formData.price}
                 onChangeText={(text) => updateFormData('price', text)}
                 keyboardType="decimal-pad"
               />
             </View>
             <View style={styles.halfInput}>
-              <Text style={styles.inputLabel}>Discount Price</Text>
+              <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Discount Price</Text>
               <TextInput
-                style={styles.textInput}
+                style={[styles.textInput, { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text }]}
                 placeholder="e.g. 2.49"
-                placeholderTextColor="#9ca3af"
+                placeholderTextColor={theme.colors.textMuted}
                 value={formData.discountPrice}
                 onChangeText={(text) => updateFormData('discountPrice', text)}
                 keyboardType="decimal-pad"
@@ -537,11 +550,11 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
 
           {/* Stock Quantity */}
           <View style={styles.inputSection}>
-            <Text style={styles.inputLabel}>Stock Quantity</Text>
+            <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Stock Quantity</Text>
             <TextInput
-              style={styles.textInput}
+              style={[styles.textInput, { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text }]}
               placeholder="e.g. 500"
-              placeholderTextColor="#9ca3af"
+              placeholderTextColor={theme.colors.textMuted}
               value={formData.stock}
               onChangeText={(text) => updateFormData('stock', text)}
               keyboardType="numeric"
@@ -551,9 +564,9 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
       </ScrollView>
 
       {/* Save Button */}
-      <View style={styles.footer}>
+      <View style={[styles.footer, { backgroundColor: theme.colors.background }]}>
         <TouchableOpacity
-          style={[styles.saveButton, isLoading && styles.saveButtonDisabled]}
+          style={[styles.saveButton, { backgroundColor: theme.colors.primary }, isLoading && styles.saveButtonDisabled]}
           onPress={handleSave}
           disabled={isLoading || isLoadingCategories}
         >
@@ -580,14 +593,14 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
         onRequestClose={() => setShowCategoryModal(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Select Category</Text>
+          <View style={[styles.modalContainer, { backgroundColor: theme.colors.card }]}>
+            <View style={[styles.modalHeader, { borderBottomColor: theme.colors.border }]}>
+              <Text style={[styles.modalTitle, { color: theme.colors.text }]}>Select Category</Text>
               <TouchableOpacity
                 onPress={() => setShowCategoryModal(false)}
                 style={styles.modalCloseButton}
               >
-                <Icon name="close" size={24} color="#6b7280" />
+                <Icon name="close" size={24} color={theme.colors.textMuted} />
               </TouchableOpacity>
             </View>
 
@@ -597,19 +610,20 @@ const AddEditProductScreen: React.FC<AddEditProductScreenProps> = ({
                   key={category._id}
                   style={[
                     styles.categoryOption,
-                    selectedCategoryId === category._id && styles.categoryOptionSelected
+                    selectedCategoryId === category._id && [styles.categoryOptionSelected, { backgroundColor: theme.colors.primary + '20' }]
                   ]}
                   onPress={() => handleCategorySelect(category._id)}
                   activeOpacity={0.7}
                 >
                   <Text style={[
                     styles.categoryOptionText,
-                    selectedCategoryId === category._id && styles.categoryOptionTextSelected
+                    { color: theme.colors.text },
+                    selectedCategoryId === category._id && [styles.categoryOptionTextSelected, { color: theme.colors.primary }]
                   ]}>
                     {category.name}
                   </Text>
                   {selectedCategoryId === category._id && (
-                    <Icon name="check" size={20} color="#3be340" />
+                    <Icon name="check" size={20} color={theme.colors.primary} />
                   )}
                 </TouchableOpacity>
               ))}
@@ -866,4 +880,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddEditProductScreen;
+export default withNetworkErrorBoundary(AddEditProductScreen, {
+  showErrorOnOffline: false, // Let banner handle general offline state
+});
