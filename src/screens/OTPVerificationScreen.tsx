@@ -17,6 +17,7 @@ import { useAuthStore } from '../state/authStore';
 import { useNetworkError } from '../hooks/useNetworkError';
 import { OTPVerificationScreenNavigationProp } from '../config/navigationTypes';
 import { shouldTriggerNewUserFlow, simulateNewUserOTPVerification, isDevelopmentMode } from '../utils/testUtils';
+import { useTheme } from '../context/ThemeContext';
 
 interface OTPVerificationScreenProps {
   onVerifySuccess?: () => void;
@@ -36,6 +37,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
 
   const inputRefs = useRef<(TextInput | null)[]>([]);
   const navigation = useNavigation<OTPVerificationScreenNavigationProp>();
+  const { theme } = useTheme();
   const {
     verifyOtp,
     resendOtp,
@@ -202,15 +204,15 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
     >
-      <StatusBar backgroundColor="#f6f8f6" barStyle="dark-content" />
+      <StatusBar backgroundColor={theme.colors.background} barStyle={theme.isDark ? 'light-content' : 'dark-content'} />
 
       <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollViewContent}
+        style={[styles.scrollView, { backgroundColor: theme.colors.background }]}
+        contentContainerStyle={[styles.scrollViewContent, { backgroundColor: theme.colors.background }]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
@@ -226,24 +228,24 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
               }
             }}
           >
-            <Icon name="arrow-back" size={24} color="#1f2937" />
+            <Icon name="arrow-back" size={24} color={theme.colors.text} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Verification</Text>
+          <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Verification</Text>
           <View style={styles.placeholder} />
         </View>
 
         {/* Content */}
         <View style={styles.content}>
           <View style={styles.titleSection}>
-            <Text style={styles.title}>Enter OTP</Text>
-            <Text style={styles.subtitle}>
+            <Text style={[styles.title, { color: theme.colors.text }]}>Enter OTP</Text>
+            <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
               A 6-digit code has been sent to your phone number.
             </Text>
           </View>
 
           <View style={styles.formSection}>
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Enter 6-Digit Code</Text>
+              <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Enter 6-Digit Code</Text>
               <View style={styles.otpContainer}>
                 {otp.map((digit, index) => (
                   <TextInput
@@ -253,7 +255,8 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
                     }}
                     style={[
                       styles.otpInput,
-                      digit ? styles.otpInputFilled : null
+                      { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text },
+                      digit ? [styles.otpInputFilled, { borderColor: theme.colors.primary }] : null
                     ]}
                     value={digit}
                     onChangeText={(value) => handleOtpChange(value, index)}
@@ -274,6 +277,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
           <TouchableOpacity
             style={[
               styles.verifyButton,
+              { backgroundColor: theme.colors.primary },
               !isOtpComplete && styles.verifyButtonDisabled
             ]}
             onPress={handleVerifyOTP}
@@ -285,9 +289,9 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
           </TouchableOpacity>
 
           <View style={styles.resendSection}>
-            <Text style={styles.resendText}>
+            <Text style={[styles.resendText, { color: theme.colors.textMuted }]}>
               Resend code in{' '}
-              <Text style={styles.timerText}>
+              <Text style={[styles.timerText, { color: theme.colors.primary }]}>
                 {formatTimer(resendTimer)}
               </Text>
             </Text>
@@ -296,24 +300,26 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
           <TouchableOpacity
             style={[
               styles.resendButton,
-              !canResend && styles.resendButtonDisabled
+              { borderColor: theme.colors.primary },
+              !canResend && [styles.resendButtonDisabled, { borderColor: theme.colors.border }]
             ]}
             onPress={handleResendOTP}
             disabled={!canResend}
           >
             <Text style={[
               styles.resendButtonText,
-              !canResend && styles.resendButtonTextDisabled
+              { color: theme.colors.primary },
+              !canResend && [styles.resendButtonTextDisabled, { color: theme.colors.textMuted }]
             ]}>
               Resend OTP
             </Text>
           </TouchableOpacity>
 
           <View style={styles.termsSection}>
-            <Text style={styles.termsText}>
+            <Text style={[styles.termsText, { color: theme.colors.textMuted }]}>
               By continuing, you agree to our{' '}
-              <Text style={styles.termsLink}>Terms of Service</Text> and{' '}
-              <Text style={styles.termsLink}>Privacy Policy</Text>.
+              <Text style={[styles.termsLink, { color: theme.colors.primary }]}>Terms of Service</Text> and{' '}
+              <Text style={[styles.termsLink, { color: theme.colors.primary }]}>Privacy Policy</Text>.
             </Text>
           </View>
         </View>
@@ -325,15 +331,15 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f8f6',
+    // backgroundColor removed - using theme
   },
   scrollView: {
     flex: 1,
-    backgroundColor: '#f6f8f6',
+    // backgroundColor removed - using theme
   },
   scrollViewContent: {
     flexGrow: 1,
-    backgroundColor: '#f6f8f6',
+    // backgroundColor removed - using theme
     minHeight: '100%',
   },
   header: {
@@ -343,7 +349,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 60,
     paddingBottom: 20,
-    backgroundColor: '#f6f8f6',
+    // backgroundColor removed - using theme
   },
   backButton: {
     width: 40,
@@ -354,7 +360,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#1f2937',
+    // color removed - using theme
     flex: 1,
     textAlign: 'center',
     marginLeft: -40,
@@ -366,24 +372,24 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 20,
-    backgroundColor: '#f6f8f6',
+    // backgroundColor removed - using theme
     minHeight: 300,
   },
   titleSection: {
     alignItems: 'center',
     marginBottom: 40,
-    backgroundColor: '#f6f8f6',
+    // backgroundColor removed - using theme
   },
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#1f2937',
+    // color removed - using theme
     textAlign: 'center',
     marginBottom: 12,
   },
   subtitle: {
     fontSize: 16,
-    color: '#6b7280',
+    // color removed - using theme
     textAlign: 'center',
     lineHeight: 24,
     maxWidth: 280,
@@ -392,16 +398,16 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 400,
     alignSelf: 'center',
-    backgroundColor: '#f6f8f6',
+    // backgroundColor removed - using theme
   },
   inputContainer: {
     marginBottom: 24,
-    backgroundColor: '#f6f8f6',
+    // backgroundColor removed - using theme
   },
   inputLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#374151',
+    // color removed - using theme
     marginBottom: 16,
     textAlign: 'center',
   },
@@ -414,31 +420,31 @@ const styles = StyleSheet.create({
     width: 50,
     height: 64,
     borderRadius: 12,
-    backgroundColor: 'rgba(59, 227, 64, 0.1)',
+    // backgroundColor removed - using theme
     borderWidth: 2,
-    borderColor: 'rgba(59, 227, 64, 0.2)',
+    // borderColor removed - using theme
     fontSize: 24,
     fontWeight: '700',
-    color: '#1f2937',
+    // color removed - using theme
   },
   otpInputFilled: {
-    backgroundColor: 'rgba(59, 227, 64, 0.2)',
-    borderColor: '#3be340',
+    // backgroundColor removed - using theme
+    // borderColor removed - using theme
   },
   bottomSection: {
     paddingHorizontal: 24,
     paddingTop: 20,
     paddingBottom: 40,
-    backgroundColor: '#f6f8f6',
+    // backgroundColor removed - using theme
     marginTop: 'auto',
   },
   verifyButton: {
-    backgroundColor: '#3be340',
+    // backgroundColor removed - using theme
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
     marginBottom: 20,
-    shadowColor: '#3be340',
+    // shadowColor removed - using theme
     shadowOffset: {
       width: 0,
       height: 4,
@@ -448,7 +454,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   verifyButtonDisabled: {
-    backgroundColor: '#9ca3af',
+    // backgroundColor removed - using theme
     shadowOpacity: 0,
     elevation: 0,
   },
@@ -463,11 +469,11 @@ const styles = StyleSheet.create({
   },
   resendText: {
     fontSize: 14,
-    color: '#6b7280',
+    // color removed - using theme
   },
   timerText: {
     fontWeight: '700',
-    color: '#ff9900',
+    // color removed - using theme
   },
   resendButton: {
     backgroundColor: 'transparent',
@@ -475,31 +481,31 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#3be340',
+    // borderColor removed - using theme
     marginBottom: 20,
   },
   resendButtonDisabled: {
-    borderColor: '#e5e7eb',
+    // borderColor removed - using theme
   },
   resendButtonText: {
-    color: '#3be340',
+    // color removed - using theme
     fontSize: 16,
     fontWeight: '700',
   },
   resendButtonTextDisabled: {
-    color: '#9ca3af',
+    // color removed - using theme
   },
   termsSection: {
     alignItems: 'center',
   },
   termsText: {
     fontSize: 12,
-    color: '#6b7280',
+    // color removed - using theme
     textAlign: 'center',
     lineHeight: 18,
   },
   termsLink: {
-    color: '#3be340',
+    // color removed - using theme
     fontWeight: '600',
   },
 });
