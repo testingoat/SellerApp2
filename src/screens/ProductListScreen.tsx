@@ -20,6 +20,7 @@ import { useAuthStore } from '../state/authStore';
 import { MainStackParamList } from '../config/navigationTypes';
 import { useSafeTheme } from '../hooks/useSafeTheme';
 import { withNetworkErrorBoundary } from '../components/NetworkErrorBoundary';
+import { ProductListSkeleton } from '../components/SkeletonLoader';
 
 type ProductListNavigationProp = StackNavigationProp<MainStackParamList>;
 
@@ -417,12 +418,9 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
           </View>
         )}
 
-        {/* Loading State */}
+        {/* Loading State - Skeleton Loader */}
         {loading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-            <Text style={[styles.loadingText, { color: colors.textSecondary }]}>Loading products...</Text>
-          </View>
+          <ProductListSkeleton count={6} />
         )}
 
         {/* Error State */}
