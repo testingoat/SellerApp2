@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
+import NetInfo from '@react-native-community/netinfo';
 import { API_ENDPOINTS, CONFIG, STORAGE_KEYS } from '../config';
 import { secureStorageService, SECURE_STORAGE_KEYS } from './secureStorage';
 
@@ -36,12 +37,27 @@ export interface ApiError extends Error {
   data?: any;
 }
 
+// Retry configuration
+interface RetryConfig {
+  maxRetries: number;
+  retryDelay: number;
+  retryableStatuses: number[];
+}
+
+const DEFAULT_RETRY_CONFIG: RetryConfig = {
+  maxRetries: 3,
+  retryDelay: 1000, // Start with 1 second
+  retryableStatuses: [408, 429, 500, 502, 503, 504], // Timeout, rate limit, server errors
+};
+
 class HttpClient {
   private instance: AxiosInstance;
   private baseURL: string;
+  private retryConfig: RetryConfig;
 
   constructor() {
     this.baseURL = API_ENDPOINTS.LOGIN.split('/seller')[0]; // Base API URL
+    this.retryConfig = DEFAULT_RETRY_CONFIG;
     this.instance = axios.create({
       baseURL: this.baseURL,
       timeout: CONFIG.API_TIMEOUT,
@@ -132,24 +148,95 @@ class HttpClient {
     await secureStorageService.clearSecure();
   }
 
-  // Generic HTTP methods
+  // Check network connectivity before making requests
+  private async checkNetworkConnectivity(): Promise<boolean> {
+    try {
+      const state = await NetInfo.fetch();
+      return state.isConnected === true && state.isInternetReachable === true;
+    } catch (error) {
+      console.warn('Failed to check network connectivity:', error);
+      return true; // Assume connected if check fails
+    }
+  }
+
+  // Determine if error is retryable
+  private isRetryableError(error: AxiosError): boolean {
+    // Network errors are retryable
+    if (error.code === 'ECONNABORTED' || error.code === 'NETWORK_ERROR' || !error.response) {
+      return true;
+    }
+
+    // Specific HTTP status codes are retryable
+    if (error.response && this.retryConfig.retryableStatuses.includes(error.response.status)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Exponential backoff delay
+  private async delay(retryCount: number): Promise<void> {
+    const delayMs = this.retryConfig.retryDelay * Math.pow(2, retryCount);
+    console.log(`⏳ Retrying in ${delayMs}ms (attempt ${retryCount + 1}/${this.retryConfig.maxRetries})`);
+    return new Promise(resolve => setTimeout(resolve, delayMs));
+  }
+
+  // Execute request with retry logic
+  private async executeWithRetry<T>(
+    requestFn: () => Promise<AxiosResponse<T>>,
+    retryCount = 0
+  ): Promise<AxiosResponse<T>> {
+    try {
+      // Check network before making request
+      const isOnline = await this.checkNetworkConnectivity();
+      if (!isOnline) {
+        const error: any = new Error('No internet connection');
+        error.code = 'NETWORK_ERROR';
+        throw error;
+      }
+
+      return await requestFn();
+    } catch (error) {
+      const axiosError = error as AxiosError;
+
+      // Don't retry if max retries reached
+      if (retryCount >= this.retryConfig.maxRetries) {
+        console.error(`❌ Max retries (${this.retryConfig.maxRetries}) reached`);
+        throw error;
+      }
+
+      // Don't retry if error is not retryable
+      if (!this.isRetryableError(axiosError)) {
+        throw error;
+      }
+
+      // Wait before retrying
+      await this.delay(retryCount);
+
+      // Retry the request
+      console.log(`🔄 Retrying request (attempt ${retryCount + 1}/${this.retryConfig.maxRetries})`);
+      return this.executeWithRetry(requestFn, retryCount + 1);
+    }
+  }
+
+  // Generic HTTP methods with retry logic
   async get<T = any>(url: string, config = {}): Promise<T> {
-    const response = await this.instance.get(url, config);
+    const response = await this.executeWithRetry(() => this.instance.get(url, config));
     return response.data;
   }
 
   async post<T = any>(url: string, data = {}, config = {}): Promise<T> {
-    const response = await this.instance.post(url, data, config);
+    const response = await this.executeWithRetry(() => this.instance.post(url, data, config));
     return response.data;
   }
 
   async put<T = any>(url: string, data = {}, config = {}): Promise<T> {
-    const response = await this.instance.put(url, data, config);
+    const response = await this.executeWithRetry(() => this.instance.put(url, data, config));
     return response.data;
   }
 
   async delete<T = any>(url: string, config = {}): Promise<T> {
-    const response = await this.instance.delete(url, config);
+    const response = await this.executeWithRetry(() => this.instance.delete(url, config));
     return response.data;
   }
 
