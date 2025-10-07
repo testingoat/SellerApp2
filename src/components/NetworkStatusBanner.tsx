@@ -64,7 +64,7 @@ const NetworkStatusBanner: React.FC<NetworkStatusBannerProps> = ({
     return 'Back Online';
   };
 
-  // Get connection type icon and text
+  // Get connection type icon and text with quality indicator
   const getConnectionTypeInfo = () => {
     if (!showConnectionType || !isConnected) {
       return null;
@@ -72,25 +72,39 @@ const NetworkStatusBanner: React.FC<NetworkStatusBannerProps> = ({
 
     let icon = 'signal-cellular-alt';
     let text = '';
+    let quality = '';
 
     switch (connectionType) {
       case 'wifi':
         icon = 'wifi';
         text = 'WiFi';
+        quality = 'Fast';
         break;
       case 'cellular':
         icon = 'signal-cellular-alt';
-        text = 'Mobile Data';
+        text = '4G/5G';
+        quality = 'Good';
+        break;
+      case '3g':
+        icon = 'signal-cellular-alt';
+        text = '3G';
+        quality = 'Slow';
+        break;
+      case '2g':
+        icon = 'signal-cellular-alt';
+        text = '2G';
+        quality = 'Very Slow';
         break;
       case 'ethernet':
         icon = 'settings-ethernet';
         text = 'Ethernet';
+        quality = 'Fast';
         break;
       default:
         return null;
     }
 
-    return { icon, text };
+    return { icon, text, quality };
   };
 
   const connectionTypeInfo = getConnectionTypeInfo();
@@ -126,6 +140,11 @@ const NetworkStatusBanner: React.FC<NetworkStatusBannerProps> = ({
             <Text style={styles.connectionTypeText}>
               {connectionTypeInfo.text}
             </Text>
+            {connectionTypeInfo.quality && (
+              <Text style={styles.qualityText}>
+                • {connectionTypeInfo.quality}
+              </Text>
+            )}
           </View>
         )}
       </View>
@@ -186,6 +205,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#92400E',
     fontFamily: 'Work Sans',
+  },
+  qualityText: {
+    fontSize: 11,
+    fontWeight: '400',
+    color: '#92400E',
+    fontFamily: 'Work Sans',
+    marginLeft: 4,
   },
 });
 

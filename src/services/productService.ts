@@ -1,4 +1,6 @@
 import { httpClient } from './httpClient';
+import { offlineCacheService } from './offlineCacheService';
+import NetInfo from '@react-native-community/netinfo';
 
 // Product interfaces
 export interface Product {
@@ -40,6 +42,7 @@ export interface CreateProductData {
   category: string;
   description?: string;
   stock?: number;
+  image?: string; // Image URL from uploaded image
 }
 
 export interface UpdateProductData {
@@ -68,6 +71,34 @@ class ProductService {
   async getSellerProducts(): Promise<{ success: boolean; data?: Product[]; message?: string }> {
     try {
       console.log('📦 ProductService: Fetching seller products...');
+
+      // Check network connectivity
+      const netState = await NetInfo.fetch();
+      const isOnline = netState.isConnected && netState.isInternetReachable;
+
+      // If offline, try to return cached data
+      if (!isOnline) {
+        console.log('📴 ProductService: Offline - attempting to load from cache...');
+        const cachedProducts = await offlineCacheService.getCachedProducts();
+
+        if (cachedProducts) {
+          const cacheAge = await offlineCacheService.getCacheAge('@offline_cache_products');
+          console.log(`✅ ProductService: Loaded ${cachedProducts.length} products from cache (${cacheAge} min old)`);
+          return {
+            success: true,
+            data: cachedProducts,
+            message: `Showing cached data (${cacheAge} min old)`
+          };
+        } else {
+          console.log('❌ ProductService: No cached data available');
+          return {
+            success: false,
+            message: 'No internet connection and no cached data available'
+          };
+        }
+      }
+
+      // Online - fetch from API
       const response = await httpClient.get('/seller/products');
 
       console.log(`✅ ProductService: Retrieved ${response.data?.length || 0} products`);
@@ -77,11 +108,28 @@ class ProductService {
         response.data.forEach((product: Product) => {
           console.log(`🔍 ProductService: Product "${product.name}" has status: "${product.status}"`);
         });
+
+        // Cache the products for offline use
+        await offlineCacheService.cacheProducts(response.data);
+        console.log('💾 ProductService: Products cached for offline use');
       }
 
       return response;
     } catch (error: any) {
       console.error('❌ ProductService: Failed to get seller products:', error);
+
+      // On error, try to return cached data as fallback
+      const cachedProducts = await offlineCacheService.getCachedProducts();
+      if (cachedProducts) {
+        const cacheAge = await offlineCacheService.getCacheAge('@offline_cache_products');
+        console.log(`⚠️ ProductService: API failed, using cached data (${cacheAge} min old)`);
+        return {
+          success: true,
+          data: cachedProducts,
+          message: `Using cached data due to network error (${cacheAge} min old)`
+        };
+      }
+
       return {
         success: false,
         message: error.message || 'Failed to retrieve products'
@@ -161,12 +209,52 @@ class ProductService {
   async getCategories(): Promise<{ success: boolean; data?: Category[]; message?: string }> {
     try {
       console.log('📋 ProductService: Fetching categories...');
+
+      // Check network connectivity
+      const netState = await NetInfo.fetch();
+      const isOnline = netState.isConnected && netState.isInternetReachable;
+
+      // If offline, try to return cached data
+      if (!isOnline) {
+        console.log('📴 ProductService: Offline - attempting to load categories from cache...');
+        const cachedCategories = await offlineCacheService.getCachedCategories();
+
+        if (cachedCategories) {
+          console.log(`✅ ProductService: Loaded ${cachedCategories.length} categories from cache`);
+          return {
+            success: true,
+            data: cachedCategories,
+            message: 'Showing cached categories'
+          };
+        }
+      }
+
+      // Online - fetch from API
       const response = await httpClient.get('/seller/categories');
-      
+
       console.log(`✅ ProductService: Retrieved ${response.data?.length || 0} categories`);
+
+      // Cache the categories for offline use
+      if (response.data && Array.isArray(response.data)) {
+        await offlineCacheService.cacheCategories(response.data);
+        console.log('💾 ProductService: Categories cached for offline use');
+      }
+
       return response;
     } catch (error: any) {
       console.error('❌ ProductService: Failed to get categories:', error);
+
+      // On error, try to return cached data as fallback
+      const cachedCategories = await offlineCacheService.getCachedCategories();
+      if (cachedCategories) {
+        console.log('⚠️ ProductService: API failed, using cached categories');
+        return {
+          success: true,
+          data: cachedCategories,
+          message: 'Using cached categories due to network error'
+        };
+      }
+
       return {
         success: false,
         message: error.message || 'Failed to retrieve categories'
@@ -177,15 +265,34 @@ class ProductService {
   // Upload product image
   async uploadImage(imageUri: string, fileName?: string): Promise<ImageUploadResponse> {
     try {
-      console.log('📸 ProductService: Uploading image...');
+      console.log('📸 ProductService: Uploading image...', { imageUri, fileName });
+
+      // Determine file type from URI or filename
+      let fileType = 'image/jpeg'; // Default
+      const extension = (fileName || imageUri).toLowerCase().split('.').pop();
+      if (extension === 'png') {
+        fileType = 'image/png';
+      } else if (extension === 'webp') {
+        fileType = 'image/webp';
+      } else if (extension === 'jpg' || extension === 'jpeg') {
+        fileType = 'image/jpeg';
+      }
 
       // Create FormData for image upload
       const formData = new FormData();
-      formData.append('image', {
+
+      // React Native FormData requires this specific format
+      formData.append('file', {
         uri: imageUri,
-        type: 'image/jpeg', // Default to JPEG
-        name: fileName || `product_image_${Date.now()}.jpg`,
+        type: fileType,
+        name: fileName || `product_${Date.now()}.${extension || 'jpg'}`,
       } as any);
+
+      console.log('📤 Uploading with FormData:', {
+        uri: imageUri,
+        type: fileType,
+        name: fileName || `product_${Date.now()}.${extension || 'jpg'}`,
+      });
 
       const response = await httpClient.post('/seller/images/upload', formData, {
         headers: {
@@ -193,13 +300,22 @@ class ProductService {
         },
       });
 
-      console.log('✅ ProductService: Image uploaded successfully');
+      console.log('✅ ProductService: Image uploaded successfully', response);
       return response;
     } catch (error: any) {
       console.error('❌ ProductService: Failed to upload image:', error);
+
+      // Extract more detailed error information
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to upload image';
+      console.error('❌ Error details:', {
+        message: errorMessage,
+        status: error.response?.status,
+        data: error.response?.data,
+      });
+
       return {
         success: false,
-        message: error.message || 'Failed to upload image'
+        message: errorMessage
       };
     }
   }

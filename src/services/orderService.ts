@@ -1,4 +1,6 @@
 import { httpClient } from './httpClient';
+import { offlineCacheService } from './offlineCacheService';
+import NetInfo from '@react-native-community/netinfo';
 
 // ============================================================================
 // ORDER INTERFACES
@@ -136,7 +138,31 @@ class OrderService {
   ): Promise<OrdersResponse> {
     try {
       console.log('📦 OrderService: Fetching orders...', { page, limit, status });
-      
+
+      // Check network connectivity
+      const netState = await NetInfo.fetch();
+      const isOnline = netState.isConnected && netState.isInternetReachable;
+
+      // If offline, try to return cached data (only for first page, all statuses)
+      if (!isOnline && page === 1 && !status) {
+        console.log('📴 OrderService: Offline - attempting to load from cache...');
+        const cachedOrders = await offlineCacheService.getCachedOrders();
+
+        if (cachedOrders) {
+          const cacheAge = await offlineCacheService.getCacheAge('@offline_cache_orders');
+          console.log(`✅ OrderService: Loaded ${cachedOrders.length} orders from cache (${cacheAge} min old)`);
+          return {
+            orders: cachedOrders,
+            pagination: {
+              currentPage: 1,
+              totalPages: 1,
+              totalOrders: cachedOrders.length,
+              ordersPerPage: cachedOrders.length
+            }
+          };
+        }
+      }
+
       // Build query parameters
       const params: any = { page, limit };
       if (status) {
@@ -149,10 +175,35 @@ class OrderService {
       );
 
       console.log(`✅ OrderService: Retrieved ${response.orders?.length || 0} orders`);
-      
+
+      // Cache orders for offline use (only first page, all statuses)
+      if (response.orders && page === 1 && !status) {
+        await offlineCacheService.cacheOrders(response.orders);
+        console.log('💾 OrderService: Orders cached for offline use');
+      }
+
       return response;
     } catch (error: any) {
       console.error('❌ OrderService: Failed to get orders:', error);
+
+      // On error, try to return cached data as fallback (only for first page, all statuses)
+      if (page === 1 && !status) {
+        const cachedOrders = await offlineCacheService.getCachedOrders();
+        if (cachedOrders) {
+          const cacheAge = await offlineCacheService.getCacheAge('@offline_cache_orders');
+          console.log(`⚠️ OrderService: API failed, using cached data (${cacheAge} min old)`);
+          return {
+            orders: cachedOrders,
+            pagination: {
+              currentPage: 1,
+              totalPages: 1,
+              totalOrders: cachedOrders.length,
+              ordersPerPage: cachedOrders.length
+            }
+          };
+        }
+      }
+
       throw new Error(error.message || 'Failed to retrieve orders');
     }
   }
