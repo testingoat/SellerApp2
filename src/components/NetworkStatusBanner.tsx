@@ -6,6 +6,7 @@ import {
   Animated,
   Dimensions,
   Platform,
+  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNetwork } from '../context/NetworkContext';
@@ -155,7 +156,7 @@ const NetworkStatusBanner: React.FC<NetworkStatusBannerProps> = ({
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 44 : 0, // Account for status bar on iOS
+    top: Platform.OS === 'ios' ? 44 : (StatusBar.currentHeight || 0), // Account for status bar
     left: 0,
     right: 0,
     zIndex: 9999,
