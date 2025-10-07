@@ -21,6 +21,7 @@ import { MainStackParamList } from '../config/navigationTypes';
 import { useSafeTheme } from '../hooks/useSafeTheme';
 import { withNetworkErrorBoundary } from '../components/NetworkErrorBoundary';
 import { ProductListSkeleton } from '../components/SkeletonLoader';
+import { ProductCard } from '../components/ProductCard';
 
 type ProductListNavigationProp = StackNavigationProp<MainStackParamList>;
 
@@ -280,29 +281,30 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
     }, [token, isAuthenticated, isInitialLoad])
   );
 
-  const handleAddProduct = () => {
+  // Memoize handlers to prevent unnecessary re-renders
+  const handleAddProduct = useCallback(() => {
     if (onAddProduct) {
       onAddProduct();
     } else {
       navigation.navigate('AddEditProduct', {});
     }
-  };
+  }, [onAddProduct, navigation]);
 
-  const handleEditProduct = (product: Product) => {
+  const handleEditProduct = useCallback((product: Product) => {
     if (onEditProduct) {
       onEditProduct(product);
     } else {
       navigation.navigate('AddEditProduct', { product });
     }
-  };
+  }, [onEditProduct, navigation]);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     if (onBack) {
       onBack();
     } else {
       navigation.goBack();
     }
-  };
+  }, [onBack, navigation]);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -462,74 +464,12 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
                 </View>
               ) : (
                 filteredProducts.map((product) => (
-                  <View key={product._id} style={[styles.productCard, { 
-                    backgroundColor: colors.card,
-                    shadowColor: isDarkMode ? '#000' : '#000',
-                  }]}>
-                    <TouchableOpacity
-                      style={styles.productCardContent}
-                      onPress={() => handleEditProduct(product)}
-                    >
-                      <View style={[styles.productImageContainer, { backgroundColor: colors.surface }]}>
-                        {product.image ? (
-                          <Image 
-                            source={{ uri: product.image }} 
-                            style={styles.productImage}
-                            resizeMode="cover"
-                          />
-                        ) : (
-                          <Icon name="image" size={32} color={colors.textSecondary} />
-                        )}
-                      </View>
-
-                      <View style={styles.productInfo}>
-                        <Text style={[styles.productName, { color: colors.text }]}>{product.name}</Text>
-                        <Text style={[styles.productPrice, { color: colors.textSecondary }]}>${product.price}</Text>
-                        <Text style={[styles.productCategory, { color: colors.textSecondary }]}>{product.category?.name}</Text>
-                        
-                        {/* Admin Approval Status */}
-                        <View style={styles.statusContainer}>
-                          <View style={[
-                            styles.statusBadge,
-                            product.status === 'approved' ? styles.approvedBadge :
-                            product.status === 'rejected' ? styles.rejectedBadge : styles.pendingBadge
-                          ]}>
-                            <Text style={[
-                              styles.statusText,
-                              product.status === 'approved' ? styles.approvedText :
-                              product.status === 'rejected' ? styles.rejectedText : styles.pendingText
-                            ]}>
-                              {product.status === 'approved' ? 'Approved' :
-                               product.status === 'rejected' ? 'Rejected' : 'Pending Review'}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-
-                      <View style={styles.productActions}>
-                        <Text style={[
-                          styles.stockStatus,
-                          { color: product.stock > 0 ? colors.success : colors.error }
-                        ]}>
-                          Stock: {product.stock}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                    
-                    {/* Active/Inactive Toggle - only for approved products */}
-                    {product.status === 'approved' && (
-                      <TouchableOpacity
-                        style={styles.statusToggle}
-                        onPress={() => toggleProductStatus(product)}
-                      >
-                        <Icon
-                          name={product.isActive ? 'visibility' : 'visibility-off'}
-                          size={24}
-                          color={product.isActive ? colors.success : colors.textSecondary}
-                        />
-                      </TouchableOpacity>
-                    )}
-                  </View>
+                  <ProductCard
+                    key={product._id}
+                    product={product}
+                    onPress={handleEditProduct}
+                    onToggleStatus={toggleProductStatus}
+                  />
                 ))
               )}
             </View>
