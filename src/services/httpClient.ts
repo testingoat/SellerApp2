@@ -30,11 +30,24 @@ export interface AuthResponse {
   requestId?: string;
 }
 
+// Error type classification
+export enum ErrorType {
+  NETWORK = 'NETWORK',
+  AUTHENTICATION = 'AUTHENTICATION',
+  VALIDATION = 'VALIDATION',
+  SERVER = 'SERVER',
+  RATE_LIMIT = 'RATE_LIMIT',
+  NOT_FOUND = 'NOT_FOUND',
+  UNKNOWN = 'UNKNOWN'
+}
+
 // Error handling interface
 export interface ApiError extends Error {
   code?: string;
   status?: number;
   data?: any;
+  type?: ErrorType;
+  userMessage?: string;
 }
 
 // Retry configuration
@@ -100,41 +113,89 @@ class HttpClient {
     );
   }
 
-  private handleError(error: AxiosError): ApiError {
-    let message = 'An unexpected error occurred';
-    
-    // Handle network errors
-    if (error.code === 'ECONNABORTED' || error.code === 'NETWORK_ERROR' || !error.response) {
-      message = 'Network error. Please check your internet connection and try again.';
-    }
-    // Extract error message from response
-    else if (error.response?.data) {
-      const data = error.response.data as any;
-      message = data.message || data.error || message;
-      
-      // Handle specific HTTP status codes
-      if (error.response.status === 400) {
-        message = data.message || 'Invalid request data';
-      } else if (error.response.status === 401) {
-        message = data.message || 'Authentication failed';
-      } else if (error.response.status === 404) {
-        message = data.message || 'Service not found';
-      } else if (error.response.status === 429) {
-        message = data.message || 'Too many requests. Please try again later.';
-      } else if (error.response.status >= 500) {
-        message = data.message || 'Server error. Please try again later.';
-      }
-    } else if (error.message) {
-      message = error.message;
+  /**
+   * Classify error type based on error response
+   */
+  private classifyError(error: AxiosError): ErrorType {
+    // Network errors (no response received)
+    if (!error.response) {
+      if (error.code === 'ECONNABORTED') return ErrorType.NETWORK;
+      if (error.code === 'NETWORK_ERROR') return ErrorType.NETWORK;
+      if (error.message?.toLowerCase().includes('network')) return ErrorType.NETWORK;
+      return ErrorType.NETWORK;
     }
 
-    const apiError: ApiError = new Error(message);
+    // Classify based on HTTP status code
+    const status = error.response.status;
+
+    if (status === 401 || status === 403) {
+      return ErrorType.AUTHENTICATION;
+    }
+
+    if (status === 400 || status === 422) {
+      return ErrorType.VALIDATION;
+    }
+
+    if (status === 404) {
+      return ErrorType.NOT_FOUND;
+    }
+
+    if (status === 429) {
+      return ErrorType.RATE_LIMIT;
+    }
+
+    if (status >= 500) {
+      return ErrorType.SERVER;
+    }
+
+    return ErrorType.UNKNOWN;
+  }
+
+  /**
+   * Get user-friendly error message based on error type
+   */
+  private getUserFriendlyMessage(errorType: ErrorType, originalMessage?: string): string {
+    const messages: Record<ErrorType, string> = {
+      [ErrorType.NETWORK]: '📡 No internet connection. Please check your network and try again.',
+      [ErrorType.AUTHENTICATION]: '🔐 Session expired. Please login again.',
+      [ErrorType.VALIDATION]: '⚠️ Please check your input and try again.',
+      [ErrorType.SERVER]: '🔧 Server is temporarily unavailable. Please try again later.',
+      [ErrorType.RATE_LIMIT]: '⏱️ Too many requests. Please wait a moment and try again.',
+      [ErrorType.NOT_FOUND]: '🔍 The requested resource was not found.',
+      [ErrorType.UNKNOWN]: '❌ Something went wrong. Please try again.',
+    };
+
+    // Use original message if available and more specific, otherwise use friendly message
+    return originalMessage || messages[errorType];
+  }
+
+  private handleError(error: AxiosError): ApiError {
+    // Classify the error
+    const errorType = this.classifyError(error);
+
+    // Extract original message from response
+    let originalMessage = 'An unexpected error occurred';
+    if (error.response?.data) {
+      const data = error.response.data as any;
+      originalMessage = data.message || data.error || originalMessage;
+    } else if (error.message) {
+      originalMessage = error.message;
+    }
+
+    // Get user-friendly message
+    const userMessage = this.getUserFriendlyMessage(errorType, originalMessage);
+
+    const apiError: ApiError = new Error(userMessage);
     apiError.code = error.code || 'API_ERROR';
     apiError.status = error.response?.status;
     apiError.data = error.response?.data;
+    apiError.type = errorType;
+    apiError.userMessage = userMessage;
 
     console.error('🚨 API Error:', {
-      message,
+      type: errorType,
+      userMessage,
+      originalMessage,
       code: apiError.code,
       status: apiError.status,
       url: error.config?.url,
