@@ -19,6 +19,7 @@ import { useAuthStore } from '../state/authStore';
 import { LoginScreenNavigationProp } from '../config/navigationTypes';
 import { forceNewUserState, isDevelopmentMode } from '../utils/testUtils';
 import { useTheme } from '../context/ThemeContext';
+import { useHaptic } from '../hooks/useHaptic';
 
 interface LoginScreenProps {
   onLogin?: (phoneNumber: string) => void;
@@ -32,6 +33,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onBack }) => {
   const { checkNetworkBeforeAction, isOnline } = useNetworkError();
   const { login, error, clearError, isLoading: authIsLoading } = useAuthStore();
   const { theme } = useTheme();
+  const { triggerSuccess, triggerError, triggerLight } = useHaptic();
 
   // Update local loading state when auth loading changes
   useEffect(() => {
@@ -48,14 +50,18 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onBack }) => {
 
   const handleSendOTP = async () => {
     if (!phoneNumber.trim()) {
+      triggerError(); // Haptic feedback for validation error
       Alert.alert('Error', 'Please enter your phone number');
       return;
     }
 
     if (phoneNumber.length < 10) {
+      triggerError(); // Haptic feedback for validation error
       Alert.alert('Error', 'Please enter a valid phone number');
       return;
     }
+
+    triggerLight(); // Haptic feedback for button press
 
     // Check network before making API call
     await checkNetworkBeforeAction(
@@ -64,12 +70,15 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onBack }) => {
         const ok = await login({ phone: `+91 ${phoneNumber}` });
 
         if (ok) {
+          triggerSuccess(); // Haptic feedback for successful OTP send
           // Navigate to OTP screen immediately (no alert gating navigation)
           if (onLogin) {
             onLogin(`+91 ${phoneNumber}`);
           } else {
             navigation.navigate('OTPVerification', { phoneNumber: `+91 ${phoneNumber}` });
           }
+        } else {
+          triggerError(); // Haptic feedback for failed OTP send
         }
       },
       {

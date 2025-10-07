@@ -18,6 +18,7 @@ import { useNetworkError } from '../hooks/useNetworkError';
 import { OTPVerificationScreenNavigationProp } from '../config/navigationTypes';
 import { shouldTriggerNewUserFlow, simulateNewUserOTPVerification, isDevelopmentMode } from '../utils/testUtils';
 import { useTheme } from '../context/ThemeContext';
+import { useHaptic } from '../hooks/useHaptic';
 
 interface OTPVerificationScreenProps {
   onVerifySuccess?: () => void;
@@ -38,6 +39,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
   const inputRefs = useRef<(TextInput | null)[]>([]);
   const navigation = useNavigation<OTPVerificationScreenNavigationProp>();
   const { theme } = useTheme();
+  const { triggerSuccess, triggerError, triggerLight } = useHaptic();
   const {
     verifyOtp,
     resendOtp,
@@ -102,6 +104,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
     const otpString = otp.join('');
 
     if (otpString.length !== 6) {
+      triggerError(); // Haptic feedback for validation error
       Alert.alert('Error', 'Please enter the complete 6-digit OTP');
       return;
     }
@@ -110,9 +113,12 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
     const phoneToVerify = tempPhone || phoneNumber;
 
     if (!phoneToVerify || phoneToVerify === '+91 XXXXXXXXXX') {
+      triggerError(); // Haptic feedback for error
       Alert.alert('Error', 'Phone number not found. Please go back and login again.');
       return;
     }
+
+    triggerLight(); // Haptic feedback for button press
 
     await checkNetworkBeforeAction(
       async () => {
@@ -121,11 +127,13 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
           console.log('🧪 Test Mode: Using test phone number for new user flow');
           const testResult = await simulateNewUserOTPVerification(phoneToVerify, otpString);
           console.log('🧪 Test Result:', testResult);
+          triggerSuccess(); // Haptic feedback for successful verification
         } else {
           // Call verify OTP API through auth store
           await verifyOtp({ phone: phoneToVerify, otp: otpString });
+          triggerSuccess(); // Haptic feedback for successful verification
         }
-        
+
         console.log('🔍 OTP Verification completed. Let AppNavigator handle navigation based on auth state.');
 
         // The AppNavigator will automatically handle navigation based on the updated auth state
@@ -152,9 +160,12 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
     const phoneToSend = tempPhone || phoneNumber;
 
     if (!phoneToSend || phoneToSend === '+91 XXXXXXXXXX') {
+      triggerError(); // Haptic feedback for error
       Alert.alert('Error', 'Phone number not found. Please go back and login again.');
       return;
     }
+
+    triggerLight(); // Haptic feedback for button press
 
     setCanResend(false);
     setResendTimer(59);
@@ -180,6 +191,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
         // Call resend OTP API through auth store
         await resendOtp(phoneToSend);
 
+        triggerSuccess(); // Haptic feedback for successful resend
         Alert.alert(
           'OTP Resent',
           `A new 6-digit code has been sent to ${phoneToSend}`,

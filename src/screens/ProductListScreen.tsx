@@ -22,6 +22,7 @@ import { useSafeTheme } from '../hooks/useSafeTheme';
 import { withNetworkErrorBoundary } from '../components/NetworkErrorBoundary';
 import { ProductListSkeleton } from '../components/SkeletonLoader';
 import { ProductCard } from '../components/ProductCard';
+import { useHaptic } from '../hooks/useHaptic';
 
 type ProductListNavigationProp = StackNavigationProp<MainStackParamList>;
 
@@ -39,7 +40,8 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
   const navigation = useNavigation<ProductListNavigationProp>();
   const { user, token, isAuthenticated } = useAuthStore();
   const { colors, isDarkMode } = useSafeTheme();
-  
+  const { triggerSuccess, triggerError, triggerLight } = useHaptic();
+
   // State management
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -243,20 +245,25 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
   const toggleProductStatus = async (product: Product) => {
     if (!token || !isAuthenticated) return;
 
+    triggerLight(); // Haptic feedback for toggle
+
     try {
       const response = await productService.toggleProductStatus(
         product._id,
         !product.isActive
       );
-      
+
       if (response.success) {
-        setProducts(prev => 
+        triggerSuccess(); // Haptic feedback for successful toggle
+        setProducts(prev =>
           prev.map(p => p._id === product._id ? { ...p, isActive: !p.isActive } : p)
         );
       } else {
+        triggerError(); // Haptic feedback for error
         throw new Error(response.message || 'Failed to update product status');
       }
     } catch (err) {
+      triggerError(); // Haptic feedback for error
       console.error('Error toggling product status:', err);
       Alert.alert('Error', 'Failed to update product status');
     }
@@ -283,20 +290,22 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
 
   // Memoize handlers to prevent unnecessary re-renders
   const handleAddProduct = useCallback(() => {
+    triggerLight(); // Haptic feedback for button press
     if (onAddProduct) {
       onAddProduct();
     } else {
       navigation.navigate('AddEditProduct', {});
     }
-  }, [onAddProduct, navigation]);
+  }, [onAddProduct, navigation, triggerLight]);
 
   const handleEditProduct = useCallback((product: Product) => {
+    triggerLight(); // Haptic feedback for button press
     if (onEditProduct) {
       onEditProduct(product);
     } else {
       navigation.navigate('AddEditProduct', { product });
     }
-  }, [onEditProduct, navigation]);
+  }, [onEditProduct, navigation, triggerLight]);
 
   const handleBack = useCallback(() => {
     if (onBack) {
