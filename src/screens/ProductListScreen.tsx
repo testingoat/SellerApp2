@@ -69,6 +69,13 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
       return;
     }
 
+    // Safety timeout to prevent infinite loading (30 seconds)
+    const loadingTimeout = setTimeout(() => {
+      console.warn('⚠️ ProductListScreen: Loading timeout - forcing loading state to false');
+      setLoading(false);
+      setError('Loading timed out. Please try again.');
+    }, 30000);
+
     try {
       setError(null);
       setLoading(true);
@@ -78,6 +85,9 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
         productService.getSellerProducts(),
         productService.getCategories()
       ]);
+
+      // Clear timeout if successful
+      clearTimeout(loadingTimeout);
 
       if (productsResponse.success && productsResponse.data) {
         console.log(`✅ ProductListScreen: Loaded ${productsResponse.data.length} products`);
@@ -98,9 +108,12 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
         throw new Error(categoriesResponse.message || 'Failed to load categories');
       }
     } catch (err) {
+      // Clear timeout on error
+      clearTimeout(loadingTimeout);
+
       console.error('Error loading data:', err);
       console.log('Using mock data for development');
-      
+
       // Use mock data when API is not available
       const mockProducts: Product[] = [
         {
@@ -170,7 +183,10 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
       setCategories(mockCategories);
       setError('Using demo data - API not available');
     } finally {
+      // Always clear timeout and loading state
+      clearTimeout(loadingTimeout);
       setLoading(false);
+      console.log('✅ ProductListScreen: Loading complete, loading state set to false');
     }
   };
 
@@ -245,16 +261,22 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({
   };
 
   // Load data on mount and when screen is focused
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
   useEffect(() => {
-    loadData();
+    if (isInitialLoad) {
+      loadData();
+      setIsInitialLoad(false);
+    }
   }, [token, isAuthenticated]);
 
   useFocusEffect(
     useCallback(() => {
-      if (token && isAuthenticated) {
+      // Only refresh if not initial load
+      if (token && isAuthenticated && !isInitialLoad) {
         refreshData();
       }
-    }, [token, isAuthenticated])
+    }, [token, isAuthenticated, isInitialLoad])
   );
 
   const handleAddProduct = () => {
