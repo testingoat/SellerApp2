@@ -205,8 +205,8 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
   return (
     <KeyboardAvoidingView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      behavior="padding"
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
     >
       <StatusBar backgroundColor={theme.colors.background} barStyle={theme.isDark ? 'light-content' : 'dark-content'} />
 
@@ -273,7 +273,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
         </View>
 
         {/* Bottom Section */}
-        <View style={styles.bottomSection}>
+        <View style={[styles.bottomSection, { backgroundColor: theme.colors.background }]}>
           <TouchableOpacity
             style={[
               styles.verifyButton,
