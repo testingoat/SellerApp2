@@ -1,8 +1,9 @@
 import React, { memo, useCallback } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Product } from '../services/productService';
 import { useSafeTheme } from '../hooks/useSafeTheme';
+import { OptimizedImage } from './OptimizedImage';
 
 interface ProductCardProps {
   product: Product;
@@ -39,12 +40,14 @@ export const ProductCard = memo<ProductCardProps>(({ product, onPress, onToggleS
       <TouchableOpacity style={styles.productCardContent} onPress={handlePress}>
         <View style={[styles.productImageContainer, { backgroundColor: theme.colors.surface }]}>
           {product.image ? (
-            <Image
+            <OptimizedImage
               source={{ uri: product.image }}
-              style={styles.productImage}
+              width={80}
+              height={80}
+              borderRadius={8}
               resizeMode="cover"
-              // Performance optimization
-              cachePolicy="memory-disk"
+              showLoader={true}
+              loaderSize="small"
             />
           ) : (
             <Icon name="image" size={32} color={theme.colors.textSecondary} />
