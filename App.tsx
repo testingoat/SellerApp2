@@ -13,6 +13,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AppNavigator from './src/navigation/AppNavigator';
 import { ThemeProvider } from './src/context/ThemeContext';
 import { NetworkProvider } from './src/context/NetworkContext';
+import NetworkStatusBanner from './src/components/NetworkStatusBanner';
 import { fcmService } from './src/services/fcmService';
 import { locationUtils } from './src/utils/locationUtils';
 import { CONFIG } from './src/config';
@@ -67,6 +68,8 @@ function App(): React.JSX.Element {
               translucent={false}
             />
             <AppNavigator />
+            {/* Global Network Status Banner - appears on all screens */}
+            <NetworkStatusBanner showConnectionType={true} />
           </SafeAreaProvider>
         </GestureHandlerRootView>
       </NetworkProvider>
